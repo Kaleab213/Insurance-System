@@ -3,15 +3,15 @@ a flutter application for home rental system
 
 Group Members:<br>
     
-   name: Fasika Fikadu  ****           ID: UGR/9597/13      ****   Section:  3 
+   Fasika Fikadu  ******* UGR/9597/13      *******   Section:  3 
    
-   name: Deribew Shemelis  ****        ID: UGR/5307/13    ****     Section:1  
+   Deribew Shemelis  ******* UGR/5307/13   *******     Section:1  
    
-   name: Enyew Anberbir    ****        ID: UGR/9324/13	    ****   Section:1
+   Enyew Anberbir    *******     UGR/9324/13	 *******   Section:1
    
-   name: Kaleab Tibebu    ****         ID: UGR/2979/13    ****     Section:1   
+   Kaleab Tibebu    *******       UGR/2979/13    *******   Section:1   
    
-   name: Rahel Solomon     *****        ID: UGR/9946/13     *****    Section:3
+   Rahel Solomon     *******     UGR/9946/13     *******   Section:3
    </pre>
    
    
@@ -29,4 +29,4 @@ To ensure that the application is secure, we will implement authentication mecha
 
 As for the user interface, our Flutter application will be designed to be user-friendly and intuitive. It will have a clean and modern layout that allows users to easily navigate through the various features. we will use appealing colors, icons, and graphics to make the application visually appealing and engaging for users.
 
-Overall, our Flutter application for the home rental system will serves as a convenient and efficient platform for tenants and subtenants to connect and facilitate the rental process.
+Overall, our Flutter application for the home rental system will serve as a convenient and efficient platform for tenants and subtenants to connect and facilitate the rental process.
