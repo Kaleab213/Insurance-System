@@ -2,17 +2,16 @@
 a flutter application for home rental system
 
 Group Members:<br>
-    name                          id              Section <br>
     
-   1 Fasika Fikadu             UGR/9597/13         3 
+   name: Fasika Fikadu             ID: UGR/9597/13         Section:  3 
    
-   2 Deribew Shemelis          UGR/5307/13         1  
+   name: Deribew Shemelis          ID: UGR/5307/13         Section:1  
    
-   3 Enyew Anberbir            UGR/9324/13	       1
+   name: Enyew Anberbir            ID: UGR/9324/13	       Section:1
    
-   4 Kaleab Tibebu             UGR/2979/13         1   
+   name: Kaleab Tibebu             ID: UGR/2979/13         Section:1   
    
-   5 Rahel Solomon             UGR/9946/13         3
+   name: Rahel Solomon             ID: UGR/9946/13         Section:3
    </pre>
    
    
