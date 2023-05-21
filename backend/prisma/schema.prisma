@@ -16,10 +16,12 @@ model User {
   lastName   String
   email      String            @unique
   hash       String
+  hashRT     String ?
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
   costumers  Costumers?
   insurance  User_Insurance[]
+  role    Role     @default(CUSTOMER)
 }
 
 model Costumers {
@@ -88,4 +90,9 @@ model Notification {
   updatedAt  DateTime          @updatedAt
   status     Boolean           @default(false)
   description String
+}
+
+enum Role {
+   CUSTOMER
+  ADMIN
 }
