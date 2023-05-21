@@ -8,9 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 import { RequestModule } from './request/request.module';
 import { PaymentModule } from './payment/payment.module';
 import { NotificationModule } from './notification/notification.module';
-
+import { CustomerModule } from './customers/customer.module';
 @Module({
-  imports: [AuthModule,PrismaModule,ConfigModule.forRoot({isGlobal:true}), RequestModule, PaymentModule, NotificationModule],
+  imports: [NotificationModule, PaymentModule, RequestModule, AuthModule,PrismaModule,CustomerModule,ConfigModule.forRoot({isGlobal:true})],
   controllers: [AppController],
   providers: [AppService],
 })

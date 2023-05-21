@@ -16,10 +16,12 @@ model User {
   lastName   String
   email      String            @unique
   hash       String
+  hashRT     String ?
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
   costumers  Costumers?
   insurance  User_Insurance[]
+  role    Role     @default(CUSTOMER)
 }
 
 model Costumers {
@@ -27,7 +29,7 @@ model Costumers {
   phone      String
   account_no String
 
-  user    User  @relation(fields: [userId], references: [id])
+  user    User  @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId        Int  @unique
 
   insurance User_Insurance[]     
@@ -47,7 +49,7 @@ model User_Insurance {
   id                  Int               @id @default(autoincrement())
   user                User              @relation(fields: [userId], references: [id])
   userId              Int
-  costumer Costumers  @relation(fields: [costumerId], references: [id])
+  costumer Costumers  @relation(fields: [costumerId], references: [id],onDelete: Cascade)
   costumerId Int
   status              Boolean           @default(false)
   ammount_money       Float
@@ -64,7 +66,7 @@ model User_Insurance {
 
 model Payment {
   id          Int               @id @default(autoincrement())
-  insurance   User_Insurance    @relation(fields: [insuranceId], references: [id])
+  insurance   User_Insurance    @relation(fields: [insuranceId], references: [id],onDelete: Cascade)
   insuranceId Int
   status      Boolean           @default(false)
   bill        Float
@@ -72,7 +74,7 @@ model Payment {
 
 model Coverage_request {
   id              Int               @id @default(autoincrement())
-  insurance       User_Insurance    @relation(fields: [insuranceId], references: [id])
+  insurance       User_Insurance    @relation(fields: [insuranceId], references: [id],onDelete: Cascade)
   insuranceId     Int
   description     String
   verified_paper  String
@@ -82,10 +84,15 @@ model Coverage_request {
 
 model Notification {
   id         Int               @id @default(autoincrement())
-  insurance  User_Insurance    @relation(fields: [insuranceId], references: [id])
+  insurance  User_Insurance    @relation(fields: [insuranceId], references: [id],onDelete: Cascade)
   insuranceId Int
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
   status     Boolean           @default(false)
   description String
+}
+
+enum Role {
+   CUSTOMER
+  ADMIN
 }

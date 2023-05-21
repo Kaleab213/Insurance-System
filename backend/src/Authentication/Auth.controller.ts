@@ -1,17 +1,36 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Req, UseGuards} from '@nestjs/common';
 import { AuthService } from './Auth.service';
 import { CreateAuthDto } from './dto';
+import { GetUser, GetUserId } from 'src/decorators';
+import { Role } from 'src/decorators/role.enum';
+import { Roles } from 'src/decorators/role.auths';
+import {  AtGuards } from './gaurds/at.guards';
+import { RolesGuard } from './gaurds/role.gaurd';
+import { CreateCustomer } from 'src/customers/dto/create.dto';
 
-@Controller('auth')
+@Controller('user')
 export class AuthController{
   constructor(private authService:AuthService){}
   @Post('signup')
   signup(@Body() dto:CreateAuthDto){
     return this.authService.signup(dto);
   }
+
+  @Post('customer/signup')
+  Customersignup(@Body() dtouser:CreateAuthDto,@Body() dtocustomer:CreateCustomer){
+    return this.authService.CustomerSignup(dtouser,dtocustomer);
+  }
+
+
+
+
+
+
+
+
 
   @Post('signin')
   signin(@Body() dto:CreateAuthDto){
@@ -21,13 +40,33 @@ export class AuthController{
   }
 
   @Post('logout')
-  logout(@Body() dto:CreateAuthDto){
-    console.log(dto);
-    return this.authService.logout();
+  @HttpCode(HttpStatus.OK)
+  logout(@GetUser() userId: number): Promise<boolean> {
+    return this.authService.logout(userId);
   }
 
+
+
+@Get()
+getProfile(){
+  return this.authService.getProfile();
+}
+
+
+
+
+
+
+
+
+
+
+  // @Roles(Role.CUSTOMER)
+  @UseGuards(AtGuards, RolesGuard)
   @Delete('deleted')
-  deletedAccount(@Param() id:number){
-    return this.authService.deletedAccount(id);
+  deletedAccount(@GetUserId() userId: number){
+    console.log(userId);
+    
+    return this.authService.deleteAccount(userId);
   }
 }

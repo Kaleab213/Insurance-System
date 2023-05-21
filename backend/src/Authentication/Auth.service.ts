@@ -1,14 +1,24 @@
 /* eslint-disable prettier/prettier */
-import { ConflictException, ForbiddenException, Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
 import { CreateAuthDto } from "./dto";
 import * as argon2 from "argon2";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { JwtPayload, Tokens } from "./types";
+
+import { CreateCustomer } from "src/customers/dto/create.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,private jwtService:JwtService,private config:ConfigService) {}
 
-  async signup(dto: CreateAuthDto) {
+ 
+
+
+
+// ADMIN SIGNUP
+  async signup(dto: CreateAuthDto): Promise<Tokens> {
     const hash=await argon2.hash(dto.password)
     try {
       const user = await this.prisma.user.create({
@@ -19,16 +29,58 @@ export class AuthService {
           hash
         },
       });
-      return user;
+
+
+      const tokens = await this.GetToken(user.id, user.email,user.role);
+      await this.updateRtHash(user.id, tokens.refresh_token);
+  
+      return tokens;
+
     } catch (error) {
       if (error.code === "P2002"&& error.meta?.target?.includes("email")) {
         throw new ForbiddenException("Email is already taken");
       }
      
     }
+    
   }
 
-  async signin(dto:CreateAuthDto) {
+
+  // Customer Signup
+  async CustomerSignup(createUserDto:CreateAuthDto,CustomerDto:CreateCustomer): Promise<Tokens> {
+    const hash = await argon2.hash(createUserDto.password);
+    // const role=User.Roles
+    const NewUser = await this.prisma.user.create({ 
+      data: {
+        email: createUserDto.email,
+         firstName: createUserDto.firstName,
+         lastName: createUserDto.lastName,
+        hash: hash,
+        role: 'CUSTOMER',
+        costumers:{
+          create:{...CustomerDto}
+        }
+      },
+    });
+   
+    const tokens = await this.GetToken(
+      NewUser.id,
+    NewUser.email,
+    NewUser.role
+    );
+    await this.updateRtHash(NewUser.id, tokens.refresh_token);
+    return tokens;
+  }
+
+
+
+
+
+
+// SIGNIN USER
+
+
+  async signin(dto:CreateAuthDto): Promise<Tokens>  {
     const user=await this.prisma.user.findUnique({
       where:{
         email:dto.email,}})
@@ -41,20 +93,109 @@ export class AuthService {
       
     if (!isMatch)
       throw new ForbiddenException("credentials are not valid");
-    delete user.hash
-    return user;
+
+
+
+
+    const tokens = await this.GetToken(user.id, user.email,user.role);
+    await this.updateRtHash(user.id, tokens.refresh_token);
+
+    return tokens;
+    
   }
 
-  logout() {
-    return { logout: "Logout Successfully" };
+  // LOGOUT
+
+  async logout(userId: number): Promise<boolean> {
+    await this.prisma.user.updateMany({
+      where: {
+        id: userId,
+        hashRT: {
+          not: null,
+        },
+      },
+      data: {
+        hashRT: null,
+      },
+    });
+    return true;
   }
 
-  async deletedAccount(userId: number) {
-    await this.prisma.user.delete({
+async getProfile(){
+  const user = await this.prisma.user.findMany({
+    
+   
+    include:{
+     
+      
+      costumers: true,
+    }
+  })
+  return user;
+
+}
+
+
+
+
+  async deleteAccount(userId: number) {
+    try {
+      await this.prisma.user.delete({
+        where: {
+          
+          id: userId, 
+          // email:email// Assuming 'id' is the unique identifier for a user
+        },
+      });
+    } catch (error) {
+      // Handle any errors that occur during the deletion process
+      throw new ForbiddenException((`no user is found`));
+    }
+  }
+  
+
+
+
+
+
+  async GetToken(userId: number, email: string, role:string){
+    const jwtPayload: JwtPayload = {
+      id: userId,
+      email: email,
+     role:role,
+      
+      
+    };
+
+
+    const [at, rt] = await Promise.all([
+      this.jwtService.signAsync(jwtPayload, {
+        secret: this.config.get<string>('AT_SECRET'),
+        expiresIn: '15m',
+      }),
+      this.jwtService.signAsync(jwtPayload, {
+        secret: this.config.get<string>('RT_SECRET'),
+        expiresIn: '7d',
+      }),
+    ]);
+
+    return {
+      access_token: at,
+      refresh_token: rt,
+    };
+  }
+
+
+  async updateRtHash(userId: number, rt: string): Promise<void> {
+    const hash = await argon2.hash(rt);
+    await this.prisma.user.update({
       where: {
         id: userId,
       },
+      data: {
+      hashRT: hash
+      },
     });
-    return "Deleted Your Account";
   }
+
 }
