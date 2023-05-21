@@ -9,27 +9,72 @@ import * as argon2 from 'argon2';
 @Injectable()
 export class CustomerService {
   constructor(private prisma:PrismaService){}
-  async signup(dtoUser:CreateAuthDto,dtoCustomer:CreateCustomer){
-    const hash=await argon2.hash(dtoUser.password);
-   const customer=await this.prisma.costumers.create({
+  // async signup(dtoUser:CreateAuthDto,dtoCustomer:CreateCustomer){
+  //   const hash=await argon2.hash(dtoUser.password);
+  //  const customer=await this.prisma.costumers.create({
   
-    data:{phone:dtoCustomer.phone,
-      account_no:dtoCustomer.account_no,
-      user:{
-        create:{
-         hash,
-          firstName:dtoUser.firstName,
-          lastName:dtoUser.lastName,
-          email:dtoUser.email,
-        }
-      }
+  //   data:{phone:dtoCustomer.phone,
+  //     account_no:dtoCustomer.account_no,
+  //     user:{
+  //       create:{
+  //        hash,
+  //         firstName:dtoUser.firstName,
+  //         lastName:dtoUser.lastName,
+  //         email:dtoUser.email,
+  //       }
+  //     }
      
       
-    },
+  //   },
     
-   })
-   return customer;
+  //  })
+  //  return customer;
+  // }
+
+
+  async  signup(dtoUser:CreateAuthDto,dtoCustomer:CreateCustomer) {
+    const hashs=await argon2.hash(dtoUser.password);
+    try {
+      const customer = await this.prisma.costumers.create({
+        data:{phone:dtoCustomer.phone,
+          account_no:dtoCustomer.account_no,
+          user:{
+            create:{
+             
+              firstName:dtoUser.firstName,
+              lastName:dtoUser.lastName,
+              email:dtoUser.email,
+              hash:hashs,
+            }
+          }
+         
+          
+        },
+      });
+
+
+      return customer;
+      
+
+    } catch (error) {
+      if (error.code === "P2002"&& error.meta?.target?.includes("email")) {
+        throw new ForbiddenException("Email is already taken");
+      }
+     
+    }
+    
   }
+
+
+
+
+
+
+
+
+
+
+
 
   
   login(){}

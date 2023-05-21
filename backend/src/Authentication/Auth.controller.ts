@@ -9,14 +9,28 @@ import { Role } from 'src/decorators/role.enum';
 import { Roles } from 'src/decorators/role.auths';
 import {  AtGuards } from './gaurds/at.guards';
 import { RolesGuard } from './gaurds/role.gaurd';
+import { CreateCustomer } from 'src/customers/dto/create.dto';
 
-@Controller('auth')
+@Controller('user')
 export class AuthController{
   constructor(private authService:AuthService){}
   @Post('signup')
   signup(@Body() dto:CreateAuthDto){
     return this.authService.signup(dto);
   }
+
+  @Post('customer/signup')
+  Customersignup(@Body() dtouser:CreateAuthDto,@Body() dtocustomer:CreateCustomer){
+    return this.authService.CustomerSignup(dtouser,dtocustomer);
+  }
+
+
+
+
+
+
+
+
 
   @Post('signin')
   signin(@Body() dto:CreateAuthDto){
@@ -30,6 +44,23 @@ export class AuthController{
   logout(@GetUser() userId: number): Promise<boolean> {
     return this.authService.logout(userId);
   }
+
+
+
+@Get()
+getProfile(){
+  return this.authService.getProfile();
+}
+
+
+
+
+
+
+
+
+
+
   // @Roles(Role.CUSTOMER)
   @UseGuards(AtGuards, RolesGuard)
   @Delete('deleted')
