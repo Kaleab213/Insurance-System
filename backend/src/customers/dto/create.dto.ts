@@ -6,6 +6,7 @@ export class CreateCustomer{
   @IsNotEmpty()
   @IsString()
   phone:string;
+
   @IsNotEmpty()
   @IsString()
   account_no:string;
