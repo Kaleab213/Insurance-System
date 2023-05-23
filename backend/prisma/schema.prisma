@@ -32,7 +32,7 @@ model Costumers {
   user    User  @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId        Int  @unique
 
-  insurance User_Insurance[]     
+      
 }
 
 model Insurance {
@@ -49,13 +49,12 @@ model User_Insurance {
   id                  Int               @id @default(autoincrement())
   user                User              @relation(fields: [userId], references: [id])
   userId              Int
-  costumer Costumers  @relation(fields: [costumerId], references: [id],onDelete: Cascade)
-  costumerId Int
+  
   status              Boolean           @default(false)
-  ammount_money       Float
-  telebirr            String
-  coverage_percentage Float
-  deposit             Float
+  ammount_money       Int
+  telebirr            String ?
+  coverage_percentage Int
+  deposit             Int
   payments            Payment[]
   requests            Coverage_request[]
   notification Notification[]
