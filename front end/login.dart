@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Logged in as $username'),
+                        content: Text('Logged as $username'),
                       ),
                     );
                   }
