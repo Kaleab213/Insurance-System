@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:insurance_system/Add_request.dart';
+import 'package:insurance_system/Update_Request.dart';
 
-class MyApp extends StatelessWidget {
+class RequestPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PurchasesPage(),
-    );
-  }
+  _RequestPageState createState() => _RequestPageState();
 }
 
-class PurchasesPage extends StatefulWidget {
-  @override
-  _PurchasesPageState createState() => _PurchasesPageState();
-}
-
-class _PurchasesPageState extends State<PurchasesPage> {
+class _RequestPageState extends State<RequestPage> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -40,14 +33,65 @@ class _PurchasesPageState extends State<PurchasesPage> {
           String status = "pending";
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                    title: 'Home Insurance',
-                    level: level,
-                  ),
-                ),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Insurance Details'),
+                    content: DetailPage(
+                      Description: ' would greatly appreciate it if you could guide me through the process and provide any necessary forms or documents required. Additionally, it would be incredibly helpful if you could review my policy coverage and clarify any uncertainties I may have. Furthermore, if possible, could you please provide me with an update on the status of my claim? If there is any flexibility, I would like to request an extension for submitting the required documents, as I am experiencing unforeseen circumstances. Lastly, I would be grateful if you could take the time to explain the terms and conditions of my policy in detail. Your support and prompt response to these requests would be immensely appreciated',
+                      location: 'Gonder, Ethiopia',
+                      numberOfRooms: 4,
+                      status: 'pending',
+                       CoverageLevel: 'level 1',
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateRequestPage(CoverageLevel: 'Level 1',
+                               Description: ' would greatly appreciate it if you could guide me through the process and provide any necessary forms or documents required. Additionally, it would be incredibly helpful if you could review my policy coverage and clarify any uncertainties I may have. Furthermore, if possible, could you please provide me with an update on the status of my claim? If there is any flexibility, I would like to request an extension for submitting the required documents, as I am experiencing unforeseen circumstances. Lastly, I would be grateful if you could take the time to explain the terms and conditions of my policy in detail. Your support and prompt response to these requests would be immensely appreciated',
+                                location: 'Gonder, Ethiopia', 
+                                numberOfRooms: 4, 
+                                status: 'pending',
+                                
+                              ),
+                              // builder: (context) => AdminPage()
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddRequestPage(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddRequestPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
             child: Container(
@@ -109,7 +153,7 @@ class _PurchasesPageState extends State<PurchasesPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Status: $status',
+                            'Status $status',
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -151,10 +195,19 @@ class _PurchasesPageState extends State<PurchasesPage> {
 }
 
 class DetailPage extends StatelessWidget {
-  final String title;
-  final int level;
+  final String Description;
+  final String location;
+  final int numberOfRooms;
+  final String status;
+  final String CoverageLevel;
 
-  const DetailPage({required this.title, required this.level});
+  const DetailPage({
+    required this.Description,
+    required this.location,
+    required this.numberOfRooms,
+    required this.status,
+    required this.CoverageLevel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -168,14 +221,18 @@ class DetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              title,
+              "Request Detail",
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16),
-            Text('Level $level'),
+            Text('Description: $Description'),
+            Text('Location: $location'),
+            Text('Number of Rooms: $numberOfRooms'),
+            Text('Status: $status'),
+            Text('CoverageLevel: $CoverageLevel'),
           ],
         ),
       ),

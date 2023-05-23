@@ -61,6 +61,30 @@ class _NotificationPageState extends State<NotificationPage> {
           );
         },
       ),
+       bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.blueAccent),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: Colors.blueAccent),
+            label: 'Buy Insurance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications, color: Colors.blueAccent),
+            label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout, color: Colors.blueAccent),
+            label: 'Logout',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
