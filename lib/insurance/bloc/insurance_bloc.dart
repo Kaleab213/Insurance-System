@@ -44,7 +44,7 @@ class InsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
 
     if (event is InsuranceDelete) {
       try {
-        await insuranceRepository.deleteInsurance(event.insurance.id);
+        await insuranceRepository.deleteInsurance(event.insurance.location as Insurance);
         final insurances = await insuranceRepository.getInsurances();
         yield InsurancesLoadSuccess(insurances);
       } catch (_) {
