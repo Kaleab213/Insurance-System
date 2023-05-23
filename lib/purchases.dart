@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PurchasesPage(),
-    );
-  }
-}
+import 'package:insurance_system/Add_Insurance.dart';
+// import 'package:insurance_system/AdminPage.dart';
+import 'package:insurance_system/Update_Insurance.dart';
+import 'package:insurance_system/delete_insurance.dart';
 
 class PurchasesPage extends StatefulWidget {
   @override
@@ -39,14 +34,60 @@ class _PurchasesPageState extends State<PurchasesPage> {
           int level = (index % 3) + 1;
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                    title: 'Home Insurance',
-                    level: level,
-                  ),
-                ),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Insurance Details'),
+                    content: DetailPage(
+                      size: '300 x 300',
+                      location: 'Addis Ababa, Ethiopia',
+                      numberOfRooms: 4,
+                      propertyType: 'condominium',
+                      coverageLevel: 'level 1',
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateInsurancePage(coverageLevel: 'level 1', filePath: 'local', location: 'Addis Ababa, Ethiopia', numberOfRooms: 4, propertyType: 'condominium', size: '300 x 300', ),
+                              // builder: (context) => AdminPage()
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          Navigator.
+                          pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeleteInsurancePage(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddInsurancePage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
             child: Container(
@@ -60,7 +101,9 @@ class _PurchasesPageState extends State<PurchasesPage> {
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: const Offset(
-                        0, 3), // changes the position of the shadow
+                      0,
+                      3,
+                    ), // changes the position of the shadow
                   ),
                 ],
               ),
@@ -83,7 +126,7 @@ class _PurchasesPageState extends State<PurchasesPage> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,6 +154,7 @@ class _PurchasesPageState extends State<PurchasesPage> {
           );
         },
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -140,10 +184,19 @@ class _PurchasesPageState extends State<PurchasesPage> {
 }
 
 class DetailPage extends StatelessWidget {
-  final String title;
-  final int level;
+  final String size;
+  final String location;
+  final int numberOfRooms;
+  final String propertyType;
+  final String coverageLevel;
 
-  const DetailPage({required this.title, required this.level});
+  const DetailPage({
+    required this.size,
+    required this.location,
+    required this.numberOfRooms,
+    required this.propertyType,
+    required this.coverageLevel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -157,14 +210,18 @@ class DetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              title,
+              "Insurance Detail",
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16),
-            Text('Level $level'),
+            Text('Size: $size'),
+            Text('Location: $location'),
+            Text('Number of Rooms: $numberOfRooms'),
+            Text('Property Type: $propertyType'),
+            Text('Coverage Level: $coverageLevel'),
           ],
         ),
       ),

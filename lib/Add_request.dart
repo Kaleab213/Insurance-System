@@ -13,6 +13,13 @@ class _AddRequestPageState extends State<AddRequestPage> {
   String supportedDocumentPath = '';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   Future<void> _pickFile(String field) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -124,6 +131,30 @@ class _AddRequestPageState extends State<AddRequestPage> {
   }})]),
           ),
         ),
+        bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.blueAccent),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: Colors.blueAccent),
+            label: 'Buy Insurance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications, color: Colors.blueAccent),
+            label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout, color: Colors.blueAccent),
+            label: 'Logout',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
       );
   }
 }

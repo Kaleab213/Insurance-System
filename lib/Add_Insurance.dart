@@ -22,6 +22,13 @@ class _AddInsurancePageState extends State<AddInsurancePage> {
     NotificationPage(),
 
   ];
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -197,24 +204,28 @@ class _AddInsurancePageState extends State<AddInsurancePage> {
       ),
       
       bottomNavigationBar: BottomNavigationBar(
-        
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.person, color: Colors.blueAccent),
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
+            icon: Icon(Icons.shopping_cart, color: Colors.blueAccent),
+            label: 'Buy Insurance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications, color: Colors.blueAccent),
+            label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout, color: Colors.blueAccent),
+            label: 'Logout',
           ),
         ],
-        
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
       ),
       
     );
