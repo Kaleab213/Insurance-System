@@ -81,6 +81,10 @@ export class AuthService {
 
 
   async signin(dto:CreateAuthDto): Promise<Tokens>  {
+
+
+    try{
+ 
     const user=await this.prisma.user.findUnique({
       where:{
         email:dto.email,}})
@@ -101,6 +105,10 @@ export class AuthService {
     await this.updateRtHash(user.id, tokens.refresh_token);
 
     return tokens;
+  }
+    catch (err) {
+      throw new  ForbiddenException("Invalid Credentials")
+    }
     
   }
 

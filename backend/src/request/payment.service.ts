@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
-import { createDto, updateDto } from "./dto";
+import { createDto } from "src/notification/dto";
+import { updateDto } from "src/notification/dto/notification.update.dto";
+
 
 @Injectable()
 export class PaymentService {

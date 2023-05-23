@@ -1,19 +1,25 @@
 /* eslint-disable prettier/prettier */
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 /* eslint-disable prettier/prettier */
 export class CreateAuthDto{
  @IsString()
+ @IsOptional()
   firstName: string;
+  
   @IsString()
+  @IsOptional()
   lastName: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
   @IsString()
   @IsNotEmpty()
   password: string;
-  id: any;
+  
   
 }
+
 

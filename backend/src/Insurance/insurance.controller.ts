@@ -8,20 +8,24 @@ import { GetUser } from "src/decorators";
 import { AtGuards } from "src/Authentication/gaurds/at.guards";
 import { RolesGuard } from "src/Authentication/gaurds/role.gaurd";
 
+import { Roles } from "src/decorators/role.auths";
+import { Role } from '../decorators/role.enum';
+
 @Controller('insurance')
 export class InsuranceController {
   constructor(private insurance:InsuranceService){}
-   // @Roles(Role.CUSTOMER)
+   @Roles(Role.CUSTOMER)
    @UseGuards(AtGuards, RolesGuard)
   @Post()
   createInsurance(@GetUser() userId:number,@Body() dto:CreateInsuranceDto){
     return this.insurance.createInsurance(userId['id'],dto);
   }
 
-
+@Roles(Role.CUSTOMER)
+@UseGuards(AtGuards, RolesGuard)
 @Get()
   getInsurance(){
-    this.insurance.getInsurance();
+    return this.insurance.getInsurance();
   }
 
 

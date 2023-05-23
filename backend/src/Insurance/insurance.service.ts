@@ -18,9 +18,7 @@ export class InsuranceService{
     return insurance;
   }
   async getInsurance(){
-    const insurance= await this.prisma.user_Insurance.findMany({
-
-    })
+    const insurance= await this.prisma.user_Insurance.findMany()
     return insurance;
   }
   async getInsuranceById(insuranceId:number){
@@ -44,10 +42,17 @@ export class InsuranceService{
   }
 
   async deleteInsurance(insuranceId:number){
-    const insurance=await this.prisma.user_Insurance.delete({
+    const insurance=await this.prisma.user_Insurance.findFirst({
+      where:{id:insuranceId}
+    })
+    if (insurance){
+    await this.prisma.user_Insurance.delete({
       where: {
         id:insuranceId
       }})
-    return insurance;
+    return "Deleted Succesfully!!";}
+    else{
+      return 'No Houses found to Delete!!';
+    }
   }
 }
