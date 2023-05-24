@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter your username';
+                    return 'Please enter username';
                   }
                   return null;
                 },
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (value) {
 
                   if (value.isEmpty) {
-                    return 'Please enter your password';
+                    return 'Please enter password';
                   }
                   return null;
                 },
