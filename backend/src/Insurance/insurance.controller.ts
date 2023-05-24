@@ -24,8 +24,8 @@ export class InsuranceController {
 @Roles(Role.CUSTOMER)
 @UseGuards(AtGuards, RolesGuard)
 @Get()
-  getInsurance(){
-    return this.insurance.getInsurance();
+  getInsurance(@GetUser() userId:number){
+    return this.insurance.getInsurance(userId);
   }
 
 

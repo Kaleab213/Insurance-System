@@ -17,14 +17,22 @@ export class InsuranceService{
         ...dto,}})
     return insurance;
   }
-  async getInsurance(){
-    const insurance= await this.prisma.user_Insurance.findMany()
+  async getInsurance(userId){
+    const insurance= await this.prisma.user_Insurance.findMany({
+      where: {
+        userId,
+        status: true
+      }
+
+    }
+    )
     return insurance;
   }
   async getInsuranceById(insuranceId:number){
-    const insurance=await this.prisma.user_Insurance.findUnique({
+    const insurance=await this.prisma.user_Insurance.findFirst({
       where: {
-        id:insuranceId
+        id:insuranceId,
+        status: true
       }
 
     })
