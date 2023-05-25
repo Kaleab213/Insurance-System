@@ -7,7 +7,36 @@ export class NotificationService {
     constructor(private prisma: PrismaService) {}
 
 
-    get_notifications() {
+    async get_notifications(userId) {
+
+        const notifications = await this.prisma.notification.findMany({
+            where: {
+              userId,
+              
+            },
+            select: {
+                updatedAt:true,
+                title:true,
+                status:true
+
+            }
+      
+          }
+          )
+          return notifications;
+
+    }
+
+    async get_notifications_byid(userId, notification_id) {
+        const notification = await this.prisma.notification.findFirst({
+            where: {
+             id:notification_id,
+              userId,
+            }
+      
+          }
+          )
+          return notification;
 
     }
 

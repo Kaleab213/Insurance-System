@@ -9,12 +9,12 @@ import { UpdateInsuranceDto } from "./dto/update.insurance.dto";
 export class InsuranceService{
   constructor(private prisma:PrismaService){}
   async createInsurance(userId:number,dto:CreateInsuranceDto){
-    const insurance=await this.prisma.user_Insurance.create({
-   
-      data:{
-       
-        userId:userId,
-        ...dto,}})
+    const insurance = await this.prisma.user_Insurance.create({
+          data: {
+            userId,
+            ...dto
+          } 
+      })
     return insurance;
   }
   async getInsurance(userId){

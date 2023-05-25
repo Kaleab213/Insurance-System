@@ -42,15 +42,19 @@ CREATE TABLE `Insurance` (
 CREATE TABLE `User_Insurance` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
-    `costumerId` INTEGER NOT NULL,
-    `status` BOOLEAN NOT NULL DEFAULT false,
-    `ammount_money` DOUBLE NOT NULL,
-    `telebirr` VARCHAR(191) NOT NULL,
-    `coverage_percentage` DOUBLE NOT NULL,
-    `deposit` DOUBLE NOT NULL,
+    `status` BOOLEAN NULL DEFAULT false,
+    `appraisal` DOUBLE NULL,
+    `telebirr_QR` VARCHAR(191) NULL,
+    `level` DOUBLE NOT NULL,
+    `deposit` DOUBLE NOT NULL DEFAULT 0.00,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `type` VARCHAR(191) NOT NULL,
+    `room` INTEGER NOT NULL,
+    `location` VARCHAR(191) NOT NULL,
+    `size` DOUBLE NOT NULL,
+    `Document` VARCHAR(191) NOT NULL,
+    `monthly_payment` DOUBLE NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -61,6 +65,9 @@ CREATE TABLE `Payment` (
     `insuranceId` INTEGER NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT false,
     `bill` DOUBLE NOT NULL,
+    `ammount` DOUBLE NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -70,9 +77,12 @@ CREATE TABLE `Coverage_request` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `insuranceId` INTEGER NOT NULL,
     `description` VARCHAR(191) NOT NULL,
-    `verified_paper` VARCHAR(191) NOT NULL,
+    `police_report` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT false,
     `insured_payment` DOUBLE NOT NULL,
+    `loss` DOUBLE NOT NULL,
+    `supported_document` VARCHAR(191) NOT NULL,
+    `date` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -81,8 +91,10 @@ CREATE TABLE `Coverage_request` (
 CREATE TABLE `Notification` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `insuranceId` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL DEFAULT false,
     `description` VARCHAR(191) NOT NULL,
 
@@ -96,9 +108,6 @@ ALTER TABLE `Costumers` ADD CONSTRAINT `Costumers_userId_fkey` FOREIGN KEY (`use
 ALTER TABLE `User_Insurance` ADD CONSTRAINT `User_Insurance_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `User_Insurance` ADD CONSTRAINT `User_Insurance_costumerId_fkey` FOREIGN KEY (`costumerId`) REFERENCES `Costumers`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `Payment` ADD CONSTRAINT `Payment_insuranceId_fkey` FOREIGN KEY (`insuranceId`) REFERENCES `User_Insurance`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -106,3 +115,6 @@ ALTER TABLE `Coverage_request` ADD CONSTRAINT `Coverage_request_insuranceId_fkey
 
 -- AddForeignKey
 ALTER TABLE `Notification` ADD CONSTRAINT `Notification_insuranceId_fkey` FOREIGN KEY (`insuranceId`) REFERENCES `User_Insurance`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Notification` ADD CONSTRAINT `Notification_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `Costumers`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

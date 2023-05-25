@@ -12,11 +12,16 @@ export class CreateInsuranceDto{
 
   @IsNumber()  
   @IsNotEmpty()      
-  coverage_percentage:number; 
+  level:number; 
   @IsNotEmpty()
   @IsNumber()  
   deposit:number;  
   @IsNotEmpty() 
   @IsString()        
   type:string;
+  room:number
+  location:string
+  size:number
+  Document:string
+  monthly_payment:number
 }

@@ -31,6 +31,7 @@ model Costumers {
 
   user    User  @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId        Int  @unique
+  notifications  Notification[]
 
       
 }
@@ -75,6 +76,8 @@ model Payment {
   status      Boolean           @default(false)
   bill        Float
   ammount     Float
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 }
 
 model Coverage_request {
