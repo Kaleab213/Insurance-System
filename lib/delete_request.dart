@@ -1,188 +1,112 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Payments extends StatefulWidget {
-  const Payments({Key? key}) : super(key: key);
+import '../blocs/request_bloc.dart';
+import '../blocs/request_event.dart';
+import '../models/request.dart';
 
+class DeleteRequestPage extends StatefulWidget {
   @override
-  _PaymentsState createState() => _PaymentsState();
+  _DeleteRequestPageState createState() => _DeleteRequestPageState();
 }
 
-class _PaymentsState extends State<Payments> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? _transactionImage;
-  final String itemImageUrl =
-      'images/qrcode.jpg'; // Replace with actual image path
-  final String itemName = 'Item Name';
-  final double amount = 100.0;
-  final String deadline = 'May 30, 2023';
-
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _transactionImage = image;
-      });
-    }
-  }
+class _DeleteRequestPageState extends State<DeleteRequestPage> {
+  bool _isChecked = false;
+  String _password = '';
+  late final Request request;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Payments'),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16.0),
-              Center(
-                child: Text(
-                  'Scan This QR Code to Pay:',
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.black,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: SizedBox(
-                  height: 150.0,
-                  width: 150.0,
-                  child: Image.network(
-                    itemImageUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32.0),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[100],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Amount: ${amount.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Text(
-                      'Deadline: $deadline',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Montserrat',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32.0),
-              Center(
-                child: Text(
-                  'Please upload a screenshot of your transaction:',
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.black,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 135.0,
-                      width: 135.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey[300]!,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: _transactionImage != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(16.0),
-                              child: Image.file(
-                                File(_transactionImage!.path),
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : Icon(
-                              Icons.photo,
-                              color: Colors.grey[300],
-                              size: 80.0,
-                            ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: FloatingActionButton(
-                        onPressed: _pickImage,
-                        backgroundColor: Colors.blue,
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32.0),
-              Center(
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.payment,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    'Upload',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16.0,
-                      horizontal: 32.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+    return Material(
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Delete Coverage Request'),
+            centerTitle: true,
+            backgroundColor: Colors.redAccent,
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'IMPORTANT: Please read the following condition before proceeding:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'By cancelling my Coverage Request, I acknowledge and accept that I will no longer be covered for any damages or losses mentioned in the coverage request I am deleting currently. I understand that I will not be entitled to any funds for any damages mentioned in the coverage request after the cancellation of the request. I also acknowledge that I am responsible for the damages or losses that may have occurred before the coverage request has been cancelled, and that I will not hold the insurance company liable for any such damages or losses. I confirm that I have read and understood the terms and conditions of my insurance policy regarding cancellation and that I am making this decision of my own free will.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Material(
+                      child: Checkbox(
+                        value: _isChecked,
+                        onChanged: (bool? newValue) {
+                          setState(() {
+                            _isChecked = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isChecked = !_isChecked;
+                          });
+                        },
+                        child: const Text(
+                          'I have read and accepted the condition.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Material(
+                  child: TextField(
+                    obscureText: true,
+                    onChanged: (value) {
+                      setState(() {
+                        _password = value;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _isChecked && _password.isNotEmpty
+                        ? () {
+                            BlocProvider.of<RequestBloc>(context)
+                                .add(RequestDelete(request.coverage_id ?? 0));
+                            // Navigator.of(context).pushNamedAndRemoveUntil(
+                            //     CoursesList.routeName, (route) => false);
+                          }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.redAccent,
+                      onSurface: Colors.grey,
+                      minimumSize: const Size(180, 55),
+                    ),
+                    child: const Text(
+                      'Delete Request',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
