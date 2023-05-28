@@ -3,25 +3,37 @@ import { IsNotEmpty, IsOptional, IsString, IsNumber } from "class-validator";
 
 /* eslint-disable prettier/prettier */
 export class CreateInsuranceDto{
-  @IsNumber()
-  @IsNotEmpty()
-  ammount_money:number; 
+ 
   @IsString()
   @IsOptional()    
   telebirr?:string; 
 
-  @IsNumber()  
+  @IsString()  
   @IsNotEmpty()      
-  level:number; 
+  level:string; 
   @IsNotEmpty()
-  @IsNumber()  
+   
   deposit:number;  
   @IsNotEmpty() 
   @IsString()        
   type:string;
+
+  @IsNotEmpty() 
   room:number
+  @IsString()  
+  @IsNotEmpty() 
   location:string
+   
+  @IsNotEmpty() 
   size:number
-  Document:string
+  
+  @IsNumber()  
+  @IsOptional() 
+  
   monthly_payment:number
+}
+export class CreateInsurancePhotoDto{
+
+   
+  Document:string
 }

@@ -23,17 +23,18 @@ export class RequestService {
 
     }
 
-    async get_requestsby_id(id) {
+    async get_requestsby_id(id:number) {
 
         const request = await this.prisma.coverage_request.findFirst({
             where: {
-              id,
+              insuranceId:id,
+              
               status: false
             },
             include: {
                 insurance: {
                     select: {
-                        type:true,
+                        propertytype:true,
                         size:true,
                         monthly_payment:true,
                         deposit:true,
@@ -66,7 +67,7 @@ export class RequestService {
                 {
                     select: {
                         userId:true,
-                        level:true
+                        coveragelevel:true
                     }
                 }
             }
@@ -88,7 +89,7 @@ export class RequestService {
                       id,
                     },
                     data: {deposit: {
-                        decrement: approval.loss * approval.insurance.level,
+                        // decrement: approval.loss * approval.insurance.coveragelevel
                     }
                     
                   }})
