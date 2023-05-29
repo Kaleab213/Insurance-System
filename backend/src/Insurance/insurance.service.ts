@@ -22,7 +22,7 @@ export class InsuranceService{
             room:Number(dto.room),
             Document:photo.Document,
 
-            monthly_payment:dto.monthly_payment,
+           
             
             
             
@@ -32,11 +32,11 @@ export class InsuranceService{
     return insurance;
   }
 
-  async getInsurance(userId:number){
+  async getInsurance(){
     const insurance= await this.prisma.user_Insurance.findMany({
       where: {
         status:true,
-        userId:userId,}} )
+        }} )
     return insurance;
   }
 
@@ -100,11 +100,13 @@ export class InsuranceService{
 
 
 
-async getInsuranceBYAdmin(userId:number){
+async getInsuranceBYAdmin(){
   const insurance= await this.prisma.user_Insurance.findMany({
     where: {
       status:false,
-      userId:userId,}} )
+      monthly_payment:null,
+      telebirr_QR:null,
+      }} )
   return insurance;
   
   

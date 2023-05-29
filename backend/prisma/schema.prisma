@@ -22,6 +22,7 @@ model User {
   costumers  Costumers?
   insurance  User_Insurance[]
   role    Role     @default(CUSTOMER)
+  notifications  Notification[]
 }
 
 model Costumers {
@@ -31,7 +32,7 @@ model Costumers {
 
   user    User  @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId        Int  @unique
-  notifications  Notification[]
+  
 
       
 }
@@ -61,6 +62,9 @@ model User_Insurance {
   size                Int
   Document            String
   monthly_payment     Float ?
+  coverege_request Coverage_request[]
+  payment Payment[]
+  notifications  Notification[]
 }
 
 model Payment {
@@ -81,16 +85,17 @@ model Coverage_request {
   description     String
   police_report   String
   status          Boolean           @default(false)
-  insured_payment Float
-  loss            Float
+  insured_payment Float ?
+  loss            Float ?
   supported_document String
-  date               String
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
 }
 
 model Notification {
   id         Int               @id @default(autoincrement())
   insurance  User_Insurance    @relation(fields: [insuranceId], references: [id],onDelete: Cascade)
-  costumer   Costumers         @relation(fields: [userId], references: [id],onDelete: Cascade)
+  user   User         @relation(fields: [userId], references: [id],onDelete: Cascade)
   insuranceId Int
   userId      Int
   createdAt  DateTime          @default(now())
