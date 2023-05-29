@@ -13,7 +13,7 @@ export class NotificationService {
       const count = await this.prisma.notification.count({
         where: {
           status: false,
-          userId,
+          userId:userId,
         },
       });
 
@@ -23,6 +23,7 @@ export class NotificationService {
               
             },
             select: {
+              id:true,
                 updatedAt:true,
                 title:true,
                 status:true,
@@ -67,7 +68,7 @@ export class NotificationService {
 
 
     async update_notification(userId:number, id:number, dto:updateDto) {
-      const request = await this.prisma.coverage_request.update({
+      const request = await this.prisma.notification.update({
 
         where: {
           id,
@@ -85,9 +86,9 @@ export class NotificationService {
     }
 
 
-    generate_notification(dto:createDto) {
+    // generate_notification(dto:createDto) {
 
-    }
+    // }
 
     async delete_notification(id:number) {
       const request = await this.prisma.coverage_request.delete({

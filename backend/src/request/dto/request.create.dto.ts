@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator"
+/* eslint-disable prettier/prettier */
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class createDto {
     
@@ -9,10 +10,11 @@ export class createDto {
 
     @IsOptional()
     status:boolean
-
+    @IsNumber()
     @IsOptional()
     loss?:number
 
+    @IsNumber()
     @IsOptional()
     insured_payment:number
 
@@ -21,12 +23,10 @@ export class createDto {
 export class CreateRequestPhotoDto{
 
    
-    @IsNotEmpty()
-    @IsString()
+    
     police_report:string
 
-    @IsNotEmpty()
-    @IsString()
+    
     supported_document:string
 }
 

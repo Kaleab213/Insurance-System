@@ -1,5 +1,10 @@
+import { IsBoolean, IsNumber, IsOptional } from "class-validator"
+
+/* eslint-disable prettier/prettier */
 export class updateDto {
+    @IsBoolean()
+    @IsOptional()
     status:boolean
-    loss:number
- 
- }
+    @IsNumber()
+    @IsOptional()
+    loss:number}

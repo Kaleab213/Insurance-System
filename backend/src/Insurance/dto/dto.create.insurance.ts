@@ -11,9 +11,9 @@ export class CreateInsuranceDto{
   @IsString()  
   @IsNotEmpty()      
   level:string; 
-  @IsNotEmpty()
+  @IsOptional()
    
-  deposit:number;  
+  deposit?:number;  
   @IsNotEmpty() 
   @IsString()        
   type:string;

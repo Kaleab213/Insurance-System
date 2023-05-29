@@ -11,13 +11,13 @@ export class InsuranceService{
   async createInsurance(userId:number,dto:CreateInsuranceDto,photo:CreateInsurancePhotoDto){
     const insurance = await this.prisma.user_Insurance.create({
           data: {
-            userId,
+            userId:userId,
           
             propertytype:dto.type,
             size:Number(dto.size),
             location:dto.location,
             coveragelevel:dto.level,
-            deposit:Number(dto.deposit),
+            deposit:0.0,
             room:Number(dto.room),
             Document:photo.Document,
 

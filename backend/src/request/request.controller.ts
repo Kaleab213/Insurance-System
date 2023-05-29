@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { RequestService } from "./request.service";
 import { createDto } from "src/request/dto/request.create.dto";
 import { updateDto } from "src/request/dto";
@@ -57,7 +57,7 @@ export class RequestController {
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Put("request_id:approval")
+    @Patch(":request_id/approval")
     update_request(@Param('request_id',ParseIntPipe) request_id:number, @Body() dto: updateDto) {
         return this.requestservice.update_request(request_id, dto)
     }

@@ -58,7 +58,8 @@ export class PaymentService {
         data: {
           insuranceId,
           ...photo,
-          ...dto,
+         
+          ammount:Number(dto.ammount)
           
         }
     });
@@ -70,9 +71,11 @@ export class PaymentService {
     async update_payment(id, dto:updateDto) {
         const approval =await this.prisma.payment.update({
             where: {
-              id,
+              id:id,
             },
-            data: {...dto},
+            data: {
+              status:Boolean(dto.status),
+            },
             include: {
                 insurance:
                 {

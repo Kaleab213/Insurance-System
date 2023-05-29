@@ -1,14 +1,11 @@
-import { IsOptional } from "class-validator"
+/* eslint-disable prettier/prettier */
+import { IsBoolean, IsOptional } from "class-validator"
 
 export class updateDto {
     
+    
+    @IsBoolean()
     @IsOptional()
-    title?:string
-
-    @IsOptional()
-    description:string
-
-    @IsOptional()
-    status:boolean
+    status?:boolean
 
 }

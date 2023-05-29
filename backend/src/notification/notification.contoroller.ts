@@ -18,7 +18,7 @@ export class NotificationController {
     @Get()
     get_notification(@GetUser() userId:number) {
         console.log(userId, "in get notification")
-        return this.notificationservice.get_notifications(userId)
+        return this.notificationservice.get_notifications(userId['id']);
     }
 
     @Roles(Role.CUSTOMER)
@@ -38,7 +38,7 @@ export class NotificationController {
     @Roles(Role.CUSTOMER)
     @UseGuards(AtGuards, RolesGuard)
     @Patch(":notification_id")
-    updated_notification(@GetUser() userId:number, @Param('notification_id',ParseIntPipe) notification_id:number, @Body() dto: createDto) {
+    updated_notification(@GetUser() userId:number, @Param('notification_id',ParseIntPipe) notification_id:number, @Body() dto: updateDto) {
         return this.notificationservice.update_notification(userId, notification_id, dto)
     }
 

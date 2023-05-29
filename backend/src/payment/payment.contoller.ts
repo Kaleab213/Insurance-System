@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { createDto, updateDto } from "src/payment/dto";
 import { Roles } from "src/decorators/role.auths";
@@ -10,7 +10,7 @@ import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { createPhotoDto } from "./dto";
 import { ImageStorage } from "src/helper/photo.storage";
 
-@Controller("payment")
+@Controller('payment')
 export class PaymentController {
     constructor(private paymentservice: PaymentService) {}
     @Roles(Role.ADMIN)
@@ -30,9 +30,9 @@ export class PaymentController {
 
   
 
-    @Roles(Role.CUSTOMER)
-    @UseGuards(AtGuards, RolesGuard)
-   @Post("insurance_id")
+   @Roles(Role.CUSTOMER)
+   @UseGuards(AtGuards, RolesGuard)
+   @Post(':id')
    @UseInterceptors(
      FileFieldsInterceptor(
        [
@@ -41,19 +41,19 @@ export class PaymentController {
          
         
        ],ImageStorage ))
- send_payment( @Param('insurance_id',ParseIntPipe) insurance_id:number,
+ send_payment( @Param('id',ParseIntPipe) id:number,
  @Body() dto:createDto,
  @Body() photo:createPhotoDto,
  @UploadedFiles() file: Array<Express.Multer.File>){
      photo.bill=`http://localhost:3000/insurance/${file["bill"][0].filename}`; 
      
-     return this.paymentservice.send_payment(insurance_id,dto,photo);
+     return this.paymentservice.send_payment(id,dto,photo);
    }
 
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Put(":payment_id/approval")
+    @Patch(":payment_id/approval")
     update_payment(@Param('payment_id',ParseIntPipe) payment_id:number, @Body() dto: updateDto) {
         return this.paymentservice.update_payment(payment_id, dto)
     }
