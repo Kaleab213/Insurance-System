@@ -74,9 +74,9 @@ createInsurance( @GetUser() userId:number,
 
 @Roles(Role.CUSTOMER)
 @UseGuards(AtGuards, RolesGuard)
-@Get()
-  getInsurance(@GetUser() userId:number){
-    return this.insurance.getInsurance(userId['id']);
+@Get('cus')
+  getInsurance(){
+    return this.insurance.getInsurance();
   }
 
   @Roles(Role.CUSTOMER)
@@ -101,11 +101,24 @@ updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsu
 
 
 //  ADMIN ROLES
+@Roles(Role.ADMIN)
+@UseGuards(AtGuards, RolesGuard)
+@Get('/admin')
+getInsurancebyAdmin(){
+  return this.insurance.getInsuranceBYAdmin();
+}
 
-getInsurancebyAdmin(){}
-getInsurancebyAdminById(id:number){}
 
+@Roles(Role.ADMIN)
+@UseGuards(AtGuards, RolesGuard)
+@Get(':id/admin')
+getInsurancebyAdminById(@GetUser() userId:number,@Param('id',ParseIntPipe) id:number){
+  return this.insurance.getInsuranceBYAdminById(userId['id'],id);
 
+}
+
+@Roles(Role.ADMIN)
+@UseGuards(AtGuards, RolesGuard)
 @Patch(':id/approval')
 approveInsuranceByAdmin(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateByAdminInsurance){
   return this.insurance.ApproveInsuranceBYAdmin(id,updateDto);}
