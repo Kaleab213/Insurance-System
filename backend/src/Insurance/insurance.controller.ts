@@ -20,30 +20,30 @@ export class InsuranceController {
   constructor(private insurance:InsuranceService){}
 
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file',{
-    storage:diskStorage({
-      destination:'./photos',
-      filename:(req,file,cb)=>{
-        const filename=file.originalname.split('.')[0];
-        const fileExtension=file.originalname.split('.')[1];
-        const newFilename=filename.split(' ').join('_')+'_'+Date.now()+'.'+fileExtension;
-        cb(null,newFilename);
-      },
+  // @Post('upload')
+  // @UseInterceptors(FileInterceptor('file',{
+  //   storage:diskStorage({
+  //     destination:'./photos',
+  //     filename:(req,file,cb)=>{
+  //       const filename=file.originalname.split('.')[0];
+  //       const fileExtension=file.originalname.split('.')[1];
+  //       const newFilename=filename.split(' ').join('_')+'_'+Date.now()+'.'+fileExtension;
+  //       cb(null,newFilename);
+  //     },
       
-  }),
-  fileFilter:(req,file,cb)=>{
-    if (!file.originalname.match(/\.(jpg|png|gif|jpeg)$/)){
-      cb(null,false);
-    }
-    cb(null,true);
+  // }),
+  // fileFilter:(req,file,cb)=>{
+  //   if (!file.originalname.match(/\.(jpg|png|gif|jpeg)$/)){
+  //     cb(null,false);
+  //   }
+  //   cb(null,true);
 
-  }
-  }))
-  uploadFiles(@UploadedFile() license:Express.Multer.File){
-    console.log(license);
-    return `http://localhost:3000/insurance/${license.filename}`;
-  }
+  // }
+  // }))
+  // uploadFiles(@UploadedFile() license:Express.Multer.File){
+  //   console.log(license);
+  //   return `http://localhost:3000/insurance/${license.filename}`;
+  // }
   @Get(':filename')
   async getPhoto(@Param('filename') filename,@Res() res:Response){
     res.sendFile(filename,{root:'./photos'});

@@ -16,7 +16,7 @@ export class RequestService {
         
               status: false
             },
-          
+            take: 30,
       
           })
           return requests;
@@ -56,6 +56,7 @@ export class RequestService {
 
 
     async update_request(id:number, dto:updateDto) {
+        const coverage_dict = {"1": 0.75, "2": 0.65, "3": 0.5, "4": 0.25}
 
         const approval =await this.prisma.coverage_request.update({
             where: {
@@ -89,7 +90,7 @@ export class RequestService {
                       id,
                     },
                     data: {deposit: {
-                        // decrement: approval.loss * approval.insurance.coveragelevel
+                        // decrement: approval.loss * coverage_dict[approval.insurance.coveragelevel]
                     }
                     
                   }})
@@ -116,7 +117,14 @@ export class RequestService {
 
     }
 
-    delete_request(userId) {
+    async delete_request(requestId) {
+      const requests = await this.prisma.coverage_request.delete({
+        where: {
+          id: requestId ,
+
+        },
+      })
+      
 
     }
     

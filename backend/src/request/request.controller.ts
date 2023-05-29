@@ -29,6 +29,8 @@ export class RequestController {
         return this.requestservice.get_requestsby_id(request_id);
     }
 
+    @Roles(Role.CUSTOMER)
+    @UseGuards(AtGuards, RolesGuard)
     @Post()
     send_request(@Body() dto: createDto) {
         return this.requestservice.send_requests(dto)
@@ -42,8 +44,8 @@ export class RequestController {
         return this.requestservice.update_request(request_id, dto)
     }
 
-    @Delete()
-    delete_request(userId) {
-        return this.requestservice.delete_request(userId)
+    @Delete(":request_id")
+    delete_request(@Param('request_id',ParseIntPipe) request_id:number) {
+        return this.requestservice.delete_request(request_id)
     }
  }
