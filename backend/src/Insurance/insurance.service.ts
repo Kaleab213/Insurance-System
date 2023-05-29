@@ -35,6 +35,7 @@ export class InsuranceService{
   async getInsurance(userId:number){
     const insurance= await this.prisma.user_Insurance.findMany({
       where: {
+        status:true,
         userId:userId,}} )
     return insurance;
   }
@@ -42,6 +43,7 @@ export class InsuranceService{
   async getInsuranceById(userId:number,insuranceId:number){
     const insurance=await this.prisma.user_Insurance.findFirst({
       where: {
+        status:true,
         userId:userId,
         id:insuranceId,}})
     return insurance;
@@ -99,6 +101,11 @@ export class InsuranceService{
 
 
 async getInsuranceBYAdmin(userId:number){
+  const insurance= await this.prisma.user_Insurance.findMany({
+    where: {
+      status:false,
+      userId:userId,}} )
+  return insurance;
   
   
 }
@@ -119,7 +126,7 @@ async ApproveInsuranceBYAdmin(insuranceId:number,updateDto:UpdateByAdminInsuranc
 
   const insurance=await this.prisma.user_Insurance.update({
     where: {
-      
+     
       
       id: insuranceId
     },
