@@ -87,14 +87,13 @@ createInsurance( @GetUser() userId:number,
  }
 
 
-
- @Patch(':id/update')
+ @Patch(':id')
 updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsuranceDto){
   return this.insurance.updateInsurance(id,updateDto);
 }
 
 
-@Delete(':id/delete')
+@Delete(':id')
  deleteInsurance(@Param('id',ParseIntPipe) id:number){
   return this.insurance.deleteInsurance(id);
  }

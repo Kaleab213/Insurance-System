@@ -1,16 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable prettier/prettier */
+
+
 import { diskStorage } from "multer";
-import {v4 as uuidv4 } from "uuid";
-const fs =require("fs");
-// const FileType=require('file-type');
-import path = require("path");
 
-type ValidFileExtension = 'png'|'gif'|'jpg'|'jpeg';
-type ValidMimeType = 'image/png'|'image/gif'|'image/jpg'|'image/jpeg';
 
-const ValidFileExtensions:ValidFileExtension[]=['png','gif','jpg','jpeg']
-const ValidmimeTypes:ValidMimeType[]=['image/png','image/gif','image/jpg','image/jpeg']
+
+
 
 export const ImageStorage={
     
