@@ -35,13 +35,13 @@ export class InsuranceController {
  }
 
 
- @Patch('update/:id')
+ @Patch(':id')
 updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsuranceDto){
   return this.insurance.updateInsurance(id,updateDto);
 }
 
 
-@Delete('delete/:id')
+@Delete(':id')
  deleteInsurance(@Param('id',ParseIntPipe) id:number){
   return this.insurance.deleteInsurance(id);
  }

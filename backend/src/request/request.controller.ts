@@ -24,7 +24,7 @@ export class RequestController {
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Get(":request_id/admin")
+    @Get(":request_id")
     get_requestsby_Id(@Param('request_id',ParseIntPipe) request_id:number) {
         return this.requestservice.get_requestsby_id(request_id);
     }
