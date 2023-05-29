@@ -3,7 +3,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
 import { CreateInsuranceDto, CreateInsurancePhotoDto } from "./dto/dto.create.insurance";
-import { UpdateInsuranceDto } from "./dto/update.insurance.dto";
+import { UpdateByAdminInsurance, UpdateInsuranceDto } from "./dto/update.insurance.dto";
 
 @Injectable()
 export class InsuranceService{
@@ -31,34 +31,34 @@ export class InsuranceService{
       })
     return insurance;
   }
-  async getInsurance(userId){
+
+  async getInsurance(userId:number){
     const insurance= await this.prisma.user_Insurance.findMany({
       where: {
-        userId,
-        status: true
-      }
-
-    }
-    )
+        status:true,
+        userId:userId,}} )
     return insurance;
   }
-  async getInsuranceById(insuranceId:number){
+
+  async getInsuranceById(userId:number,insuranceId:number){
     const insurance=await this.prisma.user_Insurance.findFirst({
       where: {
-        id:insuranceId,
-        status: true
-      }
-
-    })
+        status:true,
+        userId:userId,
+        id:insuranceId,}})
     return insurance;
 
   }
+
+
   async updateInsurance(insuranceId:number,updateDto:UpdateInsuranceDto){
     const insurance=await this.prisma.user_Insurance.update({
       where: {
         id: insuranceId
       },
-      data: {...updateDto}
+      data: {...updateDto,
+
+      }
     })
     return insurance;
   }
@@ -77,23 +77,67 @@ export class InsuranceService{
       return 'No Houses found to Delete!!';
     }
   }
-async gethousepayment(userId:number){
- const  payment= this.prisma.user_Insurance.findMany({
-  where: {
-  userId:userId,
-    payments:{
-      some: {
-        status:true
-      }
-    },
-    },
-include:{
-  payments:true
-}
- })
+// async gethousepayment(userId:number){
+//  const  payment= this.prisma.user_Insurance.findMany({
+//   where: {
+//   userId:userId,
+//     payments:{
+//       some: {
+//         status:true
+//       }
+//     },
+//     },
+// include:{
+//   payments:true
+// }
+//  })
 
  
+// }
+
+
+
+
+
+
+async getInsuranceBYAdmin(userId:number){
+  const insurance= await this.prisma.user_Insurance.findMany({
+    where: {
+      status:false,
+      userId:userId,}} )
+  return insurance;
+  
+  
 }
+
+async getInsuranceBYAdminById(userId:number,insuranceId:number){
+  const insurance=await this.prisma.user_Insurance.findFirst({
+    where: {
+      userId:userId,
+      status:false,
+      monthly_payment:null,
+      telebirr_QR:null,
+      id:insuranceId,}})
+  return insurance;
+}
+
+// UpdateByAdminInsurance
+async ApproveInsuranceBYAdmin(insuranceId:number,updateDto:UpdateByAdminInsurance){
+
+  const insurance=await this.prisma.user_Insurance.update({
+    where: {
+     
+      
+      id: insuranceId
+    },
+    data: {...updateDto,
+
+    }
+  })
+  return insurance;
+}
+
+
 
 
 }

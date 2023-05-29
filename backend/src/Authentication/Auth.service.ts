@@ -18,7 +18,7 @@ export class AuthService {
 
 
 // ADMIN SIGNUP
-  async signup(dto: CreateAuthDto): Promise<Tokens> {
+  async adminsignup(dto: CreateAuthDto): Promise<Tokens> {
     const hash=await argon2.hash(dto.password)
     try {
       const user = await this.prisma.user.create({
@@ -26,7 +26,8 @@ export class AuthService {
           firstName: dto.firstName,
           lastName: dto.lastName,
           email: dto.email,
-          hash
+          hash,
+          role: 'ADMIN',
         },
       });
 
