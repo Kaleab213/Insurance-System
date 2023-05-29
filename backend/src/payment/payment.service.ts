@@ -36,9 +36,8 @@ export class PaymentService {
             include: {
                 insurance: {
                     select: {
-                        type:true,
-                        size:true,
-                        monthly_payment:true,
+                        propertytype:true,
+                        
                     }
                 }
             }
@@ -69,15 +68,17 @@ export class PaymentService {
                 {
                     select: {
                         userId:true,
-                        monthly_payment:true,
+                       
                     }
                 }
             }
           })
+
         const approve_notification = "dear custmer, you monthly payment is approved"
         const disapprove_notification = "dear customer, your monthly payment is disapproved"
         const userId = approval.insurance.userId
         const insuranceId = approval.insuranceId
+
           if (dto.status) {
                 const notification = await this.prisma.notification.create({
    
@@ -91,7 +92,8 @@ export class PaymentService {
                       id,
                     },
                     data: {deposit: {
-                        increment: approval.insurance.monthly_payment,
+                        // increment: approval.insurance.monthly_payment,
+                        
                     }
                     
                   }})

@@ -57,10 +57,14 @@ export class AuthService {
          lastName: createUserDto.lastName,
         hash: hash,
         role: 'CUSTOMER',
-        costumers:{
-          create:{...CustomerDto}
+        costumers: {
+          create:{
+            phone:CustomerDto.phone,
+            account_no:CustomerDto.account_no
+          }
         }
-      },
+        },
+      
     });
    
     const tokens = await this.GetToken(
