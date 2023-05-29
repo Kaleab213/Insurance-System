@@ -66,7 +66,7 @@ model User_Insurance {
   location            String
   size                Float
   Document            String
-  monthly_payment     Float
+  monthly_payment     Float ?
 }
 
 model Payment {
