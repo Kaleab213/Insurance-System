@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
 import { createDto, updateDto } from "./dto";
@@ -53,7 +54,9 @@ export class NotificationService {
       const request = await this.prisma.notification.create({
         data: {
           userId,
+          
           ...dto,
+          
           
         }
     })

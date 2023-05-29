@@ -77,27 +77,6 @@ export class InsuranceService{
       return 'No Houses found to Delete!!';
     }
   }
-// async gethousepayment(userId:number){
-//  const  payment= this.prisma.user_Insurance.findMany({
-//   where: {
-//   userId:userId,
-//     payments:{
-//       some: {
-//         status:true
-//       }
-//     },
-//     },
-// include:{
-//   payments:true
-// }
-//  })
-
- 
-// }
-
-
-
-
 
 
 async getInsuranceBYAdmin(){
@@ -112,10 +91,10 @@ async getInsuranceBYAdmin(){
   
 }
 
-async getInsuranceBYAdminById(userId:number,insuranceId:number){
+async getInsuranceBYAdminById(insuranceId:number){
   const insurance=await this.prisma.user_Insurance.findFirst({
     where: {
-      userId:userId,
+     
       status:false,
       monthly_payment:null,
       telebirr_QR:null,
@@ -132,10 +111,11 @@ async ApproveInsuranceBYAdmin(insuranceId:number,updateDto:UpdateByAdminInsuranc
       
       id: insuranceId
     },
-    data: {...updateDto,
+    data: {monthly_payment:Number(updateDto.monthly_payment),
+    telebirr_QR:updateDto.telebirr_QR,
+    status:Boolean(updateDto.status)},
 
-    }
-  })
+    })
   return insurance;
 }
 

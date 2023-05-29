@@ -34,12 +34,12 @@ export class UpdateInsuranceDto{
 }
 
 export class UpdateByAdminInsurance{
-  @IsBoolean()
+ 
   @IsOptional()
   status?:boolean;
 
   @IsOptional()
-  @IsNumber()
+ 
   monthly_payment?:number;
 
   @IsOptional()

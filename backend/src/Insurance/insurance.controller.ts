@@ -20,30 +20,6 @@ export class InsuranceController {
   constructor(private insurance:InsuranceService){}
 
 
-  // @Post('upload')
-  // @UseInterceptors(FileInterceptor('file',{
-  //   storage:diskStorage({
-  //     destination:'./photos',
-  //     filename:(req,file,cb)=>{
-  //       const filename=file.originalname.split('.')[0];
-  //       const fileExtension=file.originalname.split('.')[1];
-  //       const newFilename=filename.split(' ').join('_')+'_'+Date.now()+'.'+fileExtension;
-  //       cb(null,newFilename);
-  //     },
-      
-  // }),
-  // fileFilter:(req,file,cb)=>{
-  //   if (!file.originalname.match(/\.(jpg|png|gif|jpeg)$/)){
-  //     cb(null,false);
-  //   }
-  //   cb(null,true);
-
-  // }
-  // }))
-  // uploadFiles(@UploadedFile() license:Express.Multer.File){
-  //   console.log(license);
-  //   return `http://localhost:3000/insurance/${license.filename}`;
-  // }
   @Get(':filename')
   async getPhoto(@Param('filename') filename,@Res() res:Response){
     res.sendFile(filename,{root:'./photos'});
@@ -74,7 +50,7 @@ createInsurance( @GetUser() userId:number,
 
 @Roles(Role.CUSTOMER)
 @UseGuards(AtGuards, RolesGuard)
-@Get('cus')
+@Get()
   getInsurance(){
     return this.insurance.getInsurance();
   }
@@ -103,7 +79,7 @@ updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsu
 //  ADMIN ROLES
 @Roles(Role.ADMIN)
 @UseGuards(AtGuards, RolesGuard)
-@Get('/admin')
+@Get('admin/list')
 getInsurancebyAdmin(){
   return this.insurance.getInsuranceBYAdmin();
 }
@@ -112,15 +88,23 @@ getInsurancebyAdmin(){
 @Roles(Role.ADMIN)
 @UseGuards(AtGuards, RolesGuard)
 @Get(':id/admin')
-getInsurancebyAdminById(@GetUser() userId:number,@Param('id',ParseIntPipe) id:number){
-  return this.insurance.getInsuranceBYAdminById(userId['id'],id);
+getInsurancebyAdminById(@Param('id',ParseIntPipe) id:number){
+  return this.insurance.getInsuranceBYAdminById(id);
 
 }
 
 @Roles(Role.ADMIN)
 @UseGuards(AtGuards, RolesGuard)
 @Patch(':id/approval')
-approveInsuranceByAdmin(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateByAdminInsurance){
+@UseInterceptors(
+  FileFieldsInterceptor(
+    [
+     
+      { name: "telebirr_QR", maxCount: 1 },
+     
+    ],ImageStorage ))
+approveInsuranceByAdmin(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateByAdminInsurance,@UploadedFiles() file: Array<Express.Multer.File>){
+  updateDto.telebirr_QR=`http://localhost:3000/insurance/${file["telebirr_QR"][0].filename}`;
   return this.insurance.ApproveInsuranceBYAdmin(id,updateDto);}
 
 
