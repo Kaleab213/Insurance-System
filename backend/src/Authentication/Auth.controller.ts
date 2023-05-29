@@ -14,9 +14,9 @@ import { CreateCustomer } from 'src/customers/dto/create.dto';
 @Controller('user')
 export class AuthController{
   constructor(private authService:AuthService){}
-  @Post('signup')
+  @Post('admin/signup')
   signup(@Body() dto:CreateAuthDto){
-    return this.authService.signup(dto);
+    return this.authService.adminsignup(dto);
   }
 
   @Post('customer/signup')

@@ -1,23 +1,48 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from "class-validator";
+import {  IsOptional, IsString, IsNumber, IsBoolean } from "class-validator";
 
 
 /* eslint-disable prettier/prettier */
 export class UpdateInsuranceDto{
-  @IsNumber()
-  @IsOptional() 
-  ammount_money?:number; 
   @IsString()
   @IsOptional()    
   telebirr?:string; 
 
-  @IsNumber()  
+  @IsString()  
   @IsOptional()       
-  coverage_percentage?:number; 
+  level?:string; 
   @IsOptional() 
-  @IsNumber()  
+   
   deposit?:number;  
-  @IsOptional()  
+  @IsOptional() 
   @IsString()        
   type?:string;
+
+  @IsOptional() 
+  room?:number
+  @IsString()  
+  @IsOptional() 
+  location?:string
+   
+  @IsOptional()  
+  size?:number
+  
+  @IsNumber()  
+  @IsOptional() 
+  
+  monthly_payment?:number
+}
+
+export class UpdateByAdminInsurance{
+  @IsBoolean()
+  @IsOptional()
+  status?:boolean;
+
+  @IsOptional()
+  @IsNumber()
+  monthly_payment?:number;
+
+  @IsOptional()
+  @IsString()
+  telebirr_QR?:string;
 }

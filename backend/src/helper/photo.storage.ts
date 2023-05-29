@@ -13,23 +13,21 @@ const ValidFileExtensions:ValidFileExtension[]=['png','gif','jpg','jpeg']
 const ValidmimeTypes:ValidMimeType[]=['image/png','image/gif','image/jpg','image/jpeg']
 
 export const ImageStorage={
-    storage:diskStorage({
-        destination:'./photos',
-        filename:(req,file,cb)=>{
-            const fileExtension:string =path.extname(file.originalname);
-            const FileName=uuidv4() + fileExtension;
-            cb(null,FileName);
+    
+        storage:diskStorage({
+          destination:'./photos',
+          filename:(req,file,cb)=>{
+            const filename=file.originalname.split('.')[0];
+            const fileExtension=file.originalname.split('.')[1];
+            const newFilename=filename.split(' ').join('_')+'_'+Date.now()+'.'+fileExtension;
+            cb(null,newFilename);
+          },}),
 
-        
-       
-        },
-    }),
-    fileFilter:(req,file,cb)=>{
-    const allowedMimeTypes:ValidMimeType[]=ValidmimeTypes
-    allowedMimeTypes.includes(file.mimetype) ? cb(null,true) : cb(null,false);
-    },
-    limits: {
-        fileSize: 104857600,
-        files: 100
-      },
-}
+      fileFilter:(req,file,cb)=>{
+        if (!file.originalname.match(/\.(jpg|png|gif|jpeg)$/)){
+          cb(null,false);
+        }
+        cb(null,true);
+    
+      }
+    }
