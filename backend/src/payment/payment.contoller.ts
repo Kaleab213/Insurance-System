@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
-import { updateDto } from "src/notification/dto/notification.update.dto";
-import { createDto } from "src/notification/dto";
+import { createDto, updateDto } from "src/payment/dto";
 import { Roles } from "src/decorators/role.auths";
 import { Role } from "src/decorators/role.enum";
 import { AtGuards } from "src/Authentication/gaurds/at.guards";

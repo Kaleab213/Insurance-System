@@ -13,7 +13,6 @@ export class InsuranceService{
           data: {
             userId,
           
-            
             propertytype:dto.type,
             size:Number(dto.size),
             location:dto.location,

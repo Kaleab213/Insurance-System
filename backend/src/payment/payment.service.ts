@@ -4,8 +4,8 @@
 
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
-import { createDto } from "src/notification/dto";
-import { updateDto } from "src/notification/dto/notification.update.dto";
+import { createDto, updateDto } from "src/payment/dto";
+
 import { createPhotoDto } from "./dto";
 
 
