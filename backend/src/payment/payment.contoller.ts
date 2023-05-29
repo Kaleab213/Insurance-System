@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { updateDto } from "src/notification/dto/notification.update.dto";
 import { createDto } from "src/notification/dto";
@@ -7,6 +7,9 @@ import { Roles } from "src/decorators/role.auths";
 import { Role } from "src/decorators/role.enum";
 import { AtGuards } from "src/Authentication/gaurds/at.guards";
 import { RolesGuard } from "src/Authentication/gaurds/role.gaurd";
+import { FileFieldsInterceptor } from "@nestjs/platform-express";
+import { createPhotoDto } from "./dto";
+import { ImageStorage } from "src/helper/photo.storage";
 
 @Controller("payment")
 export class PaymentController {
@@ -20,7 +23,7 @@ export class PaymentController {
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Get(":id/admin")
+    @Get(":id")
     get_payments_byId_admin(@Param('id',ParseIntPipe) id:number) {
         return this.paymentservice.get_payments_byId_admin(id)
     }
@@ -28,10 +31,25 @@ export class PaymentController {
 
   
 
-    @Post()
-    send_payment(@Body() dto: createDto) {
-        return this.paymentservice.send_payment(dto)
-    }
+    @Roles(Role.CUSTOMER)
+    @UseGuards(AtGuards, RolesGuard)
+   @Post("insurance_id")
+   @UseInterceptors(
+     FileFieldsInterceptor(
+       [
+        
+         { name: "bill", maxCount: 1 },
+         
+        
+       ],ImageStorage ))
+ send_payment( @Param('insurance_id',ParseIntPipe) insurance_id:number,
+ @Body() dto:createDto,
+ @Body() photo:createPhotoDto,
+ @UploadedFiles() file: Array<Express.Multer.File>){
+     photo.bill=`http://localhost:3000/insurance/${file["bill"][0].filename}`; 
+     
+     return this.paymentservice.send_payment(insurance_id,dto,photo);
+   }
 
 
     @Roles(Role.ADMIN)
@@ -41,8 +59,8 @@ export class PaymentController {
         return this.paymentservice.update_payment(payment_id, dto)
     }
 
-    @Delete()
-    delete_payment(userId: any) {
-        return this.paymentservice.delete_payment(userId)
+    @Delete(":payment_id")
+    delete_payment(@Param('payment_id',ParseIntPipe) payment_id:number) {
+        return this.paymentservice.delete_payment(payment_id)
     }
  }

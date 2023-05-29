@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, UseGuards } from "@nestjs/common";
 import { NotificationService } from "./notification.service";
 import { createDto, updateDto } from "./dto";
 import { Roles } from "src/decorators/role.auths";
@@ -16,6 +16,7 @@ export class NotificationController {
     @UseGuards(AtGuards, RolesGuard)
     @Get()
     get_notification(@GetUser() userId:number) {
+        console.log(userId, "in get notification")
         return this.notificationservice.get_notifications(userId)
     }
 
@@ -28,22 +29,29 @@ export class NotificationController {
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Post()
-    send_notification(@Body() dto: createDto) {
-        return this.notificationservice.send_notification(dto)
+    @Post(":userId")
+    send_notification(@Param('userId',ParseIntPipe) userId:number, @Body() dto: createDto) {
+        return this.notificationservice.send_notification(userId, dto)
     }
+
+    @Roles(Role.CUSTOMER)
+    @UseGuards(AtGuards, RolesGuard)
+    @Patch(":notification_id")
+    updated_notification(@GetUser() userId:number, @Param('notification_id',ParseIntPipe) notification_id:number, @Body() dto: createDto) {
+        return this.notificationservice.update_notification(userId, notification_id, dto)
+    }
+
+    // @Roles(Role.ADMIN)
+    // @UseGuards(AtGuards, RolesGuard)
+    // @Put()
+    // update_notification(@Body() dto: updateDto) {
+    //     return this.notificationservice.update_notification(dto)
+    // }
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Put()
-    update_notification(@Body() dto: updateDto) {
-        return this.notificationservice.update_notification(dto)
-    }
-
-    @Roles(Role.ADMIN)
-    @UseGuards(AtGuards, RolesGuard)
-    @Delete()
-    delete_notification(userId) {
-        return this.notificationservice.delete_notification(userId)
+    @Delete(":notification_id")
+    delete_notification(@Param('notification_id',ParseIntPipe) notification_id:number) {
+        return this.notificationservice.delete_notification(notification_id)
     }
 }

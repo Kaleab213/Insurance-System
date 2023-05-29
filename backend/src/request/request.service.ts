@@ -3,8 +3,9 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
-import { createDto } from "src/notification/dto/notification.create.dto";
-import { updateDto } from "src/notification/dto/notification.update.dto";
+import { createDto } from "src/request/dto/request.create.dto";
+import { updateDto } from "src/request/dto/request.update.dto";
+import { CreateRequestPhotoDto } from "./dto";
 
 @Injectable()
 export class RequestService {
@@ -50,7 +51,17 @@ export class RequestService {
 
     }
 
-    async send_requests(dto: createDto) {
+    async send_requests(insuranceId:number, dto: createDto, photo: CreateRequestPhotoDto) {
+
+      const request = await this.prisma.coverage_request.create({
+        data: {
+          insuranceId,
+          ...dto,
+          ...photo,
+          
+        }
+    })
+    return request
 
     }
 
@@ -90,7 +101,7 @@ export class RequestService {
                       id,
                     },
                     data: {deposit: {
-                        // decrement: approval.loss * coverage_dict[approval.insurance.coveragelevel]
+                        decrement: approval.loss * coverage_dict[approval.insurance.coveragelevel]
                     }
                     
                   }})
@@ -117,7 +128,7 @@ export class RequestService {
 
     }
 
-    async delete_request(requestId) {
+    async delete_request(requestId:number) {
       const requests = await this.prisma.coverage_request.delete({
         where: {
           id: requestId ,

@@ -6,6 +6,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/Prisma/prisma.service";
 import { createDto } from "src/notification/dto";
 import { updateDto } from "src/notification/dto/notification.update.dto";
+import { createPhotoDto } from "./dto";
 
 
 @Injectable()
@@ -27,7 +28,7 @@ export class PaymentService {
     }
 
 
-    async get_payments_byId_admin(id) {
+    async get_payments_byId_admin(id:number) {
         const payments = await this.prisma.payment.findFirst({
             where: {
               id,
@@ -52,7 +53,16 @@ export class PaymentService {
 
   
 
-    send_payment(dto: createDto) {
+    async send_payment(insuranceId: number, dto: createDto, photo: createPhotoDto) {
+      const payment = await this.prisma.payment.create({
+        data: {
+          insuranceId,
+          ...photo,
+          ...dto,
+          
+        }
+    });
+    return payment 
 
     }
 
@@ -68,6 +78,7 @@ export class PaymentService {
                 {
                     select: {
                         userId:true,
+                        monthly_payment:true,
                        
                     }
                 }
@@ -92,7 +103,7 @@ export class PaymentService {
                       id,
                     },
                     data: {deposit: {
-                        // increment: approval.insurance.monthly_payment,
+                        increment: approval.insurance.monthly_payment,
                         
                     }
                     
@@ -118,8 +129,14 @@ export class PaymentService {
 
     
 
-    delete_payment(userId) {
+    async delete_payment(paymentId:number) {
 
+      const requests = await this.prisma.coverage_request.delete({
+        where: {
+          id: paymentId,
+
+        },
+      })
     }
     
 }

@@ -7,7 +7,14 @@ export class NotificationService {
     constructor(private prisma: PrismaService) {}
 
 
-    async get_notifications(userId) {
+    async get_notifications(userId:number) {
+
+      const count = await this.prisma.notification.count({
+        where: {
+          status: false,
+          userId,
+        },
+      });
 
         const notifications = await this.prisma.notification.findMany({
             where: {
@@ -17,21 +24,23 @@ export class NotificationService {
             select: {
                 updatedAt:true,
                 title:true,
-                status:true
+                status:true,
+
+              
 
             }
       
           }
           )
-          return notifications;
+          return {count:count, notification:notifications};
 
     }
 
-    async get_notifications_byid(userId, notification_id) {
+    async get_notifications_byid(userId:number, notification_id:number) {
         const notification = await this.prisma.notification.findFirst({
             where: {
              id:notification_id,
-              userId,
+             userId,
             }
       
           }
@@ -40,12 +49,34 @@ export class NotificationService {
 
     }
 
-    send_notification(dto: createDto) {
+    async send_notification(userId:number, dto: createDto) {
+      const request = await this.prisma.notification.create({
+        data: {
+          userId,
+          ...dto,
+          
+        }
+    })
+    return request
 
     }
 
 
-    update_notification(dto:updateDto) {
+    async update_notification(userId:number, id:number, dto:updateDto) {
+      const request = await this.prisma.coverage_request.update({
+
+        where: {
+          id,
+          
+        },
+        data: {
+          ...dto,
+          
+          
+        }
+    })
+    return request
+      
 
     }
 
@@ -54,8 +85,13 @@ export class NotificationService {
 
     }
 
-    delete_notification(userId) {
-
+    async delete_notification(id:number) {
+      const request = await this.prisma.coverage_request.delete({
+        where: {
+          id,
+        }
+    })
+    return request
     }
     
 }

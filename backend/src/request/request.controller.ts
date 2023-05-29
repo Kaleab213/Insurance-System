@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { RequestService } from "./request.service";
-import { createDto } from "src/notification/dto/notification.create.dto";
-import { updateDto } from "src/notification/dto";
+import { createDto } from "src/request/dto/request.create.dto";
+import { updateDto } from "src/request/dto";
 import { CreateAuthDto } from "src/Authentication/dto";
 import { Roles, } from "src/decorators/role.auths";
 import { AtGuards } from "src/Authentication/gaurds/at.guards";
 import { RolesGuard } from "src/Authentication/gaurds/role.gaurd";
 import { Role } from "src/decorators/role.enum";
+import { FileFieldsInterceptor } from "@nestjs/platform-express/multer";
+import { ImageStorage } from "src/helper/photo.storage";
+import { GetUser } from "src/decorators";
+import { CreateRequestPhotoDto } from "./dto";
 
 @Controller("request")
 export class RequestController {
@@ -31,10 +35,24 @@ export class RequestController {
 
     @Roles(Role.CUSTOMER)
     @UseGuards(AtGuards, RolesGuard)
-    @Post()
-    send_request(@Body() dto: createDto) {
-        return this.requestservice.send_requests(dto)
-    }
+   @Post(":insurance_id")
+   @UseInterceptors(
+     FileFieldsInterceptor(
+       [
+        
+         { name: "police_report", maxCount: 1 },
+         { name: "supported_document", maxCount: 1 },
+        
+       ],ImageStorage ))
+ send_request( @Param('insurance_id',ParseIntPipe) insurance_id:number,
+ @Body() dto:createDto,
+ @Body() photo:CreateRequestPhotoDto,
+ @UploadedFiles() file: Array<Express.Multer.File>){
+     photo.police_report=`http://localhost:3000/insurance/${file["police_report"][0].filename}`; 
+     photo.supported_document=`http://localhost:3000/insurance/${file["supported_document"][0].filename}`;
+     
+     return this.requestservice.send_requests(insurance_id,dto,photo);
+   }
 
 
     @Roles(Role.ADMIN)
