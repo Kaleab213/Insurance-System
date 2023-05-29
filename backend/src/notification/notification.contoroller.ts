@@ -30,9 +30,9 @@ export class NotificationController {
 
     @Roles(Role.ADMIN)
     @UseGuards(AtGuards, RolesGuard)
-    @Post(":userId")
-    send_notification(@Param('userId',ParseIntPipe) userId:number, @Body() dto: createDto) {
-        return this.notificationservice.send_notification(userId, dto)
+    @Post(":userId/:insurance_id")
+    send_notification(@Param('userId',ParseIntPipe) userId:number,@Param('insurance_id',ParseIntPipe) notification_id:number, @Body() dto: createDto) {
+        return this.notificationservice.send_notification(userId, notification_id, dto)
     }
 
     @Roles(Role.CUSTOMER)
