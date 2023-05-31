@@ -1,0 +1,54 @@
+import 'package:equatable/equatable.dart';
+
+import '../model/insurance_model.dart';
+
+abstract class InsuranceEvent extends Equatable {
+  const InsuranceEvent();
+}
+
+class InsuranceLoad extends InsuranceEvent {
+  const InsuranceLoad();
+
+  @override
+  List<Object> get props => [];
+}
+
+class InsuranceCreate extends InsuranceEvent {
+  final Insurance insurance;
+
+  const InsuranceCreate(this.insurance);
+
+  @override
+  List<Object> get props => [insurance];
+
+  @override
+  String toString() => 'Insurance Created {Insurance Id: ${insurance.id}}';
+}
+
+class InsuranceUpdate extends InsuranceEvent {
+  final int id;
+  final Insurance insurance;
+
+  const InsuranceUpdate({required this.id, required this.insurance});
+
+  @override
+  List<Object> get props => [id, insurance];
+
+  @override
+  String toString() => 'Insurance Updated {Insurance Id: ${insurance.id}}';
+}
+
+class InsuranceDelete extends InsuranceEvent {
+  final int id;
+
+  const InsuranceDelete(this.id);
+
+  @override
+  List<Object> get props => [id];
+
+  @override
+  toString() => 'Insurance Deleted {Insurance Id: $id}';
+
+  @override
+  bool? get stringify => true;
+}
