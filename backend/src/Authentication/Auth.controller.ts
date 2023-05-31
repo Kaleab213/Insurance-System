@@ -14,6 +14,8 @@ import { CreateCustomer } from 'src/customers/dto/create.dto';
 @Controller('user')
 export class AuthController{
   constructor(private authService:AuthService){}
+
+  
   @Post('admin/signup')
   signup(@Body() dto:CreateAuthDto){
     return this.authService.adminsignup(dto);
@@ -23,14 +25,10 @@ export class AuthController{
   Customersignup(@Body() dtouser:CreateAuthDto,@Body() dtocustomer:CreateCustomer){
     return this.authService.CustomerSignup(dtouser,dtocustomer);
   }
-
-
-
-
-
-
-
-
+  // @Post('signup')
+  // Customersignup(@Body() user: any) {
+  //   return this.authService.CustomerSignup(user);
+  // }
 
   @Post('signin')
   signin(@Body() dto:CreateAuthDto){
@@ -39,26 +37,27 @@ export class AuthController{
     return this.authService.signin(dto);
   }
 
+  // @Post('signin')
+  // signin(@Body() user: any) {
+  //   console.log(user.userName)
+  //   return this.authService.signin(user);
+  // }
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logout(@GetUser() userId: number): Promise<boolean> {
     return this.authService.logout(userId);
   }
 
-
+  // @UseGuards(AtGuards, RolesGuard)
+  // @Get('user')
+  // async user(@Request() req: any) {
+  //   return req.user;
+  // }
 
 @Get()
-getProfile(){
-  return this.authService.getProfile();
+getProfile(@GetUser() userId: number){
+  return this.authService.getProfile(userId);
 }
-
-
-
-
-
-
-
-
 
 
   // @Roles(Role.CUSTOMER)

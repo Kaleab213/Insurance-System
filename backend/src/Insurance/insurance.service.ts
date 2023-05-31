@@ -11,13 +11,13 @@ export class InsuranceService{
   async createInsurance(userId:number,dto:CreateInsuranceDto,photo:CreateInsurancePhotoDto){
     const insurance = await this.prisma.user_Insurance.create({
           data: {
-            userId:userId,
+            userId,
           
             propertytype:dto.type,
             size:Number(dto.size),
             location:dto.location,
             coveragelevel:dto.level,
-            deposit:0.0,
+            deposit:Number(0.0),
             room:Number(dto.room),
             Document:photo.Document,
 
@@ -31,10 +31,10 @@ export class InsuranceService{
     return insurance;
   }
 
-  async getInsurance(){
+  async getInsurance(userId : number){
     const insurance= await this.prisma.user_Insurance.findMany({
       where: {
-        status:true,
+        userId:userId,
         }} )
     return insurance;
   }
@@ -42,7 +42,6 @@ export class InsuranceService{
   async getInsuranceById(userId:number,insuranceId:number){
     const insurance=await this.prisma.user_Insurance.findFirst({
       where: {
-        status:true,
         userId:userId,
         id:insuranceId,}})
     return insurance;

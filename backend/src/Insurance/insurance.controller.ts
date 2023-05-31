@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post,  Res,    UploadedFiles,  UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post,  Res,  UploadedFile,  UploadedFiles,  UseGuards, UseInterceptors } from "@nestjs/common";
 import { InsuranceService } from "./insurance.service";
 import { CreateInsuranceDto, CreateInsurancePhotoDto } from "./dto/dto.create.insurance";
 import { UpdateByAdminInsurance, UpdateInsuranceDto } from "./dto/update.insurance.dto";
@@ -10,9 +10,9 @@ import { RolesGuard } from "src/Authentication/gaurds/role.gaurd";
 
 import { Roles } from "src/decorators/role.auths";
 import { Role } from '../decorators/role.enum';
-import { FileFieldsInterceptor } from "@nestjs/platform-express/multer";
+import { FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express/multer";
 import { ImageStorage } from "src/helper/photo.storage";
-
+import { diskStorage } from "multer";
 import { Response } from "express";
 
 @Controller('insurance')
@@ -32,14 +32,14 @@ export class InsuranceController {
     FileFieldsInterceptor(
       [
        
-        { name: "license", maxCount: 1 },
+        { name: "Document", maxCount: 1 },
        
       ],ImageStorage ))
 createInsurance( @GetUser() userId:number,
 @Body() dto:CreateInsuranceDto,
 @Body() photo:CreateInsurancePhotoDto,
 @UploadedFiles() file: Array<Express.Multer.File>){
-    photo.Document=`http://localhost:3000/insurance/${file["license"][0].filename}`;
+    photo.Document=`http://localhost:3000/insurance/${file["Document"][0].filename}`;
     
     
     return this.insurance.createInsurance(userId['id'],dto,photo);
@@ -51,8 +51,8 @@ createInsurance( @GetUser() userId:number,
 @Roles(Role.CUSTOMER)
 @UseGuards(AtGuards, RolesGuard)
 @Get()
-  getInsurance(){
-    return this.insurance.getInsurance();
+  getInsurance(@GetUser() userId:number){
+    return this.insurance.getInsurance(userId['id']);
   }
 
   @Roles(Role.CUSTOMER)
@@ -79,7 +79,7 @@ updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsu
 //  ADMIN ROLES
 @Roles(Role.ADMIN)
 @UseGuards(AtGuards, RolesGuard)
-@Get('admin/list')
+@Get('admin')
 getInsurancebyAdmin(){
   return this.insurance.getInsuranceBYAdmin();
 }

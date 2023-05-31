@@ -95,14 +95,16 @@ export class AuthService {
         email:dto.email,}})
       if(!user)
         throw new ForbiddenException("Credentials are not valid")
-      
     const isMatch=await argon2.verify(
        user.hash,
       dto.password,)
+
       
     if (!isMatch)
       throw new ForbiddenException("credentials are not valid");
-
+    
+    
+    
 
 
 
@@ -134,14 +136,13 @@ export class AuthService {
     return true;
   }
 
-async getProfile(){
-  const user = await this.prisma.user.findMany({
-    
-   
-    include:{
-     
-      
-      costumers: true,
+async getProfile(id:number){
+  const user = await this.prisma.user.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      costumers: true
     }
   })
   return user;
@@ -184,7 +185,7 @@ async getProfile(){
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '1d',
+        expiresIn: '7d',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),

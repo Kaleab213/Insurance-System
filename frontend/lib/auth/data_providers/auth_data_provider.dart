@@ -31,8 +31,8 @@ class AuthDataProvider {
       await prefs.setString('token', x.token!);
 
       var user_detail = await get();
-      // print("here after detail");
-      // print(user_detail);
+      print("here after detail");
+      print(user_detail);
       // print(jsonDecode(user_detail).runtimeType);
       // final user = User.fromJson(jsonDecode(userDetail));
       final user = User.fromJson(
@@ -40,7 +40,7 @@ class AuthDataProvider {
           user_detail.toString(),
         ),
       );
-      // print("here after user");
+      print("here after user");
       // await prefs.setString("user", jsonDecode(user.toJson()));
       await prefs.setString("user", user.toString());
       // print(user.toString());
