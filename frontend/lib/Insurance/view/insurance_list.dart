@@ -84,7 +84,7 @@ class InsuranceListScreen extends StatelessWidget {
                   context.go('/profile');
                 }
                  else if (index == 3) {
-                  context.go('/profile');
+                  context.go('/requestList');
                 }
               },
             ),
