@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'dart:convert';
+import 'package:flutter/services.dart';
+
 // import 'dart:typed_data';
 // import 'dart:html' as html;
 // import 'package:path_provider/path_provider.dart';
@@ -12,7 +15,7 @@ import 'package:pro/Insurance/bloc/insurance_bloc.dart';
 import 'package:pro/Insurance/model/insurance_model.dart';
 import 'package:pro/user/model/User_model.dart';
 import '../bloc/insurance_state.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -22,7 +25,8 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  List<int>? _selectedFile;
+  // List<int>? _selectedFile;
+  String? _selectedFile;
   late final User user;
   late final Insurance insurances;
   final TextEditingController _sizeController = TextEditingController();
@@ -175,55 +179,58 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
 
 // on flutter mobile app
-// ElevatedButton(
-//   onPressed: () async {
-//     FilePickerResult? result = await FilePicker.platform.pickFiles();
+ElevatedButton(
+  onPressed: () async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
 
-//     if (result != null && result.files.isNotEmpty) {
-//       PlatformFile file = result.files.first;
-//       File pickedFile = File(file.path!);
-//       List<int> bytes = await pickedFile.readAsBytes();
+    if (result != null && result.files.isNotEmpty) {
+      PlatformFile file = result.files.first;
+      List<int> bytes = file.bytes!;
+      String base64File = base64Encode(bytes);
 
-//       setState(() {
-//         _selectedFile = bytes;
-//         _DocumentController.text = file.name; // Set the file name in the controller
-//       });
-//     }
-//   },
-//   child: const Text('Upload Ownership Document'),
-// ),
+      setState(() {
+        _selectedFile = base64File;
+        _DocumentController.text = file.name; // Set the file name in the controller
+      });
+    }
+  },
+  child: const Text('Upload Ownership Document'),
+),
 
-// ElevatedButton(
-//   onPressed: () async {
-//     List<int>? bytes = _selectedFile;
+ElevatedButton(
+  onPressed: () async {
+    String? base64File = _selectedFile;
 
-//     if (bytes != null) {
-//       Directory tempDir = await Directory.systemTemp.createTemp();
-//       File tempFile = File('${tempDir.path}/tempfile');
+    if (base64File != null) {
+      List<int> bytes = base64Decode(base64File);
 
-//       await tempFile.writeAsBytes(bytes);
+      Directory tempDir = await Directory.systemTemp.createTemp();
+      File tempFile = File('${tempDir.path}/tempfile');
 
-//       final InsuranceEvent event = InsuranceCreate(
-//         Insurance(
-//           size: int.parse(_sizeController.text),
-//           location: _locationController.text,
-//           room: int.parse(_roomController.text),
-//           level: _levelController.text,
-//           Document: tempFile,
-//           type: _typeController.text,
-//         ),
-//       );
-//       BlocProvider.of<InsuranceBloc>(context).add(event);
-//       if (state is InsuranceDataLoadingError) {
-//         context.go("/error");
-//       }
-//       if (state is InsuranceDataLoaded) {
-//         context.go("/insuranceList");
-//       }
-//     }
-//   },
-//   child: const Text('Add Insurance'),
-// ),
+      await tempFile.writeAsBytes(bytes);
+
+      final InsuranceEvent event = InsuranceCreate(
+        Insurance(
+          size: int.parse(_sizeController.text),
+          location: _locationController.text,
+          room: int.parse(_roomController.text),
+          level: _levelController.text,
+          Document: tempFile,
+          type: _typeController.text,
+        ),
+      );
+      BlocProvider.of<InsuranceBloc>(context).add(event);
+      if (state is InsuranceDataLoadingError) {
+        context.go("/error");
+      }
+      if (state is InsuranceDataLoaded) {
+        context.go("/insuranceList");
+      }
+    }
+  },
+  child: const Text('Add Insurance'),
+),
+
 
                     ],
                   ),

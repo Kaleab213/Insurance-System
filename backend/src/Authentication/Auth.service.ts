@@ -110,8 +110,9 @@ export class AuthService {
 
     const tokens = await this.GetToken(user.id, user.email,user.role);
     await this.updateRtHash(user.id, tokens.refresh_token);
+    const res = {access_token:tokens.access_token, refresh_token:tokens.refresh_token, role:user.role}
 
-    return tokens;
+    return res;
   }
     catch (err) {
       throw new  ForbiddenException("Invalid Credentials")
