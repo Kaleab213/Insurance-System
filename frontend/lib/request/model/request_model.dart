@@ -1,31 +1,45 @@
 import 'dart:io';
 
 class Request {
-  final String date;
-  final String description;
-  final File policeReport;
-  final String id;
-  final String status;
-  // final String supported_document;
+  late String? updatedAt;
+  late String description;
+  late File police_report;
+  late int? id;
+  late bool? status;
+  final File supported_document;
+  late double? loss;
+  late double? insured_payment;
 
-  Request({
-    required this.date,
-    required this.description,
-    required this.policeReport,
-    required this.id,
-    required this.status,
-    // required this.supported_document,
+  Request(
+      {this.updatedAt,
+      required this.description,
+      required this.police_report,
+      this.id,
+      this.status,
+      required this.supported_document,
+      this.loss,
+      this.insured_payment,
 
-  });
+      
+      });
 
   factory Request.fromJson(Map<String, dynamic> json) {
+    final filePath = json['police_report'];
+    final filePaths = json['supported_document'];
+
+    // Create a File object from the file path or URL
+    final documentFile = File(filePath);
+    final myDocument = File(filePaths);
     return Request(
-      date: json['date'],
-      description: json['description'],
-      id: json['id'],
-      policeReport: json['policeReport'],
-      status: json['status'],
-      // supported_document: json['supported_document']
-    );
+        updatedAt: json['updatedAt'],
+        description: json['description'],
+        id: json['id'],
+        police_report: documentFile,
+        status: json['status'],
+        loss: json['loss'],
+        supported_document: myDocument,
+        insured_payment: json['insured_payment']
+        
+        );
   }
 }

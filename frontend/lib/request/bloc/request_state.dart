@@ -14,9 +14,19 @@ abstract class RequestState extends Equatable {
 class RequestLoading extends RequestState {}
 
 class RequestDataLoaded extends RequestState {
-  final Iterable<Request> requests;
+  final List<Request> requests;
 
   const RequestDataLoaded([this.requests = const []]);
+
+  @override
+  List<Object> get props => [requests];
+}
+class RequestLoadingforAdmin extends RequestState {}
+
+class RequestDataLoadedforAdmin extends RequestState {
+  final List<Request> requests;
+
+  const RequestDataLoadedforAdmin([this.requests = const []]);
 
   @override
   List<Object> get props => [requests];

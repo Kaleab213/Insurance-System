@@ -13,6 +13,12 @@ class RequestLoad extends RequestEvent {
   @override
   List<Object> get props => [];
 }
+class RequestLoadforAdmin extends RequestEvent {
+  const RequestLoadforAdmin();
+
+  @override
+  List<Object> get props => [];
+}
 
 class RequestCreate extends RequestEvent {
   final Request request;
@@ -23,11 +29,11 @@ class RequestCreate extends RequestEvent {
   List<Object> get props => [request];
 
   @override
-  String toString() => 'Request Created {Request Id: $request.id}';
+  String toString() => 'Request Created {Request Id: ${request.id}}';
 }
 
 class RequestUpdate extends RequestEvent {
-  final String id;
+  final int id;
   final Request request;
 
   const RequestUpdate({required this.id, required this.request});
@@ -36,11 +42,11 @@ class RequestUpdate extends RequestEvent {
   List<Object> get props => [id, request];
 
   @override
-  String toString() => 'Request Updated {Request Id: $request.id}';
+  String toString() => 'Request Updated {Request Id: ${request.id}}';
 }
 
 class RequestDelete extends RequestEvent {
-  final String id;
+  final int id;
 
   const RequestDelete(this.id);
 

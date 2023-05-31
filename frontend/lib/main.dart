@@ -32,6 +32,8 @@ import 'package:pro/request/bloc/request_event.dart';
 import 'package:pro/request/data_providers/request_data_provider.dart';
 import 'package:pro/request/repository/request_repository.dart';
 import 'package:pro/Insurance/view/Admin_insurance_list.dart';
+import 'package:pro/request/view/add_item.dart';
+import 'package:pro/request/view/request_list.dart';
 import 'package:pro/screen/Admin/Admin_set_payment.dart';
 import 'package:pro/user/user_exports.dart';
 import 'auth/view/auth/Login_page.dart';
@@ -65,12 +67,21 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => InsuranceListScreen(),
       ),
       GoRoute(
+        path: "/requestList",
+        builder: (context, state) => RequestListScreen(),
+      ),
+      GoRoute(
         path: "/admininsuranceList",
         builder: (context, state) => AdminInsuranceListScreen(),
       ),
       GoRoute(
         path: "/addinsurance",
         builder: (context, state) => AddItemScreen(),
+      ),
+      
+      GoRoute(
+        path: "/addrequest",
+        builder: (context, state) => AddRequestScreen(),
       ),
       GoRoute(
         path: "/insurancedetail",

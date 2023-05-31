@@ -8,7 +8,7 @@ import 'package:pro/request/model/request_model.dart';
 import 'add_item.dart';
 import 'request_detail.dart';
 
-class InsuranceListScreen extends StatelessWidget {
+class RequestListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RequestBloc, RequestState>(
@@ -17,18 +17,17 @@ class InsuranceListScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is RequestDataLoaded) {
-          final Iterable<Request> requests = state.requests; // Change variable type to Iterable<Request>
-          final List<Request> item = requests.toList();
+          final List<Request> item = state.requests;
           print(item);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Insurance List'),
+              title: Text('Request List'),
               actions: [
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
                     if (state is RequestDataLoaded) {
-                      context.go("/addinsurance", extra: state.requests);
+                      context.go("/addrequest", extra: state.requests);
                     }
                   },
                 ),
@@ -36,7 +35,7 @@ class InsuranceListScreen extends StatelessWidget {
             ),
             body: item.isEmpty
                 ? const Center(
-                    child: Text("No item"),
+                    child: Text("No request list"),
                   )
                 : ListView.builder(
                     itemCount: item.length,
@@ -45,16 +44,49 @@ class InsuranceListScreen extends StatelessWidget {
                         contentPadding:
                             const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
                         leading: const Icon(Icons.local_grocery_store),
-                        title: Text(item[index].id),
+                        title: Text((item[index].id!).toString()),
                         subtitle: Text(
-                            'Description: ${item[index].description}, Date : ${item[index].date}'),
+                            'date: ${item[index].updatedAt}, loss : ${item[index].loss}'),
                         trailing: Text('Status: ${item[index].status}'),
                         onTap: () {
-                          context.push('/insurancedetail', extra: item[index]);
+                          context.push('/requestdetail', extra: item[index]);
                         },
                       );
                     },
                   ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notifications),
+                  label: 'Notification',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_bag),
+                  label: 'Insurance',
+                ),
+              ],
+              currentIndex: 0,
+              onTap: (int index) {
+                if (index == 0) {
+                  context.go('/insuranceList');
+                } else if (index == 1) {
+                  context.go('/mynotification');
+                } else if (index == 2) {
+                  context.go('/profile');
+                }
+                 else if (index == 3) {
+                  context.go('/profile');
+                }
+              },
+            ),
           );
         } else {
           if (state is RequestDataLoadingError) {
@@ -71,7 +103,6 @@ class InsuranceListScreen extends StatelessWidget {
               child: Text("Error"),
             ),
           );
-          
         }
       },
     );
