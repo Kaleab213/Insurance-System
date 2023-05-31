@@ -55,7 +55,7 @@ export class AuthController{
   // }
 
 @Get()
-getProfile(@GetUser() userId: number){
+getProfile(@GetUserId() userId: number){
   return this.authService.getProfile(userId);
 }
 

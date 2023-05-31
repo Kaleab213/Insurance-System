@@ -23,12 +23,16 @@ class AuthDataProvider {
       ),
     );
 
-    print("Response Body: ${response.body}");
+    print("Response Body check for role: ${response.body}");
+    // print(response.body);
 
     if (response.statusCode == 201) {
       var x = Auth.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', x.token!);
+      print("signin token");
+
+      print(x.token);
 
       var user_detail = await get();
       print("here after detail");
@@ -67,7 +71,6 @@ class AuthDataProvider {
           "lastName": user.lastName,
           "phone": user.phone.toString(),
           "account_no": user.account_no.toString()
-
         },
       ),
     );
@@ -91,7 +94,9 @@ class AuthDataProvider {
 
   Future<String> get() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.get("token");
+    var token = prefs.get('token');
+    print("get token");
+    print(token);
     final response = await http.get(
       Uri.parse("$baseUrl"),
       headers: {

@@ -69,6 +69,10 @@ class InsuranceListScreen extends StatelessWidget {
                   icon: Icon(Icons.person),
                   label: 'Profile',
                 ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.message),
+                  label: 'Request',
+                ),
               ],
               currentIndex: 0,
               onTap: (int index) {
@@ -77,6 +81,9 @@ class InsuranceListScreen extends StatelessWidget {
                 } else if (index == 1) {
                   context.go('/mynotification');
                 } else if (index == 2) {
+                  context.go('/profile');
+                }
+                 else if (index == 3) {
                   context.go('/profile');
                 }
               },

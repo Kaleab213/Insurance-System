@@ -64,10 +64,11 @@ class LoginPage extends StatelessWidget {
                   // if ((state.user.role).toString().toUpperCase() == "CUSTOMER") {
                   //   print("it goes to customer");
                   //   context.go("/insuranceList");
-                   if((state.user.role).toString().toUpperCase() == "ADMIN"){
+                     print(state.user.role);
+                  if (state.user.role == "ADMIN") {
                     print("it goes to admin");
                     context.go("/admininsuranceList");
-                  }else if ((state.user.role).toString().toUpperCase() == "CUSTOMER") {
+                  } else if (state.user.role == "CUSTOMER") {
                     print("it goes to customer");
                     context.go("/insuranceList");
                   }
