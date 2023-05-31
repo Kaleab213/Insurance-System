@@ -54,9 +54,11 @@ export class AuthController{
   //   return req.user;
   // }
 
+// @Roles(Role.ADMIN)
+@UseGuards(AtGuards, RolesGuard)
 @Get()
 getProfile(@GetUser() userId: number){
-  return this.authService.getProfile(userId);
+  return this.authService.getProfile(userId['id']);
 }
 
 

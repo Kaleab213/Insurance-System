@@ -142,9 +142,15 @@ async getProfile(id:number){
       id,
     },
     include: {
-      costumers: true
-    }
+      costumers: true,
+     
+},
+ 
+
+
   })
+  delete user.hash;
+  delete user.hashRT;
   return user;
 
 }
