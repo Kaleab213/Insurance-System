@@ -12,6 +12,7 @@ import { FileFieldsInterceptor } from "@nestjs/platform-express/multer";
 import { ImageStorage } from "src/helper/photo.storage";
 import { GetUser } from "src/decorators";
 import { CreateRequestPhotoDto } from "./dto";
+import multer from 'multer';
 
 @Controller("request")
 export class RequestController {
