@@ -76,8 +76,10 @@ class InsuranceDataProvider {
             (c) => Insurance.fromJson(c),
           )
           .toList();
+      print("insurance List");
+      print(insurance);
+      print(insurancelist.toList());
       return insurancelist;
-      
     } else {
       throw Exception("Could not fetch insurances");
     }
@@ -112,12 +114,14 @@ class InsuranceDataProvider {
     }
   }
 
-Future<List<Insurance>> fetchAllforAdmin() async {
+  Future<List<Insurance>> fetchAllforAdmin() async {
     // final response = await http.get(Uri.parse(baseUrl));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get("token");
+    print("this is token");
+    print(token);
     final http.Response response = await http.get(
-      Uri.parse("$baseUrl/admin"),
+      Uri.parse("$baseUrl"),
       headers: <String, String>{
         "Content-Type": "application/json",
         HttpHeaders.authorizationHeader: 'Bearer $token'
@@ -141,7 +145,4 @@ Future<List<Insurance>> fetchAllforAdmin() async {
       throw Exception("Could not fetch insurances");
     }
   }
-
 }
-
-

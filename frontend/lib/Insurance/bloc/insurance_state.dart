@@ -22,12 +22,12 @@ class InsuranceDataLoaded extends InsuranceState {
 class InsuranceLoadingforAdmin extends InsuranceState {}
 
 class InsuranceDataLoadedforAdmin extends InsuranceState {
-  final List<Insurance> insurances;
+  final List<Insurance> myinsurance;
 
-  const InsuranceDataLoadedforAdmin([this.insurances = const []]);
+  const InsuranceDataLoadedforAdmin([this.myinsurance = const []]);
 
   @override
-  List<Object> get props => [insurances];
+  List<Object> get props => [myinsurance];
 }
 
 class InsuranceDataLoadingError extends InsuranceState {

@@ -12,7 +12,6 @@ import '../model/insurance_model.dart';
 
 class EditItemScreen extends StatefulWidget {
   final Insurance item;
-  
 
   const EditItemScreen({super.key, required this.item});
 
@@ -23,13 +22,10 @@ class EditItemScreen extends StatefulWidget {
 class _EditItemScreenState extends State<EditItemScreen> {
   final TextEditingController _sizeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _roomController =
-      TextEditingController();
-  final TextEditingController _levelController =
-      TextEditingController();
+  final TextEditingController _roomController = TextEditingController();
+  final TextEditingController _levelController = TextEditingController();
   final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _DocumentController =
-      TextEditingController();
+  final TextEditingController _DocumentController = TextEditingController();
 
   @override
   void initState() {
@@ -60,6 +56,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                GoRouter.of(context).pop();
+              },
+            ),
             title: const Text('Edit Item'),
           ),
           body: Padding(
@@ -155,9 +157,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       room: int.parse(_roomController.text),
                       level: _levelController.text,
                       type: _typeController.text,
-                      Document: widget.item.Document
-                     
-                    
+                      Document: widget.item.Document,
                     );
                     final InsuranceEvent event = InsuranceUpdate(
                         id: widget.item.id!, insurance: editedItem);

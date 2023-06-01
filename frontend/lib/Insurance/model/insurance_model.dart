@@ -44,6 +44,6 @@ class Insurance {
         status: json['status'],
         type: json['propertytype'],
         Document: documentFile,
-        coverage_request: json['coverage_request']);
+        coverage_request: json['coverege_request']);
   }
 }

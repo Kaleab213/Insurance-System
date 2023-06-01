@@ -19,7 +19,7 @@ class AdminInsuranceListScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is InsuranceDataLoadedforAdmin) {
-          final List<Insurance> item = state.insurances;
+          final List<Insurance> item = state.myinsurance;
           print("this is my items");
           print(item);
           return Scaffold(

@@ -49,7 +49,6 @@ class _AddPaymentState extends State<AddPayment> {
               child: Form(
                 key: _formKey2,
                 child: Container(
-
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -70,7 +69,7 @@ class _AddPaymentState extends State<AddPayment> {
                       Align(
                         alignment: Alignment.center,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton.icon(
                               onPressed: () async {
@@ -109,7 +108,6 @@ class _AddPaymentState extends State<AddPayment> {
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                                 padding: const EdgeInsets.symmetric(
-                                  
                                   horizontal: 32.0,
                                 ),
                               ),
@@ -134,7 +132,6 @@ class _AddPaymentState extends State<AddPayment> {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.green,
                                 padding: const EdgeInsets.symmetric(
-
                                   horizontal: 32.0,
                                 ),
                                 shape: RoundedRectangleBorder(

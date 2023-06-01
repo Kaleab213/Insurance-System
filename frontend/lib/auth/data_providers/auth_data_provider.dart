@@ -47,6 +47,7 @@ class AuthDataProvider {
           user_detail.toString(),
         ),
       );
+      print("this is user");
       // await prefs.setString("user", user.toString());
       // return user;
       // } else {
@@ -92,8 +93,7 @@ class AuthDataProvider {
           "role": "CUSTOMER",
           "firstName": user.firstName,
           "lastName": user.lastName,
-          "phone": user.phone.toString(),
-          "account_no": user.account_no.toString()
+      
         },
       ),
     );

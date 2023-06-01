@@ -25,8 +25,6 @@ class UserDataProvider {
           "role": user.role,
           // "userName": user.userName,
           "email" : user.email,
-          "phoneNumber" : user.phone,
-          "accountNumber" : user.account_no,
           // "kebele" : user.kebele,
         },
       ),
@@ -78,8 +76,6 @@ class UserDataProvider {
           "role": user.role,
           // "userName": user.userName,
           "email" : user.email,
-          "phoneNumber" : user.phone,
-          "accountNumber" : user.account_no,
           
 
         },

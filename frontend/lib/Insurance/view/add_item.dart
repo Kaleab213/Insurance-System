@@ -59,6 +59,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
         return Scaffold(
             appBar: AppBar(
               title: const Text('Add Insurance'),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context); 
+                },
+              ),
             ),
             body: SingleChildScrollView(
               child: Padding(

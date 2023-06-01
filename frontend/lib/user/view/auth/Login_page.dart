@@ -59,8 +59,7 @@ class LoginPages extends StatelessWidget {
                                   id: "",
                                   // kebele: "",
                                   // userName: "",
-                                  phone: 0,
-                                  account_no: 0,
+                                
                                  
                                 ));
                                 BlocProvider.of<UserBloc>(context).add(event);
