@@ -18,6 +18,8 @@ class RequestListScreen extends StatelessWidget {
         }
         if (state is RequestDataLoaded) {
           final List<Request> item = state.requests;
+
+          print("this is the items");
           print(item);
           return Scaffold(
             appBar: AppBar(
@@ -58,19 +60,23 @@ class RequestListScreen extends StatelessWidget {
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
+                  backgroundColor: Colors.blueAccent,
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.notifications),
+                  backgroundColor: Colors.blueAccent,
                   label: 'Notification',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
                   label: 'Profile',
+                  backgroundColor: Colors.blueAccent,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_bag),
                   label: 'Insurance',
+                  backgroundColor: Colors.blueAccent,
                 ),
               ],
               currentIndex: 0,
@@ -81,9 +87,8 @@ class RequestListScreen extends StatelessWidget {
                   context.go('/mynotification');
                 } else if (index == 2) {
                   context.go('/profile');
-                }
-                 else if (index == 3) {
-                  context.go('/profile');
+                } else if (index == 3) {
+                  context.go('/insuranceList');
                 }
               },
             ),

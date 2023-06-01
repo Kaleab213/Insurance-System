@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Request {
-  late String? updatedAt;
+  late DateTime? updatedAt;
   late String description;
   late File police_report;
   late int? id;
@@ -31,7 +31,7 @@ class Request {
     final documentFile = File(filePath);
     final myDocument = File(filePaths);
     return Request(
-        updatedAt: json['updatedAt'],
+        updatedAt: DateTime.parse(json['updatedAt']),
         description: json['description'],
         id: json['id'],
         police_report: documentFile,
