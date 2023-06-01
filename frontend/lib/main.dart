@@ -37,6 +37,7 @@ import 'package:pro/request/view/request_list.dart';
 import 'package:pro/screen/Admin/Admin_set_payment.dart';
 import 'package:pro/user/user_exports.dart';
 import 'auth/view/auth/Login_page.dart';
+import 'payment/view/add_payment.dart';
 import 'screen/Admin/Admin_insurance_detail.dart';
 
 void main() {
@@ -84,6 +85,10 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => AddRequestScreen(),
       ),
       GoRoute(
+        path: "/payment",
+        builder: (context, state) => AddPayment(),
+      ),
+      GoRoute(
         path: "/insurancedetail",
         builder: (context, state) =>
             ItemDetailScreen(state.extra as Insurance),
@@ -93,10 +98,10 @@ class MyApp extends StatelessWidget {
         builder: (context, state) =>
             AdminItemDetailScreen(insurance: state.extra as Insurance),
       ),
-      GoRoute(
-        path: "/setpayment",
-        builder: (context, state) => setPayment(),
-      ),
+      // GoRoute(
+      //   path: "/setpayment",
+      //   builder: (context, state) => setPayment(),
+      // ),
       // GoRoute(
       //   path: "/mynotification",
       //   builder: (context, state) =>  NotificationListScreen(userID: ),

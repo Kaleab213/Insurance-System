@@ -1,28 +1,28 @@
 import 'dart:io';
 
 class Payment {
-  final String date;
-  final File qrcode;
-  final File image;
-  final int id;
-  final int amount;
+  late double ammount;
+  late File bill;
+  late int? id;
+  late bool? status;
 
   Payment({
-    required this.date,
-    required this.qrcode,
-    required this.image,
-    required this.id,
-    required this.amount,
+    this.id,
+    required this.ammount,
+     this.status,
+    required this.bill,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
-    return Payment(
-      date: json['date'],
-      qrcode: json['qrcode'],
-      image: json['image'],
-      id: json['id'],
-      amount: json['amount'],
+    final filePath = json['bill'];
 
+    // Create a File object from the file path or URL
+    final documentFile = File(filePath);
+    return Payment(
+      ammount: json['ammount'],
+      bill: documentFile,
+      id: json['id'],
+      status: json['status'],
     );
   }
 }

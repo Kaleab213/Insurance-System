@@ -77,6 +77,7 @@ class InsuranceDataProvider {
           )
           .toList();
       return insurancelist;
+      
     } else {
       throw Exception("Could not fetch insurances");
     }

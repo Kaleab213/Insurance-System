@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -8,25 +8,28 @@ import 'package:http/http.dart' as http;
 import '../model/payment_model.dart';
 
 class PaymentDataProvider {
-  static const String baseUrl = "http://localhost:3300/api/v1/herds";
+  static const String baseUrl = "http://localhost:3000/insurance";
+
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   Future<Payment> create(Payment payment) async {
+    // print(insurance.insuranceName);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
     final http.Response response = await http.post(
-      Uri.parse(baseUrl),
+      Uri.parse("$baseUrl"),
       headers: <String, String>{
         "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token'
       },
       body: jsonEncode(
         {
-          "date": payment.date,
-          "qrcode": payment.qrcode,
-          "id": payment.id,
-          "amount": payment.amount,
-          "image": payment.image
+          "ammount": payment.ammount,
+          "bill": payment.bill,
         },
       ),
     );
-
+    print(response.body);
     if (response.statusCode == 201) {
       return Payment.fromJson(jsonDecode(response.body));
     }
@@ -36,7 +39,7 @@ class PaymentDataProvider {
     }
   }
 
-  Future<Payment> fetchOne(String id) async {
+  Future<Payment> fetchOne(int id) async {
     final response = await http.get(Uri.parse("$baseUrl/$id"));
 
     if (response.statusCode == 200) {
@@ -47,46 +50,89 @@ class PaymentDataProvider {
   }
 
   Future<List<Payment>> fetchAll() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    // final response = await http.get(Uri.parse(baseUrl));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
+    final http.Response response = await http.get(
+      Uri.parse("$baseUrl"),
+      headers: <String, String>{
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+    print("in fetch all payment");
+    print(response.body);
     if (response.statusCode == 200) {
-
-      final prefs = await SharedPreferences.getInstance();
-      var saveData = jsonEncode(response.body);
-      await prefs.setString('Payments', saveData);
-
-      final payment = jsonDecode(response.body) as List;
-      return payment.map((c) => Payment.fromJson(c)).toList();
+      final List payment = jsonDecode(response.body.toString()) as List;
+      payment.map((e) => {
+            print(e.toString()),
+          });
+      print("after map");
+      final List<Payment> paymentlist = payment
+          .map(
+            (c) => Payment.fromJson(c),
+          )
+          .toList();
+      return paymentlist;
     } else {
-      throw Exception("Could not fetch Payments");
+      throw Exception("Could not fetch payments");
     }
   }
 
-  Future<Payment> update(String id, Payment payment) async {
+  Future<Payment> update(int id, Payment payment) async {
     final response = await http.put(
       Uri.parse("$baseUrl/$id"),
       headers: <String, String>{"Content-Type": "application/json"},
       body: jsonEncode(
         {
-          "date": payment.date,
-          "qrcode": payment.qrcode,
-          "id": payment.id,
-          "amount": payment.amount,
-          "image": payment.image,
+          "ammount": payment.ammount,
+          "bill": payment.bill,
         },
       ),
     );
-
     if (response.statusCode == 200) {
       return Payment.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Could not update the Payment");
+      throw Exception("Could not update the payment");
     }
   }
 
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     final response = await http.delete(Uri.parse("$baseUrl/$id"));
     if (response.statusCode != 200) {
-      throw Exception("Field to delete the course");
+      throw Exception("Field to delete the payment");
     }
   }
+
+Future<List<Payment>> fetchAllforAdmin() async {
+    // final response = await http.get(Uri.parse(baseUrl));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
+    final http.Response response = await http.get(
+      Uri.parse("$baseUrl/admin"),
+      headers: <String, String>{
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+    print("in fetch all admin");
+    print(response.body);
+    if (response.statusCode == 200) {
+      final List payment = jsonDecode(response.body.toString()) as List;
+      payment.map((e) => {
+            print(e.toString()),
+          });
+      print("after map");
+      final List<Payment> paymentlist = payment
+          .map(
+            (c) => Payment.fromJson(c),
+          )
+          .toList();
+      return paymentlist;
+    } else {
+      throw Exception("Could not fetch payments");
+    }
+  }
+
 }
+

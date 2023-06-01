@@ -13,14 +13,6 @@ class AdminItemDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Item Detail'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.mode_edit),
-            onPressed: () {
-              context.go("/admineditinsurance", extra: item);
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -64,11 +56,11 @@ class AdminItemDetailScreen extends StatelessWidget {
             ),
             SizedBox(height: 24.0),
             ElevatedButton(
-              onPressed: () {
-                context.go("/setpayment");
-              },
-              child: const Text('Set Payment'),
-            ),
+                onPressed: () {
+                  context.go("/approval");
+                },
+                child: const Text('Approve'),
+              ),
           ],
         ),
       ),

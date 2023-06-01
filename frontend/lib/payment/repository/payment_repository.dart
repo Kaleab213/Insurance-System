@@ -8,7 +8,7 @@ class PaymentRepository {
   final PaymentDataProvider dataProvider;
   PaymentRepository(this.dataProvider);
 
-  Future<Future<Payment>> fetchOne(String id) async {
+  Future<Future<Payment>> fetchOne(int id) async {
     return dataProvider.fetchOne(id);
   }
 
@@ -16,15 +16,23 @@ class PaymentRepository {
     return dataProvider.create(payment);
   }
 
-  Future<Payment> update(String id, Payment payment) async {
+  Future<Future> update(int id, Payment payment) async {
     return dataProvider.update(id, payment);
   }
 
   Future<List<Payment>> fetchAll() async {
-    return dataProvider.fetchAll();
+    print(dataProvider.fetchAll());
+    print("passed2");
+    return await dataProvider.fetchAll();
+  }
+  
+  Future<List<Payment>> fetchAllforAdmin() async {
+    print(dataProvider.fetchAllforAdmin());
+    print("passe");
+    return await dataProvider.fetchAllforAdmin();
   }
 
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     dataProvider.delete(id);
   }
 }

@@ -65,6 +65,8 @@ class RequestDataProvider {
     print(response.body);
     if (response.statusCode == 200) {
       final List request = jsonDecode(response.body.toString()) as List;
+      print('this is request');
+      print(request);
       request.map((e) => {
             print(e.toString()),
           });
@@ -107,7 +109,7 @@ class RequestDataProvider {
     }
   }
 
-Future<List<Request>> fetchAllforAdmin() async {
+  Future<List<Request>> fetchAllforAdmin() async {
     // final response = await http.get(Uri.parse(baseUrl));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get("token");
@@ -136,7 +138,4 @@ Future<List<Request>> fetchAllforAdmin() async {
       throw Exception("Could not fetch requests");
     }
   }
-
 }
-
-

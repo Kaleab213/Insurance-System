@@ -62,6 +62,18 @@ class InsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
         final List<Insurance> insurances = await insuranceRepository.fetchAllforAdmin();
 
         emit(
+
+
+
+
+
+
+
+
+
+
+
+          
           InsuranceDataLoadedforAdmin(insurances),
         );
       } catch (error) {

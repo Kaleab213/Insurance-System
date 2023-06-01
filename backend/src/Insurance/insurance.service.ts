@@ -35,7 +35,11 @@ export class InsuranceService{
     const insurance= await this.prisma.user_Insurance.findMany({
       where: {
         userId:userId,
-        }} )
+        },
+      include: {
+        coverege_request:true
+      }
+      } )
     return insurance;
   }
 

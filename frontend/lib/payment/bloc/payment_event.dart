@@ -13,6 +13,12 @@ class PaymentLoad extends PaymentEvent {
   @override
   List<Object> get props => [];
 }
+class PaymentLoadforAdmin extends PaymentEvent {
+  const PaymentLoadforAdmin();
+
+  @override
+  List<Object> get props => [];
+}
 
 class PaymentCreate extends PaymentEvent {
   final Payment payment;
@@ -23,24 +29,24 @@ class PaymentCreate extends PaymentEvent {
   List<Object> get props => [payment];
 
   @override
-  String toString() => 'Payment Created {Payment Id: $payment.id}';
+  String toString() => 'Payment Created {Payment Id: ${payment.id}}';
 }
 
 class PaymentUpdate extends PaymentEvent {
-  final String id;
+  final int id;
   final Payment payment;
 
-  const PaymentUpdate(this.id, this.payment);
+  const PaymentUpdate({required this.id, required this.payment});
 
   @override
   List<Object> get props => [id, payment];
 
   @override
-  String toString() => 'Payment Updated {Payment Id: $payment.id}';
+  String toString() => 'Payment Updated {Payment Id: ${payment.id}}';
 }
 
 class PaymentDelete extends PaymentEvent {
-  final String id;
+  final int id;
 
   const PaymentDelete(this.id);
 
