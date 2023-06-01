@@ -40,6 +40,7 @@ import 'auth/view/auth/Login_page.dart';
 import 'screen/Admin/Admin_insurance_detail.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
