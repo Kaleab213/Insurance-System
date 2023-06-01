@@ -7,10 +7,10 @@ import 'package:pro/request/model/request_model.dart';
 
 import 'edit_item.dart';
 
-class ItemDetailScreen extends StatelessWidget {
+class RequestDetailScreen extends StatelessWidget {
   late final Request item;
 
-  ItemDetailScreen({required Insurance insurance});
+  RequestDetailScreen(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +38,17 @@ class ItemDetailScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Description: ${item.description}',
+              'Description for Your Request: ${item.description}',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 8.0),
-            Text(
-              'Date: ${item.date}',
+            Text( 
+              'The time you ask request: ${item.updatedAt}',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 24.0),
             Text(
-              'police report: ${item.policeReport}',
+              'Your Expected loss: ${item.loss}',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 24.0),

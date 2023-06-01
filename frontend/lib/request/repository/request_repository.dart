@@ -7,7 +7,7 @@ class RequestRepository {
   final RequestDataProvider dataProvider;
   RequestRepository(this.dataProvider);
 
-  Future<Future<Request>> fetchOne(String id) async {
+  Future<Future<Request>> fetchOne(int id) async {
     return dataProvider.fetchOne(id);
   }
 
@@ -15,15 +15,24 @@ class RequestRepository {
     return dataProvider.create(request);
   }
 
-  Future<Request> update(String id, Request request) async {
+  Future<Future> update(int id, Request request) async {
     return dataProvider.update(id, request);
   }
 
   Future<List<Request>> fetchAll() async {
-    return dataProvider.fetchAll();
+    print(dataProvider.fetchAll());
+    print("passed2");
+    return await dataProvider.fetchAll();
+  }
+  
+  Future<List<Request>> fetchAllforAdmin() async {
+    print(dataProvider.fetchAllforAdmin());
+    print("passe");
+    return await dataProvider.fetchAllforAdmin();
   }
 
-  Future<void> delete(String id) async {
+  Future<void> delete(int id) async {
     dataProvider.delete(id);
   }
 }
+
