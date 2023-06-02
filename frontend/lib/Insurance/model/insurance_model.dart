@@ -37,7 +37,7 @@ class Insurance {
         location: json['location'],
         telebirr_QR: json['telebirr_QR'],
         id: json['id'],
-        deposit: json['deposit'],
+        deposit: json['deposit'].toDouble(),
         size: json['size'],
         room: json['room'],
         level: json['coveragelevel'],

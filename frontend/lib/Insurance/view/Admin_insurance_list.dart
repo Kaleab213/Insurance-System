@@ -13,7 +13,7 @@ import 'package:pro/Insurance/model/insurance_model.dart';
 class AdminInsuranceListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InsuranceBloc, InsuranceState>(
+    return BlocBuilder<AdminInsuranceBloc, InsuranceState>(
       builder: (context, state) {
         if (state is InsuranceLoadingforAdmin) {
           return const Center(child: CircularProgressIndicator());
@@ -24,7 +24,7 @@ class AdminInsuranceListScreen extends StatelessWidget {
           print(item);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Insurance List'),
+              title: Text('Admin Insurance List for Approval'),
             ),
             body: item.isEmpty
                 ? const Center(
@@ -50,26 +50,26 @@ class AdminInsuranceListScreen extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
+                  icon: Icon(Icons.request_page_outlined),
+                  label: 'Insurance Request',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
-                  label: 'Notification',
+                  icon: Icon(Icons.request_page),
+                  label: 'Coverage Request',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
+                  icon: Icon(Icons.payment),
+                  label: 'Payment',
                 ),
               ],
               currentIndex: 0,
               onTap: (int index) {
                 if (index == 0) {
-                  context.go('/insuranceList');
+                  context.go("/admininsuranceList");
                 } else if (index == 1) {
-                  context.go('/mynotification');
+                  context.go('/requestList');
                 } else if (index == 2) {
-                  context.go('/profile');
+                  context.go('/paymentList');
                 }
               },
             ),

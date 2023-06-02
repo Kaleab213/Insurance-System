@@ -8,8 +8,8 @@ import 'insurance_state.dart';
 class InsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
   final InsuranceRepository insuranceRepository;
 
-  InsuranceBloc({required this.insuranceRepository}) : super(InsuranceLoading()) {
-    
+  InsuranceBloc({required this.insuranceRepository})
+      : super(InsuranceLoading()) {
     on<InsuranceLoad>((event, emit) async {
       emit(InsuranceLoading());
       try {
@@ -46,7 +46,7 @@ class InsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
         emit(InsuranceDataLoadingError(error));
       }
     });
-    
+
     on<InsuranceDelete>((event, emit) async {
       try {
         await insuranceRepository.delete(event.id);
@@ -56,13 +56,20 @@ class InsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
         emit(InsuranceDataLoadingError(error));
       }
     });
+  }
+}
+
+class AdminInsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
+  final InsuranceRepository insuranceRepository;
+  AdminInsuranceBloc({required this.insuranceRepository})
+      : super(InsuranceLoading()) {
     on<InsuranceLoadforAdmin>((event, emit) async {
       emit(InsuranceLoadingforAdmin());
       try {
-        final List<Insurance> myinsurance = await insuranceRepository.fetchAllforAdmin();
+        final List<Insurance> myinsurance =
+            await insuranceRepository.fetchAllforAdmin();
 
         emit(
-
           InsuranceDataLoadedforAdmin(myinsurance),
         );
       } catch (error) {

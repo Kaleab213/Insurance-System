@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class RequestDataProvider {
-  static const String baseUrl = "http://localhost:3000/request/customer";
+  static const String baseUrl = "http://192.168.43.218:3000/request/";
 
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 

@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pro/payment/model/payment_model.dart';
 import 'package:pro/request/bloc/request_bloc.dart';
 import 'package:pro/request/bloc/request_state.dart';
 import 'package:pro/request/model/request_model.dart';
 
-import 'add_item.dart';
-import 'request_detail.dart';
+import '../bloc/payment_bloc.dart';
+import '../bloc/payment_state.dart';
 
-class RequestListScreen extends StatelessWidget {
+// import 'add_item.dart';tetete
+// import 'request_detail.dart';
+
+class PaymenttListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RequestBloc, RequestState>(
+    return BlocBuilder<PaymentBloc, PaymentState>(
       builder: (context, state) {
-        if (state is RequestLoading) {
+        if (state is PaymentLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is RequestDataLoaded) {
-          final List<Request> item = state.requests;
+        if (state is PaymentDataLoaded) {
+          final List<Payment> item = state.payments;
 
           print("this is the items");
           print(item);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Admin Request List For Approval'),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    if (state is RequestDataLoaded) {
-                      context.go("/addrequest", extra: state.requests);
-                    }
-                  },
-                ),
-              ],
+              title: Text('Admin payment List For Approval'),
+              
             ),
             body: item.isEmpty
                 ? const Center(
-                    child: Text("No request list"),
+                    child: Text("No payment list"),
                   )
                 : ListView.builder(
                     itemCount: item.length,
@@ -48,7 +43,7 @@ class RequestListScreen extends StatelessWidget {
                         leading: const Icon(Icons.local_grocery_store),
                         title: Text((item[index].id!).toString()),
                         subtitle: Text(
-                            'date: ${item[index].updatedAt}, loss : ${item[index].loss}'),
+                            'date: ${item[index].updatedAt}, loss : ${item[index].ammount}'),
                         trailing: Text('Status: ${item[index].status}'),
                         onTap: () {
                           context.push('/requestdetail', extra: item[index]);
@@ -71,7 +66,7 @@ class RequestListScreen extends StatelessWidget {
                   label: 'Payment',
                 ),
               ],
-              currentIndex: 1,
+              currentIndex: 2,
               onTap: (int index) {
                 if (index == 0) {
                   context.go("/admininsuranceList");
@@ -84,7 +79,7 @@ class RequestListScreen extends StatelessWidget {
             ),
           );
         } else {
-          if (state is RequestDataLoadingError) {
+          if (state is PaymentDataLoadingError) {
             return Scaffold(
               body: Center(
                 child: Text(

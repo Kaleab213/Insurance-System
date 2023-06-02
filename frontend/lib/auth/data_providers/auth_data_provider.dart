@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../model/auth.dart';
 
 class AuthDataProvider {
-  static const String baseUrl = "http://localhost:3000/user";
+  static const String baseUrl = "http://192.168.43.218:3000/user";
 
   Future<User> post_login(Auth auth) async {
     final http.Response response = await http.post(

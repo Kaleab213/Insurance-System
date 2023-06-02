@@ -5,12 +5,14 @@ class Payment {
   late File bill;
   late int? id;
   late bool? status;
+  late DateTime? updatedAt;
 
   Payment({
     this.id,
     required this.ammount,
      this.status,
     required this.bill,
+     this.updatedAt,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Payment {
       bill: documentFile,
       id: json['id'],
       status: json['status'],
+      updatedAt: DateTime.parse(json['updatedAt'])
     );
   }
 }

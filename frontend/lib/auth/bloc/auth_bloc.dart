@@ -26,7 +26,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoading());
         try {
           User user = await authRepository.login(event.auth);
-          emit(AuthDataLoaded(user));
+         
+          
+            emit(AuthDataLoaded(user));
+        
+          
         } catch (error) {
           print("error in bloc");
           print(error);

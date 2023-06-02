@@ -82,6 +82,7 @@ export class InsuranceService{
 
 
 async getInsuranceBYAdmin(){
+  console.log("here in backend admin insurance");
   const insurance= await this.prisma.user_Insurance.findMany({
     where: {
       status:false,

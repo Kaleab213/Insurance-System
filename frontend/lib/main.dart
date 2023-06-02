@@ -165,6 +165,13 @@ class MyApp extends StatelessWidget {
               InsuranceLoad(),
             ),
         ),
+        BlocProvider<AdminInsuranceBloc>(
+          create: (BuildContext context) => AdminInsuranceBloc(
+              insuranceRepository: InsuranceRepository(insuranceDataProvider))
+            ..add(
+              InsuranceLoadforAdmin(),
+            ),
+        ),
         BlocProvider<RequestBloc>(
           create: (BuildContext context) => RequestBloc(
               requestRepository: RequestRepository(requestDataProvider))
