@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 import '../model/auth.dart';
 

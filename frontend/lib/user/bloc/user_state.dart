@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/User_model.dart';
+import '../model/user_model.dart';
 
 
 abstract class UserState extends Equatable {

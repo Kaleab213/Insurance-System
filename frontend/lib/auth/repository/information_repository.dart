@@ -1,4 +1,4 @@
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 // import '../../user/model/User_model.dart';
 import '../data_providers/auth_data_provider.dart';

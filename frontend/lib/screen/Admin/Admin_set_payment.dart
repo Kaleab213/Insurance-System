@@ -13,7 +13,7 @@ import 'package:pro/Notification/model/notification_model.dart';
 import 'package:pro/payment/bloc/payment_event.dart';
 import 'package:pro/payment/bloc/payment_state.dart';
 import 'package:pro/payment/model/payment_model.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 
 import '../../payment/bloc/payment_bloc.dart';

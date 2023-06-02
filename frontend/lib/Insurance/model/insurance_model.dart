@@ -10,8 +10,8 @@ class Insurance {
   late int? id;
   final bool? status;
   late File Document;
-  late double? deposit;
-  late double? monthly_payment;
+  late int? deposit;
+  late int? monthly_payment;
 
   Insurance({
     required this.location,

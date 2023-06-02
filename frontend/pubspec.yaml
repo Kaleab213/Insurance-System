@@ -43,6 +43,7 @@ dependencies:
   file_picker: ^5.3.1
   path_provider: ^2.0.15
   sqflite: ^2.2.8+4
+  mockito: ^5.4.1
   # file_picker: ^5.3.1
 
 dev_dependencies:
@@ -50,6 +51,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

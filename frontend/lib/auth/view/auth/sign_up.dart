@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pro/auth/bloc/auth_event.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 // import '../../../screens/Home.dart';
 import '../../bloc/auth_bloc.dart';
@@ -236,8 +236,8 @@ class SignUpPage extends StatelessWidget {
                                           // userName: _userNameController.text,
                                           role: "CUSTOMER",
                                           id: "",
-                                          phone: int.parse(_phoneNumberController.text),
-                                          account_no: int.parse(_accountNumberController.text),
+                                          phone: (_phoneNumberController.text),
+                                          account_no: (_accountNumberController.text),
                                           email: _emailController.text,
                                           // kebele: _kebeleController.text,
                                           ),

@@ -6,8 +6,8 @@ class User {
   final String id;
   // final String kebele;
   final String email;
-  final int phone;
-  final int account_no;
+  final String phone;
+  final String account_no;
    final String role;
   // ignore: non_constant_identifier_names
  
@@ -40,8 +40,8 @@ class User {
       password: json['hash'],
       email: json['email'],
       // kebele: json['kebele'],
-      phone: int.parse(json['costumers']['phone']),
-      account_no: int.parse(json['costumers']['account_no']),
+      phone: (json['costumers']['phone']),
+      account_no: (json['costumers']['account_no']),
       // userName: json['userName'],
       role: json['role'],
       id: json['id'].toString(),

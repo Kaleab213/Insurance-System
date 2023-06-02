@@ -25,10 +25,6 @@ export class AuthController{
   Customersignup(@Body() dtouser:CreateAuthDto,@Body() dtocustomer:CreateCustomer){
     return this.authService.CustomerSignup(dtouser,dtocustomer);
   }
-  // @Post('signup')
-  // Customersignup(@Body() user: any) {
-  //   return this.authService.CustomerSignup(user);
-  // }
 
   @Post('signin')
   signin(@Body() dto:CreateAuthDto){
@@ -37,37 +33,26 @@ export class AuthController{
     return this.authService.signin(dto);
   }
 
-  // @Post('signin')
-  // signin(@Body() user: any) {
-  //   console.log(user.userName)
-  //   return this.authService.signin(user);
-  // }
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logout(@GetUser() userId: number): Promise<boolean> {
     return this.authService.logout(userId);
   }
 
-  // @UseGuards(AtGuards, RolesGuard)
-  // @Get('user')
-  // async user(@Request() req: any) {
-  //   return req.user;
-  // }
 
-// @Roles(Role.ADMIN)
+
 @UseGuards(AtGuards, RolesGuard)
 @Get()
-<<<<<<< HEAD
+
 getProfile(@GetUser() userId: number){
   return this.authService.getProfile(userId['id']);
-=======
-getProfile(@GetUserId() userId: number){
-  return this.authService.getProfile(userId);
->>>>>>> 2dbee87badf88e36ddabacb4d5ea2daebd0f33d9
+
+
+
 }
 
 
-  // @Roles(Role.CUSTOMER)
+  
   @UseGuards(AtGuards, RolesGuard)
   @Delete('deleted')
   deletedAccount(@GetUserId() userId: number){

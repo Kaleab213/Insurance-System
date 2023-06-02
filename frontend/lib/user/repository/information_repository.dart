@@ -1,5 +1,5 @@
 import '../data_providers/user_data_provider.dart';
-import '../model/User_model.dart';
+import '../model/user_model.dart';
 
 class UserRepository {
   final UserDataProvider dataProvider;
