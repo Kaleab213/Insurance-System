@@ -42,7 +42,7 @@ class AdminInsuranceListScreen extends StatelessWidget {
                             'Location: ${item[index].location}, size : ${item[index].size}'),
                         trailing: Text('Status: ${item[index].status}'),
                         onTap: () {
-                          context.push('/insurancedetail', extra: item[index]);
+                          context.push("/admininsurancedetail", extra: item[index]);
                         },
                       );
                     },

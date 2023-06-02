@@ -105,92 +105,92 @@ class ItemDetailScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: item.coverage_request != null
-                            ? item.coverage_request!.length
-                            : 0,
-                        itemBuilder: (context, index) {
-                          print("before");
-                          final coverageRequest = item.coverage_request![index];
-                          // final coverageRequest = json.decode(coverageRequeste);
+                // SingleChildScrollView(
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       ListView.builder(
+                //         shrinkWrap: true,
+                //         physics: NeverScrollableScrollPhysics(),
+                //         itemCount: item.coverage_request != null
+                //             ? item.coverage_request!.length
+                //             : 0,
+                //         itemBuilder: (context, index) {
+                //           print("before");
+                //           final coverageRequest = item.coverage_request![index];
+                //           // final coverageRequest = json.decode(coverageRequeste);
 
-                          // print('coverage_request');
-                          // print(coverageRequest);
+                //           // print('coverage_request');
+                //           // print(coverageRequest);
 
-                          return Card(
-                            child: ListTile(
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
-                              leading: const Icon(Icons.local_grocery_store),
-                              title: Text(
-                                  'For Insurance ID: ${coverageRequest['insuranceId'].toString()}'),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      'Date requested: ${DateTime.parse(coverageRequest['updatedAt'])}'),
-                                  Text(
-                                      'Description: ${coverageRequest['description']}'),
-                                  Text(
-                                      coverageRequest['status'] == false ? 'Status: "Pending"' : 'Status: "Approved"',
-                                    ),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (coverageRequest['status'] == false)
-                                    IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () {
-                                        context.push('/editrequest',
-                                            extra: Request.fromJson(
-                                                coverageRequest));
-                                      },
-                                    ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      // Add delete functionality here
-                                    },
-                                  ),
-                                ],
-                              ),
-                              onTap: () {
-                                context.push('/requestdetail',
-                                    extra: coverageRequest);
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              context.go('/addrequest');
-                            },
-                            child: Text('Add Request'),
-                          ),
-                          SizedBox(width: 8.0),
-                          ElevatedButton(
-                            onPressed: () {
-                              context.go('/payment');
-                            },
-                            child: Text('Payment'),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                //           return Card(
+                //             child: ListTile(
+                //               contentPadding:
+                //                   const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
+                //               leading: const Icon(Icons.local_grocery_store),
+                //               title: Text(
+                //                   'For Insurance ID: ${coverageRequest['insuranceId'].toString()}'),
+                //               subtitle: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: [
+                //                   Text(
+                //                       'Date requested: ${DateTime.parse(coverageRequest['updatedAt'])}'),
+                //                   Text(
+                //                       'Description: ${coverageRequest['description']}'),
+                //                   Text(
+                //                       coverageRequest['status'] == false ? 'Status: "Pending"' : 'Status: "Approved"',
+                //                     ),
+                //                 ],
+                //               ),
+                //               trailing: Row(
+                //                 mainAxisSize: MainAxisSize.min,
+                //                 children: [
+                //                   if (coverageRequest['status'] == false)
+                //                     IconButton(
+                //                       icon: Icon(Icons.edit),
+                //                       onPressed: () {
+                //                         context.push('/editrequest',
+                //                             extra: Request.fromJson(
+                //                                 coverageRequest));
+                //                       },
+                //                     ),
+                //                   IconButton(
+                //                     icon: Icon(Icons.delete),
+                //                     onPressed: () {
+                //                       // Add delete functionality here
+                //                     },
+                //                   ),
+                //                 ],
+                //               ),
+                //               onTap: () {
+                //                 context.push('/requestdetail',
+                //                     extra: coverageRequest);
+                //               },
+                //             ),
+                //           );
+                //         },
+                //       ),
+                //       SizedBox(height: 16.0),
+                //       Row(
+                //         children: [
+                //           ElevatedButton(
+                //             onPressed: () {
+                //               context.go('/addrequest');
+                //             },
+                //             child: Text('Add Request'),
+                //           ),
+                //           SizedBox(width: 8.0),
+                //           ElevatedButton(
+                //             onPressed: () {
+                //               context.go('/payment');
+                //             },
+                //             child: Text('Payment'),
+                //           ),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

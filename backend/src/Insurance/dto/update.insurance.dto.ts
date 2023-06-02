@@ -27,7 +27,7 @@ export class UpdateInsuranceDto{
   @IsOptional()  
   size?:number
   
-  @IsNumber()  
+   
   @IsOptional() 
   
   monthly_payment?:number

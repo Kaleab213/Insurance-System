@@ -44,6 +44,8 @@ dependencies:
   path_provider: ^2.0.15
   sqflite: ^2.2.8+4
   image_picker: ^0.8.7+5
+  modal_progress_hud_nsn: ^0.3.0
+  mocktail: ^0.3.0
   # file_picker: ^5.3.1
 
 dev_dependencies:

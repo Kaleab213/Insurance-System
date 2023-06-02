@@ -1,77 +1,73 @@
-// import 'dart:io';
+import 'package:path/path.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:sqflite/sqflite.dart';
 
-// import 'package:path/path.dart';
+import '../../model/insurance_model.dart';
 
-// // ignore: import_of_legacy_library_into_null_safe
-// import 'package:sqflite/sqflite.dart';
+class InsuranceDbHelper {
+  final int version = 1;
+  late Database db;
 
-// import '../../model/insurance_model.dart';
+  static final InsuranceDbHelper _dbHelper = InsuranceDbHelper._internal();
+  InsuranceDbHelper._internal();
+  factory InsuranceDbHelper() {
+    return _dbHelper;
+  }
 
+  Future<Database> openDb() async {
+    db = await openDatabase(join(await getDatabasesPath(), 'Insurance.db'),
+        onCreate: (database, version) async {
+      await database.execute(
+          'CREATE TABLE IF NOT EXISTS Insurance(userId INT, location Text, propertytype Text, id INT, room INT,  size INT, Document TEXT, coveragelevel TEXT, deposit DOUBLE, telebirr_QR TEXT, status BOOL, monthly_payment DOUBLE)');
+    }, version: version);
 
-// class InsuranceDbHelper {
-//   final int version = 1;
-//   late Database db;
-//   File? document;
+    return db;
+  }
 
-//   static final InsuranceDbHelper _dbHelper = InsuranceDbHelper._internal();
-//   InsuranceDbHelper._internal();
-//   factory InsuranceDbHelper() {
-//     return _dbHelper;
-//   }
+  Future<int> insertInsurance(Insurance insurance) async {
+    print("in insert insurance");
+    print(insurance.toString());
+    return await db.insert(
+      'Insurance',
+      insurance.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
 
-//   Future<Database> openDb() async {
-//     db = await openDatabase(join(await getDatabasesPath(), 'Herd2.db'),
-//         onCreate: (database, version) async {
-//       await database.execute(
-//           'CREATE TABLE IF NOT EXISTS Insurance(location Text, Document Text, size INT, room INT, type TEXT, level Text, id INT)');
-//     }, version: version);
+  Future<void> updateInsurance(Insurance insurance) async {
+    await db.update(
+      'Insurance',
+      insurance.toMap(),
+      where: "id = ?",
+      whereArgs: [insurance.id],
+    );
+  }
 
-//     return db;
-//   }
+  Future<List<Insurance>> getInsuranceLists() async {
+    await openDb();
+    final List<Map<String, dynamic>> maps = await db.query('Insurance');
+    return List.generate(
+      maps.length,
+      (i) {
+        return Insurance(
+            location: maps[i]["location"],
+            id: maps[i]["id"],
+            type: maps[i]["propertytype"],
+            room: maps[i]["room"],
+            // coverage_request: [],
+            size: maps[i]["size"],
+            Document: maps[i]["Document"],
+            level: maps[i]["coveragelevel"],
+            telebirr_QR: maps[i]["coveragetelebirr_QR"],
+            deposit: maps[i]["deposit"],
+            status: maps[i]["status"]);
+      },
+    ).toList();
+  }
 
-//   Future<int> insertInsurance(Insurance insurance) async {
-//     print(insurance.toString());
-//     return await db.insert(
-//       'Insurance',
-//       insurance.toMap(),
-//       conflictAlgorithm: ConflictAlgorithm.replace,
-//     );
-//   }
-
-//   Future<void> updateHerd(Insurance insurance) async {
-//     print(insurance.level);
-//     print("Updatinggg");
-//     await db.update(
-//       'Insurance',
-//       insurance.toMap(),
-//       where: "Herdids = ?",
-//       whereArgs: [insurance.id],
-//     );
-//   }
-
-//   Future<List<Insurance>> getInsuranceLists() async {
-//     await openDb();
-//     final List<Map<String, dynamic>> maps = await db.query('Insurance');
-//     return List.generate(
-//       maps.length,
-//       (i) {
-//         return Insurance(
-//           location: maps[i]["location"],
-//           level: maps[i]["coveragelevel"],
-//           size: maps[i]["size"],
-//           type: maps[i]["propertytype"],
-//           room: maps[i]["room"],
-      
-//           id: maps[i]["id"],
-//           Document:document?.path
-//    );
-//       },
-//     ).toList();
-//   }
-
-//   Future<int> deleteinsurance(String id) async {
-//     int result = await db.delete("Insurance", where: "Insurance_id = ?", whereArgs: [id]);
-//     print(result);
-//     return result;
-//   }
-// }
+  Future<int> deleteinsurance(String id) async {
+    int result = await db.delete("Insurance", where: "id = ?", whereArgs: [id]);
+    // print(result);
+    return result;
+  }
+}

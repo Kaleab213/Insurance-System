@@ -12,7 +12,7 @@ import '../bloc/payment_state.dart';
 // import 'add_item.dart';tetete
 // import 'request_detail.dart';
 
-class PaymenttListScreen extends StatelessWidget {
+class PaymentListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentBloc, PaymentState>(
@@ -43,10 +43,10 @@ class PaymenttListScreen extends StatelessWidget {
                         leading: const Icon(Icons.local_grocery_store),
                         title: Text((item[index].id!).toString()),
                         subtitle: Text(
-                            'date: ${item[index].updatedAt}, loss : ${item[index].ammount}'),
+                            'date: ${item[index].updatedAt}, ammount : ${item[index].ammount}'),
                         trailing: Text('Status: ${item[index].status}'),
                         onTap: () {
-                          context.push('/requestdetail', extra: item[index]);
+                          context.push('/paymentdetail', extra: item[index]);
                         },
                       );
                     },

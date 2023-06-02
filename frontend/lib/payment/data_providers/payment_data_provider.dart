@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../model/payment_model.dart';
 
 class PaymentDataProvider {
-  static const String baseUrl = "http://localhost:3000/insurance";
+  static const String baseUrl = "http://192.168.43.218:3000/payment";
 
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 

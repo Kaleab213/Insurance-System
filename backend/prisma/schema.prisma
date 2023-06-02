@@ -60,7 +60,7 @@ model User_Insurance {
   room                Int
   location            String
   size                Int
-  Document            String
+  Document            String ?
   monthly_payment     Float ?
   coverege_request Coverage_request[]
   payment Payment[]

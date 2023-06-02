@@ -39,7 +39,8 @@ createInsurance( @GetUser() userId:number,
 @Body() dto:CreateInsuranceDto,
 @Body() photo:CreateInsurancePhotoDto,
 @UploadedFiles() file: Array<Express.Multer.File>){
-    photo.Document=`http://localhost:3000/insurance/${file["Document"][0].filename}`;
+    console.log(file, "here after create");
+    photo.Document=`http://localhost:3000/insurance/${file["Document"]}`;
     
     
     return this.insurance.createInsurance(userId['id'],dto,photo);
