@@ -233,7 +233,7 @@ ElevatedButton(
       );
       BlocProvider.of<InsuranceBloc>(context).add(event);
 
-      Navigator.pushNamed(context, '/insuranceList');
+      context.go('/insuranceList');
     }
   },
   child: const Text('Add Insurance'),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pro/payment/view/payment_list.dart';
 import 'Insurance/bloc/insurance_bloc.dart';
 import 'Insurance/bloc/insurance_event.dart';
 import 'Insurance/data_providers/API/API_insurance_data_provider.dart';
+import 'Insurance/data_providers/local_storage/DB_insurance_data_provider.dart';
 import 'Insurance/model/insurance_model.dart';
 import 'Insurance/repository/insurance_repository.dart';
 import 'Insurance/view/Admin_insurance_list.dart';
 import 'Insurance/view/add_item.dart';
+import 'Insurance/view/approval_insurance.dart';
 import 'Insurance/view/edit_item.dart';
 import 'Insurance/view/insurance_list.dart';
 import 'Insurance/view/item_detail.dart';
@@ -36,7 +39,7 @@ import 'request/repository/request_repository.dart';
 import 'request/view/add_item.dart';
 import 'request/view/edit_item.dart';
 import 'request/view/request_list.dart';
-import 'screen/Admin/Admin_insurance_detail.dart';
+import 'Insurance/view/Admin_insurance_detail.dart';
 import 'user/bloc/user_bloc.dart';
 import 'user/bloc/user_event.dart';
 import 'user/data_providers/user_data_provider.dart';
@@ -70,6 +73,10 @@ class MyApp extends StatelessWidget {
         path: "/insuranceList",
         builder: (context, state) => InsuranceListScreen(),
       ),
+       GoRoute(
+        path: "/paymentList",
+        builder: (context, state) => PaymentListScreen(),
+      ),
       GoRoute(
         path: "/requestList",
         builder: (context, state) => RequestListScreen(),
@@ -99,8 +106,14 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: "/admininsurancedetail",
         builder: (context, state) =>
-            AdminItemDetailScreen(insurance: state.extra as Insurance),
+            AdminItemDetailScreen(state.extra as Insurance),
       ),
+      GoRoute(
+        path: "/approval",
+        builder: (context, state) =>
+            ApprovalPage(state.extra as Insurance),
+      ),
+
       // GoRoute(
       //   path: "/setpayment",
       //   builder: (context, state) => setPayment(),
@@ -153,22 +166,24 @@ class MyApp extends StatelessWidget {
   final PaymentDataProvider paymentDataProvide = PaymentDataProvider();
   final RequestDataProvider requestDataProvider = RequestDataProvider();
   final AuthDataProvider authDataProvider = AuthDataProvider();
+  final InsuranceDbHelper insurancedbHelper = InsuranceDbHelper();
 
   @override
   Widget build(BuildContext context) {
     UserPreferences.init();
+    insurancedbHelper.openDb();
     return MultiBlocProvider(
       providers: [
         BlocProvider<InsuranceBloc>(
           create: (BuildContext context) => InsuranceBloc(
-              insuranceRepository: InsuranceRepository(insuranceDataProvider))
+              insuranceRepository: InsuranceRepository(insuranceDataProvider,insurancedbHelper))
             ..add(
               InsuranceLoad(),
             ),
         ),
         BlocProvider<AdminInsuranceBloc>(
           create: (BuildContext context) => AdminInsuranceBloc(
-              insuranceRepository: InsuranceRepository(insuranceDataProvider))
+              insuranceRepository: InsuranceRepository(insuranceDataProvider,insurancedbHelper))
             ..add(
               InsuranceLoadforAdmin(),
             ),

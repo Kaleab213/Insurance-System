@@ -43,11 +43,7 @@ dependencies:
   file_picker: ^5.3.1
   path_provider: ^2.0.15
   sqflite: ^2.2.8+4
-<<<<<<< HEAD
-  mockito: ^5.4.1
-=======
   image_picker: ^0.8.7+5
->>>>>>> 666b108a227f4af9204125c9f2f0456c0dbbe5ce
   # file_picker: ^5.3.1
 
 dev_dependencies:

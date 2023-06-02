@@ -30,50 +30,49 @@ class InsuranceDataProvider {
     // final encoded = jsonEncode(requestBody);
     // request.fields['size'] = encoded['size'];
 
+    request.headers.addAll({
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer $token'
+    });
 
-    request.headers.addAll(
-        {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'});
+    // Future<Uint8List> fileToUint8List(File file) async {
+    //   final bytes = await file.readAsBytes();
+    //   return Uint8List.fromList(bytes);
+    // }
 
-    Future<Uint8List> fileToUint8List(File file) async {
-      final bytes = await file.readAsBytes();
-      return Uint8List.fromList(bytes);
-    }
+    // if (insurance.Document != null) {
+    //   final file = insurance.Document;
 
+    //   // Read the file as a byte array
+    //   final bytes = await fileToUint8List(file);
+
+    //   final fileName = file.path.split('/').last;
+
+    //   final multipartFile = await http.MultipartFile.fromPath('Document', file.path);
+
+    //   request.files.add(multipartFile);
+    // }
+
+// mobile part
     if (insurance.Document != null) {
       final file = insurance.Document;
+      final fileName = file!.path.split('/').last;
+      final fileStream = http.ByteStream(file.openRead());
+      fileStream.cast();
+      final fileLength = await file.length();
+      print(fileLength);
 
-      // Read the file as a byte array
-      final bytes = await fileToUint8List(file);
-
-      final fileName = file.path.split('/').last;
-
-      final multipartFile = http.MultipartFile.fromBytes(
+      final multipartFile = http.MultipartFile(
         'Document',
-        bytes,
+        fileStream,
+        fileLength,
         filename: fileName,
       );
 
       request.files.add(multipartFile);
     }
-
-// mobile part
-    // if (insurance.Document != null) {
-    //   final file = insurance.Document;
-    //   final fileName = file.path.split('/').last;
-    //   final fileStream = http.ByteStream(file.openRead());
-    //   final fileLength = await file.length();
-
-    //   final multipartFile = http.MultipartFile(
-    //     'Document',
-    //     fileStream,
-    //     fileLength,
-    //     filename: fileName,
-    //   );
-
-    //   request.files.add(multipartFile);
-    // }
     print("befor respons in insurance create");
-    print(request.fields);
+    print(request.files);
     final response = await request.send();
     print(response);
     print("after response in insurance create");

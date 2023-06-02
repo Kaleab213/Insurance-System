@@ -27,13 +27,13 @@ export class CreateInsuranceDto{
   @IsNotEmpty() 
   size:number
   
-  @IsNumber()  
+   
   @IsOptional() 
   
   monthly_payment:number
 }
 export class CreateInsurancePhotoDto{
-
+  @IsOptional() 
    
   Document:string
 }
