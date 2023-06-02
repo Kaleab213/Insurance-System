@@ -36,12 +36,7 @@ class User {
       password: json['hash'],
       email: json['email'],
       // kebele: json['kebele'],
-<<<<<<< HEAD
-      phone: (json['costumers']['phone']),
-      account_no: (json['costumers']['account_no']),
-=======
   
->>>>>>> 666b108a227f4af9204125c9f2f0456c0dbbe5ce
       // userName: json['userName'],
       role: json['role'],
       id: json['id'].toString(),
