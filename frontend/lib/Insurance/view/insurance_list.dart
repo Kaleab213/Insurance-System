@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pro/Insurance/bloc/insurance_bloc.dart';
 import 'package:pro/Insurance/model/insurance_model.dart';
 
-// import '../bloc/farm_bloc.dart';
 import '../bloc/insurance_state.dart';
 import 'add_item.dart';
 import 'item_detail.dart';
@@ -22,7 +21,14 @@ class InsuranceListScreen extends StatelessWidget {
           print(item);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Insurance List'),
+              title: Text(
+                'Insurance List',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              backgroundColor: Colors.blue,
               actions: [
                 IconButton(
                   icon: Icon(Icons.add),
@@ -35,46 +41,95 @@ class InsuranceListScreen extends StatelessWidget {
               ],
             ),
             body: item.isEmpty
-                ? const Center(
-                    child: Text("No item"),
+                ? Center(
+                    child: Text(
+                      "No item",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   )
                 : ListView.builder(
                     itemCount: item.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
-                        leading: const Icon(Icons.local_grocery_store),
-                        title: Text((item[index].id!).toString()),
-                        subtitle: Text(
-                            'Location: ${item[index].location}, size : ${item[index].size}'),
-                        trailing: Text('Status: ${item[index].status}'),
-                        onTap: () {
-                          context.push('/insurancedetail', extra: item[index]);
-                        },
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
+                            leading: Icon(
+                              Icons.local_grocery_store,
+                              color: Colors.blue,
+                            ),
+                            title: Text(
+                              (item[index].id!).toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Location: ${item[index].location}, size: ${item[index].size} square merter',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            trailing: Text(
+                              'Status: ${item[index].status}',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            onTap: () {
+                              context.push(
+                                  '/insurancedetail', extra: item[index]);
+                            },
+                          ),
+                        ),
                       );
                     },
                   ),
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.blue,
+                  ),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Colors.blue,
+                  ),
                   label: 'Notification',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.blue,
+                  ),
                   label: 'Profile',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.message),
+                  icon: Icon(
+                    Icons.message,
+                    color: Colors.blue,
+                  ),
                   label: 'Request',
                 ),
               ],
               currentIndex: 0,
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.grey,
+              showUnselectedLabels: true,
               onTap: (int index) {
                 if (index == 0) {
                   context.go('/insuranceList');
@@ -82,8 +137,7 @@ class InsuranceListScreen extends StatelessWidget {
                   context.go('/mynotification');
                 } else if (index == 2) {
                   context.go('/profile');
-                }
-                 else if (index == 3) {
+                } else if (index == 3) {
                   context.go('/requestList');
                 }
               },
@@ -95,13 +149,23 @@ class InsuranceListScreen extends StatelessWidget {
               body: Center(
                 child: Text(
                   state.error.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             );
           }
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Text("Error"),
+              child: Text(
+                "Error",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           );
         }

@@ -79,7 +79,7 @@ updateInsurance(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateInsu
 //  ADMIN ROLES
 @Roles(Role.ADMIN)
 @UseGuards(AtGuards, RolesGuard)
-@Get('admin')
+@Get("admin/get")
 getInsurancebyAdmin(){
   return this.insurance.getInsuranceBYAdmin();
 }

@@ -5,8 +5,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { AuthService } from './Auth.service';
 import { CreateAuthDto } from './dto';
 import { GetUser, GetUserId } from 'src/decorators';
-import { Role } from 'src/decorators/role.enum';
-import { Roles } from 'src/decorators/role.auths';
+
 import {  AtGuards } from './gaurds/at.guards';
 import { RolesGuard } from './gaurds/role.gaurd';
 import { CreateCustomer } from 'src/customers/dto/create.dto';
@@ -43,12 +42,8 @@ export class AuthController{
 
 @UseGuards(AtGuards, RolesGuard)
 @Get()
-
 getProfile(@GetUser() userId: number){
   return this.authService.getProfile(userId['id']);
-
-
-
 }
 
 

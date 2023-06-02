@@ -138,7 +138,7 @@ export class AuthService {
   }
 
 async getProfile(id:number){
-  const user = await this.prisma.user.findFirst({
+  const user = await this.prisma.user.findUnique({
     where: {
       id,
     },

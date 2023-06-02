@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 
 // import 'dart:typed_data';
 // import 'dart:html' as html;
@@ -59,6 +60,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
         return Scaffold(
             appBar: AppBar(
               title: const Text('Add Insurance'),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -175,27 +185,29 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         ),
                       ),
                       const SizedBox(height: 16.0),
-                      
-
 
 // on flutter mobile app
-ElevatedButton(
+                      ElevatedButton(
   onPressed: () async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: false);
 
     if (result != null && result.files.isNotEmpty) {
       PlatformFile file = result.files.first;
-      List<int> bytes = file.bytes!;
+      String filePath = file.path!;
+      String fileName = path.basename(filePath);
+
+      final bytes = await File(filePath).readAsBytes();
       String base64File = base64Encode(bytes);
 
       setState(() {
         _selectedFile = base64File;
-        _DocumentController.text = file.name; // Set the file name in the controller
+        _DocumentController.text = fileName;
       });
     }
   },
   child: const Text('Upload Ownership Document'),
 ),
+Text(_DocumentController.text),
 
 ElevatedButton(
   onPressed: () async {
@@ -220,18 +232,12 @@ ElevatedButton(
         ),
       );
       BlocProvider.of<InsuranceBloc>(context).add(event);
-      if (state is InsuranceDataLoadingError) {
-        context.go("/error");
-      }
-      if (state is InsuranceDataLoaded) {
-        context.go("/insuranceList");
-      }
+
+      Navigator.pushNamed(context, '/insuranceList');
     }
   },
   child: const Text('Add Insurance'),
 ),
-
-
                     ],
                   ),
                 ),

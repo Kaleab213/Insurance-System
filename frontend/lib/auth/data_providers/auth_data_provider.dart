@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:pro/user/model/admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../user/model/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../model/auth.dart';
 
 class AuthDataProvider {
-  static const String baseUrl = "http://localhost:3000/user";
+  static const String baseUrl = "http://192.168.43.218:3000/user";
 
   Future<User> post_login(Auth auth) async {
     final http.Response response = await http.post(
@@ -37,18 +38,41 @@ class AuthDataProvider {
       var user_detail = await get();
       print("here after detail");
       print(user_detail);
-      // print(jsonDecode(user_detail).runtimeType);
-      // final user = User.fromJson(jsonDecode(userDetail));
+      Map<String, dynamic> jsonMap = jsonDecode(user_detail);
+      String myrole = jsonMap['role'];
+
+      // if (myrole == 'CUSTOMER') {
       final user = User.fromJson(
         jsonDecode(
           user_detail.toString(),
         ),
       );
+      print("this is user");
+      // await prefs.setString("user", user.toString());
+      // return user;
+      // } else {
+      //   final user = Admin.fromJson(
+      //     jsonDecode(
+      //       user_detail.toString(),
+      //     ),
+      //   );
+      //   await prefs.setString("user", user.toString());
+      // }
+
+      // print(jsonDecode(user_detail).runtimeType);
+      // final user = User.fromJson(jsonDecode(userDetail));
+      // final user = User.fromJson(
+      //   jsonDecode(
+      //     user_detail.toString(),
+      //   ),
+      // );
       print("here after user");
       // await prefs.setString("user", jsonDecode(user.toJson()));
       await prefs.setString("user", user.toString());
-      // print(user.toString());
+      print(user);
+      print("I like");
       return user;
+      // print(user.toString());
     } else {
       print("Login Failed: ${response.statusCode}");
       throw Exception("No User Found");
@@ -69,8 +93,7 @@ class AuthDataProvider {
           "role": "CUSTOMER",
           "firstName": user.firstName,
           "lastName": user.lastName,
-          "phone": user.phone.toString(),
-          "account_no": user.account_no.toString()
+      
         },
       ),
     );

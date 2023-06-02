@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 
 class UserDataProvider {
-  static const String baseUrl = "http://localhost:3000/customer";
+  static const String baseUrl = "http://192.168.43.218:3000/customer";
 
   Future<User> create(User user) async {
     final http.Response response = await http.post(
@@ -25,8 +25,6 @@ class UserDataProvider {
           "role": user.role,
           // "userName": user.userName,
           "email" : user.email,
-          "phoneNumber" : user.phone,
-          "accountNumber" : user.account_no,
           // "kebele" : user.kebele,
         },
       ),
@@ -78,8 +76,6 @@ class UserDataProvider {
           "role": user.role,
           // "userName": user.userName,
           "email" : user.email,
-          "phoneNumber" : user.phone,
-          "accountNumber" : user.account_no,
           
 
         },

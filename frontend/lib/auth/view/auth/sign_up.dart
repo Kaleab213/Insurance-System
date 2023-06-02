@@ -236,8 +236,6 @@ class SignUpPage extends StatelessWidget {
                                           // userName: _userNameController.text,
                                           role: "CUSTOMER",
                                           id: "",
-                                          phone: (_phoneNumberController.text),
-                                          account_no: (_accountNumberController.text),
                                           email: _emailController.text,
                                           // kebele: _kebeleController.text,
                                           ),

@@ -6,8 +6,6 @@ class User {
   final String id;
   // final String kebele;
   final String email;
-  final String phone;
-  final String account_no;
    final String role;
   // ignore: non_constant_identifier_names
  
@@ -20,8 +18,6 @@ class User {
     required this.id,
     // required this.kebele,
     required this.email,
-    required this.phone,
-    required this.account_no,
     required this.role,
     // ignore: non_constant_identifier_names
     
@@ -40,8 +36,12 @@ class User {
       password: json['hash'],
       email: json['email'],
       // kebele: json['kebele'],
+<<<<<<< HEAD
       phone: (json['costumers']['phone']),
       account_no: (json['costumers']['account_no']),
+=======
+  
+>>>>>>> 666b108a227f4af9204125c9f2f0456c0dbbe5ce
       // userName: json['userName'],
       role: json['role'],
       id: json['id'].toString(),
@@ -56,8 +56,6 @@ class User {
   'id':id,
  
   'email':email,
- 'phone' :phone,
- 'account_no':account_no,
    'role':role
     };
   }
