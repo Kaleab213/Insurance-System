@@ -12,7 +12,9 @@ class Insurance {
   late File? Document;
   late double? deposit;
   late double? monthly_payment;
-  // late List? coverage_request;
+  late List? coverage_request;
+  late List? payment;
+  
 
   Insurance({
     required this.location,
@@ -26,7 +28,8 @@ class Insurance {
     this.status,
     this.Document,
     this.monthly_payment,
-    // this.coverage_request}
+    this.coverage_request,
+    this.payment,
   });
 
   factory Insurance.fromJson(Map<String, dynamic> json) {
@@ -62,7 +65,8 @@ class Insurance {
       'Document': Document!.path,
       'deposit': deposit,
       'monthly_payment': monthly_payment,
-      // 'coverage_request': coverage_request,
+      'coverage_request': coverage_request,
+      "payment": payment,
     };
   }
 }

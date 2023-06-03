@@ -18,7 +18,7 @@ class AdminInsuranceListScreen extends StatelessWidget {
         if (state is InsuranceLoadingforAdmin) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is InsuranceDataLoadedforAdmin) {
+        if (state is InsuranceDataLoadedforAdmin && state.userRole == "ADMIN") {
           final List<Insurance> item = state.myinsurance;
           print("this is my items");
           print(item);

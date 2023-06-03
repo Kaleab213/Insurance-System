@@ -13,7 +13,7 @@ class InsuranceLoading extends InsuranceState {}
 
 class InsuranceDataLoaded extends InsuranceState {
   final List<Insurance> insurances;
-  final String userRole = "ADMIN";
+  final String userRole = "COSTOMER";
 
   const InsuranceDataLoaded([this.insurances = const []]);
 
@@ -25,7 +25,7 @@ class InsuranceLoadingforAdmin extends InsuranceState {}
 
 class InsuranceDataLoadedforAdmin extends InsuranceState {
   final List<Insurance> myinsurance;
-
+  final String userRole = "ADMIN";
   const InsuranceDataLoadedforAdmin([this.myinsurance = const []]);
 
   @override

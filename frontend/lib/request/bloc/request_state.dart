@@ -15,7 +15,7 @@ class RequestLoading extends RequestState {}
 
 class RequestDataLoaded extends RequestState {
   final List<Request> requests;
-
+  final String userRole = "COSTOMER";
   const RequestDataLoaded([this.requests = const []]);
 
   @override
@@ -25,7 +25,7 @@ class RequestLoadingforAdmin extends RequestState {}
 
 class RequestDataLoadedforAdmin extends RequestState {
   final List<Request> requests;
-
+  final String userRole = "ADMIN";
   const RequestDataLoadedforAdmin([this.requests = const []]);
 
   @override

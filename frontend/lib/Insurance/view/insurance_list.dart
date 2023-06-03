@@ -17,7 +17,7 @@ class InsuranceListScreen extends StatelessWidget {
         if (state is InsuranceLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is InsuranceDataLoaded) {
+        if (state is InsuranceDataLoaded && state.userRole == "COSTUMER") {
           final List<Insurance> item = state.insurances;
           print(item);
           return Scaffold(
