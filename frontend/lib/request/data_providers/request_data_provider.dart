@@ -83,7 +83,7 @@ class RequestDataProvider {
   }
 
   Future<Request> update(int id, Request request) async {
-    final response = await http.put(
+    final response = await http.patch(
       Uri.parse("$baseUrl/$id"),
       headers: <String, String>{"Content-Type": "application/json"},
       body: jsonEncode(
@@ -95,6 +95,7 @@ class RequestDataProvider {
         },
       ),
     );
+
     if (response.statusCode == 200) {
       return Request.fromJson(jsonDecode(response.body));
     } else {
@@ -106,6 +107,23 @@ class RequestDataProvider {
     final response = await http.delete(Uri.parse("$baseUrl/$id"));
     if (response.statusCode != 200) {
       throw Exception("Field to delete the request");
+    }
+  }
+
+  Future<Request> approve(int id, bool status) async {
+    final response = await http.patch(
+      Uri.parse("$baseUrl/$id/approval"),
+      headers: <String, String>{"Content-Type": "application/json"},
+      body: jsonEncode(
+        {
+          "status": status,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return Request.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Could not approved the request");
     }
   }
 

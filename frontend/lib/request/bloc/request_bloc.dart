@@ -47,6 +47,17 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       }
     });
     
+    on<RequestApprove>((event, emit) async {
+      try {
+        await requestRepository.appove(event.id, event.status);
+        final requests = await requestRepository.fetchAll();
+        emit(RequestDataLoaded(requests));
+      } catch (error) {
+        print(error);
+        emit(RequestDataLoadingError(error));
+      }
+    });
+    
     on<RequestDelete>((event, emit) async {
       try {
         await requestRepository.delete(event.id);

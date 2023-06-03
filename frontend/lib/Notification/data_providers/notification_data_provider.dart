@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:pro/Notification/model/notification_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,7 @@ import '../model/notification_model.dart';
 import 'package:http/http.dart' as http;
 
 class NotificationDataProvider {
-  static const String baseUrl = "http://localhost:3300/api/v1/herds";
+  static const String baseUrl = "http://localhost:3300/notification";
 
   Future<Notifications> create(Notifications notification) async {
     final http.Response response = await http.post(
@@ -42,7 +43,16 @@ class NotificationDataProvider {
   }
 
   Future<List<Notifications>> fetchAll() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
+    final response = await http.get(Uri.parse(baseUrl),
+
+    headers: <String, String>{
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+
+    );
     if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
       var saveData = jsonEncode(response.body);

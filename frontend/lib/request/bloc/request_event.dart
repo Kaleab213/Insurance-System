@@ -44,6 +44,18 @@ class RequestUpdate extends RequestEvent {
   @override
   String toString() => 'Request Updated {Request Id: ${request.id}}';
 }
+class RequestApprove extends RequestEvent {
+  final int id;
+  final bool status;
+
+  const RequestApprove({required this.id, required this.status});
+
+  @override
+  List<Object> get props => [id, status];
+
+  @override
+  String toString() => 'Request Updated {Request Id: ${id}}';
+}
 
 class RequestDelete extends RequestEvent {
   final int id;

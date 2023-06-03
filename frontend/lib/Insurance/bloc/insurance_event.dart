@@ -44,6 +44,19 @@ class InsuranceUpdate extends InsuranceEvent {
   String toString() => 'Insurance Updated {Insurance Id: ${insurance.id}}';
 }
 
+class InsuranceApprove extends InsuranceEvent {
+  final int id;
+  final bool status;
+
+  const InsuranceApprove({required this.id, required this.status});
+
+  @override
+  List<Object> get props => [id, status];
+
+  @override
+  String toString() => 'Insurance Updated {Insurance Id: ${id}}';
+}
+
 class InsuranceDelete extends InsuranceEvent {
   final int id;
 

@@ -77,5 +77,15 @@ class AdminInsuranceBloc extends Bloc<InsuranceEvent, InsuranceState> {
         emit(InsuranceDataLoadingError(error));
       }
     });
+    on<InsuranceApprove>((event, emit) async {
+      try {
+        await insuranceRepository.approve(event.id, event.status);
+        final insurances = await insuranceRepository.fetchAll();
+        emit(InsuranceDataLoadedforAdmin(insurances));
+      } catch (error) {
+        print(error);
+        emit(InsuranceDataLoadingError(error));
+      }
+    });
   }
 }

@@ -128,7 +128,7 @@ class InsuranceDataProvider {
   }
 
   Future<Insurance> update(int id, Insurance insurance) async {
-    final response = await http.put(
+    final response = await http.patch(
       Uri.parse("$baseUrl/$id"),
       headers: <String, String>{"Content-Type": "application/json"},
       body: jsonEncode(
@@ -139,6 +139,23 @@ class InsuranceDataProvider {
           "type": insurance.type,
           "level": insurance.level,
           "room": insurance.room,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return Insurance.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Could not update the insurance");
+    }
+  }
+
+  Future<Insurance> approve_insurance(int id,  bool status) async {
+    final response = await http.patch(
+      Uri.parse("$baseUrl/$id/approval"),
+      headers: <String, String>{"Content-Type": "application/json"},
+      body: jsonEncode(
+        {
+          "status": status
         },
       ),
     );

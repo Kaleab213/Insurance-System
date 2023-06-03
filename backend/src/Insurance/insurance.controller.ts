@@ -105,7 +105,7 @@ getInsurancebyAdminById(@Param('id',ParseIntPipe) id:number){
      
     ],ImageStorage ))
 approveInsuranceByAdmin(@Param('id',ParseIntPipe) id:number,@Body() updateDto:UpdateByAdminInsurance,@UploadedFiles() file: Array<Express.Multer.File>){
-  updateDto.telebirr_QR=`http://localhost:3000/insurance/${file["telebirr_QR"][0].filename}`;
+  updateDto.telebirr_QR=`http://localhost:3000/insurance/${file["telebirr_QR"].filename}`;
   return this.insurance.ApproveInsuranceBYAdmin(id,updateDto);}
 
 

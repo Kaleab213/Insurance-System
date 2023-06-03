@@ -6,9 +6,9 @@ import 'package:pro/Notification/bloc/notification_state.dart';
 import 'package:pro/Notification/model/notification_model.dart';
 
 class NotificationListScreen extends StatelessWidget {
-  final int userID; // Add userID variable to store the logged-in user ID
 
-  NotificationListScreen({required this.userID});
+
+  NotificationListScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,10 @@ class NotificationListScreen extends StatelessWidget {
             );
           }
 
-          // Filter notifications based on the userID
-          final userNotifications = notifications
-              .where((notification) => notification.userID == userID)
-              .toList();
+          
+          
 
-          if (userNotifications.isEmpty) {
+          if (notifications.isEmpty) {
             return const Center(
               child: Text("You have no notifications"),
             );
@@ -43,19 +41,60 @@ class NotificationListScreen extends StatelessWidget {
               title: Text('Notification List'),
             ),
             body: ListView.builder(
-              itemCount: userNotifications.length,
+              itemCount: notifications.length,
               itemBuilder: (context, index) {
-                final notification = userNotifications[index];
+                final notification = notifications[index];
 
                 return ListTile(
                   contentPadding: const EdgeInsets.fromLTRB(5.0, 7.0, 5.0, 0.0),
                   leading: const Icon(Icons.local_grocery_store),
-                  title: Text(notification.userID.toString()),
+                  title: Text(notification.title.toString()),
                   subtitle: Text(notification.note),
                   onTap: () {
-                    // Handle notification tap action
+                    
                   },
                 );
+              },
+            ),
+             bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.blue,
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Colors.blue,
+                  ),
+                  label: 'Notification',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.blue,
+                  ),
+                  label: 'Profile',
+                ),
+                
+              ],
+              currentIndex: 1,
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: Colors.grey,
+              showUnselectedLabels: true,
+              onTap: (int index) {
+                if (index == 0) {
+                  context.go('/insuranceList');
+                } else if (index == 1) {
+                  context.go('/notification');
+                } else if (index == 2) {
+                  context.go('/profile');
+                } else if (index == 3) {
+                  context.go('/requestList');
+                }
               },
             ),
           );

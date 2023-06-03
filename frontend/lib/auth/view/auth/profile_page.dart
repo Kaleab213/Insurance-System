@@ -58,7 +58,8 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     try {
                       final auth = Auth.fromJson(user.toJson());
-                      BlocProvider.of<AuthBloc>(context).add(DeleteAccount(auth));
+                      BlocProvider.of<AuthBloc>(context)
+                          .add(DeleteAccount(auth));
                       print(state);
 
                       context.go("/signup");
@@ -102,13 +103,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   label: 'Profile',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.message,
-                    color: Colors.blue,
-                  ),
-                  label: 'Request',
-                ),
+                
               ],
               currentIndex: 2,
               selectedItemColor: Colors.blue,
@@ -118,9 +113,9 @@ class ProfilePage extends StatelessWidget {
                 if (index == 0) {
                   context.go('/insuranceList');
                 } else if (index == 1) {
-                  context.go('/mynotification');
+                  context.go('/notification');
                 } else if (index == 2) {
-                  // Do nothing, already on the profile page
+                  context.go('/profile');
                 } else if (index == 3) {
                   context.go('/requestList');
                 }

@@ -25,6 +25,10 @@ class RequestRepository {
     await requestDbHelper.updateRequest(request);
     return dataProvider.update(id, request);
   }
+  Future<Future> appove(int id, bool status) async {
+    // return dataProvider.update(id, request);
+    return dataProvider.approve(id, status);
+  }
 
   Future<List<Request>> fetchAll() async {
     // return await dataProvider.fetchAll();

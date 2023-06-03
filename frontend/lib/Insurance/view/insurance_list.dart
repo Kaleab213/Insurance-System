@@ -136,13 +136,7 @@ class InsuranceListScreen extends StatelessWidget {
                   ),
                   label: 'Profile',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.message,
-                    color: Colors.blue,
-                  ),
-                  label: 'Request',
-                ),
+                
               ],
               currentIndex: 0,
               selectedItemColor: Colors.blue,
@@ -152,7 +146,7 @@ class InsuranceListScreen extends StatelessWidget {
                 if (index == 0) {
                   context.go('/insuranceList');
                 } else if (index == 1) {
-                  context.go('/mynotification');
+                  context.go('/notification');
                 } else if (index == 2) {
                   context.go('/profile');
                 } else if (index == 3) {

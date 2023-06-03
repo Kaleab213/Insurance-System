@@ -19,6 +19,7 @@ import 'Notification/bloc/notification_bloc.dart';
 import 'Notification/bloc/notification_event.dart';
 import 'Notification/data_providers/notification_data_provider.dart';
 import 'Notification/repository/notification_repository.dart';
+import 'Notification/view/notificaion_view.dart';
 import 'auth/bloc/auth_bloc.dart';
 import 'auth/bloc/auth_event.dart';
 import 'auth/data_providers/auth_data_provider.dart';
@@ -150,6 +151,11 @@ class MyApp extends StatelessWidget {
         path: "/profile",
         builder: (context, state) =>
             ProfilePage(),
+      ),
+      GoRoute(
+        path: "/notification",
+        builder: (context, state) =>
+            NotificationListScreen(),
       ),
       GoRoute(
         path: "/error",

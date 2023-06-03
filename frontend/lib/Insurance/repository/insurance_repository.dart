@@ -23,6 +23,12 @@ class InsuranceRepository {
     await insuranceDbHelper.updateInsurance(insurance);
     return dataProvider.update(id, insurance);
   }
+  
+  Future<Future> approve(int id, bool status) async {
+    // return dataProvider.update(id, insurance);
+    // await insuranceDbHelper.updatInsurance(status);
+    return dataProvider.approve_insurance(id, status);
+  }
 
   Future<List<Insurance>> fetchAll() async {
     // print(dataProvider.fetchAll());
