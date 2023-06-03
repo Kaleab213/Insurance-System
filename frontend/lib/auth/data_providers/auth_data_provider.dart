@@ -147,7 +147,7 @@ class AuthDataProvider {
       return user;
     } else {
       const AuthDataLoadingError("can not update account");
-      )
+      throw (Exception("no account update"));
     }
   }
 
