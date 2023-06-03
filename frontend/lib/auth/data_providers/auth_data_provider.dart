@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:pro/auth/bloc/auth_state.dart';
 import 'package:pro/user/model/admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../user/model/User_model.dart';
+import '../../user/model/user_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/auth.dart';
@@ -107,7 +107,14 @@ class AuthDataProvider {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token!);
-      await prefs.setString("user", jsonEncode(user));
+      var user_detail = await get();
+
+      final user = User.fromJson(
+        jsonDecode(
+          user_detail.toString(),
+        ),
+      );
+      await prefs.setString("user", user.toString());
 
       return user;
     } else {
@@ -116,10 +123,13 @@ class AuthDataProvider {
   }
 
   Future<User> update_account(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get('token');
     final http.Response response = await http.patch(
       Uri.parse("$baseUrl"),
       headers: <String, String>{
         "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token',
       },
       body: jsonEncode(
         {
@@ -142,7 +152,9 @@ class AuthDataProvider {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token!);
-      await prefs.setString("user", jsonEncode(user));
+      await prefs.setString("user", user.toString());
+      print("in update account user");
+      print(user.toString());
 
       return user;
     } else {

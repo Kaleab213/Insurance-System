@@ -13,12 +13,14 @@ class InsuranceLoading extends InsuranceState {}
 
 class InsuranceDataLoaded extends InsuranceState {
   final List<Insurance> insurances;
+  final String userRole = "ADMIN";
 
   const InsuranceDataLoaded([this.insurances = const []]);
 
   @override
   List<Object> get props => [insurances];
 }
+
 class InsuranceLoadingforAdmin extends InsuranceState {}
 
 class InsuranceDataLoadedforAdmin extends InsuranceState {

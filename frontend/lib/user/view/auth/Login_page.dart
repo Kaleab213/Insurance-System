@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 import '../../../auth/view/auth/sign_up.dart';
 import '../../bloc/user_bloc.dart';

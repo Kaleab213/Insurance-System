@@ -156,13 +156,25 @@ async getProfile(id:number){
 
 }
 
- async edit_costumer(userId, dtouser) {
+ async edit_costumer(id:number, dtouser) {
 
   const hash = await argon2.hash(dtouser.password);
+//   const user = await this.prisma.user.findFirst({
+//     where: {
+//       id,
+//     },
+    
+     
+// },
+ 
+
+
+  // )
     // const role=User.Roles
-    const NewUser = await this.prisma.user.update({ 
+    const NewUser = await this.prisma.user.updateMany({ 
       where: {
-          id: userId,
+          id,
+          
       },
       data: {
         email: dtouser.email,
@@ -174,13 +186,14 @@ async getProfile(id:number){
         },
       
     );
+    console.log(NewUser);
    
     const tokens = await this.GetToken(
-      NewUser.id,
-    NewUser.email,
-    NewUser.role
+      id,
+    dtouser.email,
+    "COSTMER"
     );
-    await this.updateRtHash(NewUser.id, tokens.refresh_token);
+    await this.updateRtHash(id, tokens.refresh_token);
     return tokens;
 
  }

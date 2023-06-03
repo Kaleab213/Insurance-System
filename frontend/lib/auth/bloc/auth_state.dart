@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../user/model/User_model.dart';
+
 import 'auth_event.dart';
+import '../../user/model/user_model.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -24,8 +25,8 @@ class AuthDataLoaded extends AuthState {
 
 class ProfileDataLoaded extends AuthState {
   final User user;
-  final String userRole;
-
+  final String? userRole;
+  
   const ProfileDataLoaded(this.user, this.userRole);
 
   @override

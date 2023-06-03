@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/User_model.dart';
+import '../model/user_model.dart';
 // import 'package:insurance_system/user/model/User_model.dart';
 
 // import '../model/user_model.dart';

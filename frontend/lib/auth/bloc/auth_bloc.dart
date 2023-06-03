@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 import '../repository/information_repository.dart';
 import 'auth_event.dart';
@@ -12,24 +12,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(AuthLoading()) {
-
-    
-      on<AuthLoad>(
-        (event, emit) async {
-          emit(AuthLoading());
-          try {
-            final auths = await authRepository.get_user();
-            final user = User.fromJson(
-        jsonDecode(
-          auths.toString(),
-        ),
-      );
-            emit(AuthDataLoaded(user, user.role!));
-          } catch (error) {
-            emit(AuthDataLoadingError(error));
-          }
-        },
-      );
+    on<AuthLoad>(
+      (event, emit) async {
+        emit(AuthLoading());
+        try {
+          final auths = await authRepository.get_user();
+          final user = User.fromJson(
+            jsonDecode(
+              auths.toString(),
+            ),
+          );
+          emit(AuthDataLoaded(user, user.role!));
+        } catch (error) {
+          emit(AuthDataLoadingError(error));
+        }
+      },
+    );
 
     on<AuthLogin>(
       (event, emit) async {
@@ -45,7 +43,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
-
 
     on<AuthSignup>(
       (event, emit) async {
@@ -75,9 +72,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         emit(AuthLoading());
         try {
+          print("before calling repo in update account bloc");
           User user = await authRepository.update_account(event.user);
-
-          emit(ProfileDataLoaded(user, user.role!));
+          print("in update account cbloc user from repository");
+          print(user);
+          emit(ProfileDataLoaded(user, user.role));
+          print("profile data emitted");
         } catch (error) {
           print("error in bloc");
           print(error);
@@ -121,13 +121,12 @@ class ProfileBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         emit(AuthLoading());
         try {
-          
           String userData = (await authRepository.get_user());
           final user = User.fromJson(
-        jsonDecode(
-          userData.toString(),
-        ),
-      );
+            jsonDecode(
+              userData.toString(),
+            ),
+          );
           emit(ProfileDataLoaded(user, user.role!));
         } catch (error) {
           print("error in bloc");
@@ -136,6 +135,5 @@ class ProfileBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
-
   }
 }

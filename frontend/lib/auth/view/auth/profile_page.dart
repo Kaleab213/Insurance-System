@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:pro/auth/bloc/auth_event.dart';
+import 'package:pro/auth/model/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -51,6 +54,20 @@ class ProfilePage extends StatelessWidget {
                   icon: const Icon(Icons.edit),
                 ),
                 const SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {
+                    try {
+                      final auth = Auth.fromJson(user.toJson());
+                      BlocProvider.of<AuthBloc>(context).add(DeleteAccount(auth));
+                      print(state);
+
+                      context.go("/signup");
+                    } catch (error) {
+                      context.go("/error", extra: error);
+                    }
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
               ],
             ),
             body: ListView(

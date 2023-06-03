@@ -8,7 +8,7 @@ import 'package:pro/request/bloc/request_bloc.dart';
 import 'package:pro/request/bloc/request_event.dart';
 import 'package:pro/request/bloc/request_state.dart';
 import 'package:pro/request/model/request_model.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 class AddRequestScreen extends StatefulWidget {
   const AddRequestScreen({super.key});

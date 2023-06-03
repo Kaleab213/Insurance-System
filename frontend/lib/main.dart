@@ -30,11 +30,13 @@ import 'auth/view/auth/profile_page.dart';
 import 'auth/view/auth/sign_up.dart';
 import 'payment/bloc/payment_bloc.dart';
 import 'payment/bloc/payment_event.dart';
+import 'payment/data_providers/local_storage/DB_payment_data_provider.dart';
 import 'payment/data_providers/payment_data_provider.dart';
 import 'payment/repository/payment_repository.dart';
 import 'payment/view/add_payment.dart';
 import 'request/bloc/request_bloc.dart';
 import 'request/bloc/request_event.dart';
+import 'request/data_providers/local_storage/DB_request_data_provider.dart';
 import 'request/data_providers/request_data_provider.dart';
 import 'request/model/request_model.dart';
 import 'request/repository/request_repository.dart';
@@ -48,6 +50,7 @@ import 'user/data_providers/user_data_provider.dart';
 import 'user/repository/information_repository.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -183,11 +186,14 @@ class MyApp extends StatelessWidget {
   final RequestDataProvider requestDataProvider = RequestDataProvider();
   final AuthDataProvider authDataProvider = AuthDataProvider();
   final InsuranceDbHelper insurancedbHelper = InsuranceDbHelper();
+  final RequestDbHelper requestdbHelper = RequestDbHelper();
+  final PaymentDbHelper paymentdbHelper = PaymentDbHelper();
 
   @override
   Widget build(BuildContext context) {
-    // UserPreferences.init();
-    insurancedbHelper.openDb();
+    // insurancedbHelper.openDb();
+    // requestdbHelper.openDb();
+    // requestdbHelperz.openDb();
     return MultiBlocProvider(
       providers: [
         BlocProvider<InsuranceBloc>(
@@ -206,7 +212,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RequestBloc>(
           create: (BuildContext context) => RequestBloc(
-              requestRepository: RequestRepository(requestDataProvider))
+              requestRepository: RequestRepository(requestDataProvider,requestdbHelper))
             ..add(
               RequestLoad(),
             ),
@@ -220,7 +226,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PaymentBloc>(
           create: (BuildContext context) => PaymentBloc(
-              paymentRepository: PaymentRepository(paymentDataProvide))
+              paymentRepository: PaymentRepository(paymentDataProvide,paymentdbHelper))
             ..add(PaymentLoad()),
         ),
         BlocProvider<AuthBloc>(

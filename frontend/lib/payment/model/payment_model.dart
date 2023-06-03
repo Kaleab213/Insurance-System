@@ -28,4 +28,14 @@ class Payment {
       updatedAt: DateTime.parse(json['updatedAt'])
     );
   }
+  Map<String, dynamic> toMap() {
+    return {
+      'updatedAt': updatedAt,
+      'bill': bill,
+      'amount': ammount,
+      'id': id,
+      'status': status,
+      'bill': bill.path,
+    };
+  }
 }

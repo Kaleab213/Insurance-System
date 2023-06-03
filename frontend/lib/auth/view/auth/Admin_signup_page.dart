@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pro/auth/bloc/auth_event.dart';
-import 'package:pro/user/model/User_model.dart';
+import 'package:pro/user/model/user_model.dart';
 
 // import '../../../screens/Home.dart';
 import '../../bloc/auth_bloc.dart';

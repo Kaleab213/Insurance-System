@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../user/model/User_model.dart';
+// import '../../../user/model/User_model.dart';
+import '../../../user/model/user_model.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_state.dart';
@@ -89,6 +90,7 @@ class EditProfilePage extends StatelessWidget {
 
                     BlocProvider.of<AuthBloc>(context)
                         .add(UpdateAccount(updatedUser));
+                    
                     context.go("/profile");
                   },
                   child: Text('Save Changes'),

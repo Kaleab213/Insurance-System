@@ -42,4 +42,16 @@ class Request {
         
         );
   }
+    Map<String, dynamic> toMap() {
+    return {
+      'updatedAt': updatedAt,
+      'description': description,
+      'loss': loss,
+      'id': id,
+      'status': status,
+      'supported_document': supported_document.path,
+      'police_report': police_report.path,
+      'insured_payment': insured_payment,
+    };
+  }
 }
