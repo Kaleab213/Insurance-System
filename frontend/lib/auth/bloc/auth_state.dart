@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../user/model/User_model.dart';
+import 'auth_event.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -13,8 +14,19 @@ class AuthLoading extends AuthState {}
 
 class AuthDataLoaded extends AuthState {
   final User user;
+  final String userRole;
 
-  const AuthDataLoaded(this.user);
+  const AuthDataLoaded(this.user, this.userRole);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class ProfileDataLoaded extends AuthState {
+  final User user;
+  final String userRole;
+
+  const ProfileDataLoaded(this.user, this.userRole);
 
   @override
   List<Object> get props => [user];
@@ -26,3 +38,6 @@ class AuthDataLoadingError extends AuthState {
   @override
   List<Object> get props => [error];
 }
+
+
+

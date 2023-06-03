@@ -156,7 +156,34 @@ async getProfile(id:number){
 
 }
 
+ async edit_costumer(userId, dtouser) {
 
+  const hash = await argon2.hash(dtouser.password);
+    // const role=User.Roles
+    const NewUser = await this.prisma.user.update({ 
+      where: {
+          id: userId,
+      },
+      data: {
+        email: dtouser.email,
+         firstName: dtouser.firstName,
+         lastName: dtouser.lastName,
+        hash: hash,
+        
+        }
+        },
+      
+    );
+   
+    const tokens = await this.GetToken(
+      NewUser.id,
+    NewUser.email,
+    NewUser.role
+    );
+    await this.updateRtHash(NewUser.id, tokens.refresh_token);
+    return tokens;
+
+ }
 
 
   async deleteAccount(userId: number) {

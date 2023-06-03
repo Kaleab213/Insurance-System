@@ -17,9 +17,20 @@ class AuthRepository {
   Future<User> signup(User user) async {
     return await dataProvider.post_signup(user);
   }
+  
+  Future<User> update_account(User user) async {
+    return await dataProvider.update_account(user);
+  }
 
+ Future<bool> delete_account() async {
+    return dataProvider.delete_account();
+  }
+
+  Future<Future<String>> logout() async {
+    return dataProvider.logout();
+  }
   // ignore: non_constant_identifier_names
-  Future<Future<String>> get_user() async {
+  Future<String> get_user() async {
     return dataProvider.get();
   }
 }

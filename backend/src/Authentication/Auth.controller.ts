@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Req, UseGuards} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Req, UseGuards} from '@nestjs/common';
 import { AuthService } from './Auth.service';
-import { CreateAuthDto } from './dto';
+import { CreateAuthDto, updateAuthDto } from './dto';
 import { GetUser, GetUserId } from 'src/decorators';
 import { Role } from 'src/decorators/role.enum';
 import { Roles } from 'src/decorators/role.auths';
@@ -62,9 +62,18 @@ getProfile(@GetUser() userId: number){
 }
 
 
-  // @Roles(Role.CUSTOMER)
+@UseGuards(AtGuards, RolesGuard)
+@Patch()
+editAccount(@GetUserId() userId: number, @Body() dtouser:updateAuthDto){
+  console.log(userId);
+  
+  return this.authService.edit_costumer(userId, dtouser);
+}
+
+
+ 
   @UseGuards(AtGuards, RolesGuard)
-  @Delete('deleted')
+  @Delete()
   deletedAccount(@GetUserId() userId: number){
     console.log(userId);
     

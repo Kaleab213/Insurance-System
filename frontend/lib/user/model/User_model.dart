@@ -3,10 +3,10 @@ class User {
   final String lastName;
   final String? password;
   // final String userName;
-  final String id;
+  final String? id;
   // final String kebele;
   final String email;
-   final String role;
+   final String? role;
   // ignore: non_constant_identifier_names
  
 
@@ -15,10 +15,10 @@ class User {
     required this.lastName,
     this.password,
     // required this.userName,
-    required this.id,
+    this.id,
     // required this.kebele,
     required this.email,
-    required this.role,
+    this.role,
     // ignore: non_constant_identifier_names
     
   });

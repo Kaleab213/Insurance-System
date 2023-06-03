@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:pro/auth/bloc/auth_state.dart';
 import 'package:pro/user/model/admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../user/model/User_model.dart';
@@ -93,7 +94,6 @@ class AuthDataProvider {
           "role": "CUSTOMER",
           "firstName": user.firstName,
           "lastName": user.lastName,
-      
         },
       ),
     );
@@ -115,6 +115,42 @@ class AuthDataProvider {
     }
   }
 
+  Future<User> update_account(User user) async {
+    final http.Response response = await http.patch(
+      Uri.parse("$baseUrl"),
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "password": user.password,
+          "email": user.email,
+          "role": "CUSTOMER",
+          "firstName": user.firstName,
+          "lastName": user.lastName,
+        },
+      ),
+    );
+    print("in update account");
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+
+      var x = Auth.fromJson(jsonResponse);
+      var token = x.token;
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token!);
+      await prefs.setString("user", jsonEncode(user));
+
+      return user;
+    } else {
+      const AuthDataLoadingError("can not update account");
+      )
+    }
+  }
+
   Future<String> get() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get('token');
@@ -126,12 +162,52 @@ class AuthDataProvider {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print("here in get");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception("Fetching Auth of id failed");
+    }
+  }
+
+  Future<String> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get('token');
+    print("get token");
+    print(token);
+    final response = await http.post(
+      Uri.parse("$baseUrl/logout"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
     // print("here in get");
     // print(response.statusCode);
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception("Fetching Auth of id failed");
+      throw Exception("logout unsuccesfull");
+    }
+  }
+
+  Future<bool> delete_account() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get('token');
+    print("get token");
+    print(token);
+    final response = await http.delete(
+      Uri.parse("$baseUrl"),
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    // print("here in get");
+    // print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("delete account unsuccesfull");
     }
   }
 }

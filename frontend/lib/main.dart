@@ -14,7 +14,7 @@ import 'Insurance/view/approval_insurance.dart';
 import 'Insurance/view/edit_item.dart';
 import 'Insurance/view/insurance_list.dart';
 import 'Insurance/view/item_detail.dart';
-import 'LocalStore/store.dart';
+// import 'LocalStore/store.dart';
 import 'Notification/bloc/notification_bloc.dart';
 import 'Notification/bloc/notification_event.dart';
 import 'Notification/data_providers/notification_data_provider.dart';
@@ -25,6 +25,8 @@ import 'auth/data_providers/auth_data_provider.dart';
 import 'auth/repository/information_repository.dart';
 import 'auth/view/auth/Admin_signup_page.dart';
 import 'auth/view/auth/Login_page.dart';
+import 'auth/view/auth/edit_profile.dart';
+import 'auth/view/auth/profile_page.dart';
 import 'auth/view/auth/sign_up.dart';
 import 'payment/bloc/payment_bloc.dart';
 import 'payment/bloc/payment_event.dart';
@@ -65,6 +67,10 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => SignUpPage(),
       ),
       GoRoute(
+        path: "/signin",
+        builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
         path: "/adminsignup",
         builder: (context, state) => AdminSignUpPage(),
       ),
@@ -82,7 +88,7 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
         path: "/admininsuranceList",
-        builder: (context, state) => AdminInsuranceListScreen(),
+        builder: (context, state) =>  AdminInsuranceListScreen(),
       ),
       GoRoute(
         path: "/addinsurance",
@@ -112,6 +118,12 @@ class MyApp extends StatelessWidget {
         builder: (context, state) =>
             ApprovalPage(state.extra as Insurance),
       ),
+      GoRoute(
+        path: "/editprofile",
+        builder: (context, state) =>
+            EditProfilePage(),
+      ),
+      
 
       // GoRoute(
       //   path: "/setpayment",
@@ -130,6 +142,11 @@ class MyApp extends StatelessWidget {
         path: "/editrequest",
         builder: (context, state) =>
             RequestEditScreen(item: state.extra as Request),
+      ),
+      GoRoute(
+        path: "/profile",
+        builder: (context, state) =>
+            ProfilePage(),
       ),
       GoRoute(
         path: "/error",
@@ -169,7 +186,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserPreferences.init();
+    // UserPreferences.init();
     insurancedbHelper.openDb();
     return MultiBlocProvider(
       providers: [
@@ -216,6 +233,13 @@ class MyApp extends StatelessWidget {
               notificationRepository:
                   NotificationRepository(notificationdataProvider))
             ..add(NotificationLoad()),
+        ),
+         BlocProvider<ProfileBloc>(
+          create: (BuildContext context) => ProfileBloc(
+              authRepository: AuthRepository(authDataProvider))
+            ..add(
+              ProfileLoad(),
+            ),
         ),
       ],
       child: MaterialApp.router(

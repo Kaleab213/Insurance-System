@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pro/LocalStore/store.dart';
 import 'package:pro/auth/bloc/auth_state.dart';
 import 'package:pro/auth/view/auth/sign_up.dart';
 // import 'package:pro/user/model/User_model.dart';
@@ -65,10 +64,10 @@ class LoginPage extends StatelessWidget {
                   //   print("it goes to customer");
                   //   context.go("/insuranceList");
                      print(state.user.role);
-                  if (state.user.role == "ADMIN") {
+                  if (state.userRole == "ADMIN") {
                     print("it goes to admin");
                     context.go("/admininsuranceList");
-                  } else if (state.user.role == "CUSTOMER") {
+                  } else if (state.userRole == "CUSTOMER") {
                     print("it goes to customer");
                     context.go("/insuranceList");
                   }
@@ -79,6 +78,30 @@ class LoginPage extends StatelessWidget {
           child: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               return Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    "Insurance System",
+                    style: TextStyle(
+                      fontFamily: "Pacifico",
+                      fontSize: 28.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Colors.green,
+                  elevation: 0.0,
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(30.0),
+                    child: Text(
+                      "Welcome to the system",
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
                 body: Center(
                   child: Center(
                     child: Padding(

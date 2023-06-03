@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:sqflite/sqflite.dart';
@@ -35,6 +37,8 @@ class InsuranceDbHelper {
   }
 
   Future<void> updateInsurance(Insurance insurance) async {
+    print("in update insurance");
+    print(insurance);
     await db.update(
       'Insurance',
       insurance.toMap(),
@@ -46,6 +50,7 @@ class InsuranceDbHelper {
   Future<List<Insurance>> getInsuranceLists() async {
     await openDb();
     final List<Map<String, dynamic>> maps = await db.query('Insurance');
+    print(maps);
     return List.generate(
       maps.length,
       (i) {
@@ -56,9 +61,9 @@ class InsuranceDbHelper {
             room: maps[i]["room"],
             // coverage_request: [],
             size: maps[i]["size"],
-            Document: maps[i]["Document"],
+            Document: File(maps[i]["Document"]),
             level: maps[i]["coveragelevel"],
-            telebirr_QR: maps[i]["coveragetelebirr_QR"],
+            // telebirr_QR: File(maps[i]["telebirr_QR"]),
             deposit: maps[i]["deposit"],
             status: maps[i]["status"]);
       },
